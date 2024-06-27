@@ -43,8 +43,8 @@ def get_passphrase(passphrase: PassphraseInput = None, alias: Optional[str] = No
 class CryptoExtraFallback:
     def __getattr__(self, item):
         raise ImportError(
-            "Please, install packages libsodium-dev, libsecp256k1-dev, and libgmp-dev, "
-            "and Python libraries pysodium, secp256k1, and fastecdsa"
+            "Please, install packages libsodium-dev, and libgmp-dev, "
+            "and Python libraries pysodium, coincurve, and fastecdsa"
         )
 
     def __call__(self, *args, **kwargs):
@@ -52,16 +52,16 @@ class CryptoExtraFallback:
 
 
 try:
+    import coincurve  # type: ignore
     import fastecdsa.curve  # type: ignore
     import fastecdsa.ecdsa  # type: ignore
     import fastecdsa.encoding.sec1  # type: ignore
     import fastecdsa.keys  # type: ignore
     import pysodium  # type: ignore
-    import secp256k1  # type: ignore
     from fastecdsa.encoding.util import bytes_to_int  # type: ignore
 except ImportError as e:
+    coincurve = CryptoExtraFallback()
     pysodium = CryptoExtraFallback()
-    secp256k1 = CryptoExtraFallback()
     fastecdsa = CryptoExtraFallback()
     bytes_to_int = CryptoExtraFallback()
     __crypto__ = False
@@ -151,8 +151,8 @@ class Key(metaclass=InlineDocstring):
                 public_point, secret_exponent = pysodium.crypto_sign_seed_keypair(seed=secret_exponent)
         # Secp256k1
         elif curve == b'sp':
-            sk = secp256k1.PrivateKey(secret_exponent)
-            public_point = sk.pubkey.serialize()
+            sk = coincurve.PrivateKey(secret_exponent)
+            public_point = sk.public_key.format(compressed=True)
         # P256
         elif curve == b'p2':
             pk = fastecdsa.keys.get_public_key(bytes_to_int(secret_exponent), curve=fastecdsa.curve.P256)
@@ -444,8 +444,9 @@ class Key(metaclass=InlineDocstring):
             signature = pysodium.crypto_sign_detached(digest, self.secret_exponent)
         # Secp256k1
         elif self.curve == b"sp":
-            pk = secp256k1.PrivateKey(self.secret_exponent)
-            signature = pk.ecdsa_serialize_compact(pk.ecdsa_sign(encoded_message, digest=blake2b_32))
+            pk = coincurve.PrivateKey(self.secret_exponent)
+            signature = pk.sign(encoded_message, hasher=lambda x: blake2b_32(x).digest())
+
         # P256
         elif self.curve == b"p2":
             r, s = fastecdsa.ecdsa.sign(msg=encoded_message, d=bytes_to_int(self.secret_exponent), hashfunc=blake2b_32)
@@ -489,9 +490,12 @@ class Key(metaclass=InlineDocstring):
                 raise ValueError('Signature is invalid.') from exc
         # Secp256k1
         elif self.curve == b"sp":
-            pk = secp256k1.PublicKey(self.public_point, raw=True)
-            sig = pk.ecdsa_deserialize_compact(decoded_signature)
-            if not pk.ecdsa_verify(encoded_message, sig, digest=blake2b_32):
+            pk = coincurve.PublicKey(self.public_point)
+            if not pk.verify(
+                signature=decoded_signature,
+                message=encoded_message,
+                hasher=lambda x: blake2b_32(x).digest(),
+            ):
                 raise ValueError('Signature is invalid.')
         # P256
         elif self.curve == b"p2":
