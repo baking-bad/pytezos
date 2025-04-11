@@ -127,7 +127,10 @@ kernel-docs:       ## Build docs for Michelson IPython kernel
 
 # NOTE: See `pytezos.sandbox.parameters`
 sandbox-params:
-	docker create --name temp tezos/tezos && docker cp temp:/usr/local/share/tezos/021-PsQuebec-parameters/ src/pytezos/sandbox/ && docker rm temp
+	docker pull tezos/tezos
+	docker create --name temp tezos/tezos
+	docker cp temp:/usr/local/share/tezos/022-PsRiotum-parameters src/pytezos/sandbox/
+	docker rm temp
 
 rpc-docs:          ## Build docs for Tezos node RPC
 	poetry run python scripts/fetch_rpc_docs.py

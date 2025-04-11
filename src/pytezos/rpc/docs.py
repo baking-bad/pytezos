@@ -10,6 +10,7 @@ rpc_docs = {
       "monitor",
       "network",
       "private",
+      "profiler",
       "protocols",
       "stats",
       "version",
@@ -29,13 +30,23 @@ rpc_docs = {
       "ret": "Object"
     },
     "props": [
+      "active_peers_heads",
       "blocks",
       "chain_id",
+      "delegators_contribution",
       "invalid_blocks",
       "is_bootstrapped",
       "levels",
-      "mempool"
+      "mempool",
+      "protocols"
     ]
+  },
+  "/chains/{}/active_peers_heads": {
+    "GET": {
+      "descr": "The heads of all active peers",
+      "args": [],
+      "ret": "Object"
+    }
   },
   "/chains/{}/blocks": {
     "GET": {
@@ -64,6 +75,25 @@ rpc_docs = {
   "/chains/{}/chain_id": {
     "GET": {
       "descr": "The chain unique identifier.",
+      "args": [],
+      "ret": "Object"
+    }
+  },
+  "/chains/{}/delegators_contribution": {
+    "item": {
+      "name": "int32",
+      "descr": "\u00af\\_(\u30c4)_/\u00af"
+    }
+  },
+  "/chains/{}/delegators_contribution/{}": {
+    "item": {
+      "name": "pkh",
+      "descr": "A Secp256k1 of a Ed25519 public key hash (Base58Check-encoded)"
+    }
+  },
+  "/chains/{}/delegators_contribution/{}/{}": {
+    "GET": {
+      "descr": "A breakdown of all the contributions to the delegation portion of the baking power of the given delegate for the given cycle.",
       "args": [],
       "ret": "Object"
     }
@@ -122,6 +152,24 @@ rpc_docs = {
   "/chains/{}/levels/savepoint": {
     "GET": {
       "descr": "The current savepoint for this chain.",
+      "args": [],
+      "ret": "Object"
+    }
+  },
+  "/chains/{}/protocols": {
+    "GET": {
+      "descr": "Lists protocols of the chain.",
+      "args": [],
+      "ret": "Array"
+    },
+    "item": {
+      "name": "Protocol_hash",
+      "descr": "Protocol_hash (Base58Check-encoded)"
+    }
+  },
+  "/chains/{}/protocols/{}": {
+    "GET": {
+      "descr": "Information about a protocol of the chain.",
       "args": [],
       "ret": "Object"
     }
@@ -377,6 +425,7 @@ rpc_docs = {
   "/network": {
     "props": [
       "connections",
+      "full_stat",
       "greylist",
       "log",
       "peers",
@@ -410,6 +459,13 @@ rpc_docs = {
           "descr": "\u00af\\_(\u30c4)_/\u00af"
         }
       ],
+      "ret": "Object"
+    }
+  },
+  "/network/full_stat": {
+    "GET": {
+      "descr": "Full network statistics.",
+      "args": [],
       "ret": "Object"
     }
   },
@@ -616,6 +672,18 @@ rpc_docs = {
         }
       ],
       "ret": "Array"
+    }
+  },
+  "/profiler": {
+    "props": [
+      "registered_backend"
+    ]
+  },
+  "/profiler/registered_backend": {
+    "GET": {
+      "descr": "Registered backend.",
+      "args": [],
+      "ret": "Object"
     }
   },
   "/protocols": {

@@ -318,7 +318,7 @@ def forge_micheline(data: Union[List, Dict]) -> bytes:
                 res.append(b'\x00' * 4)
 
         elif data.get('bytes') is not None:
-            res.append(b'\x0A')
+            res.append(b'\x0a')
             res.append(forge_array(bytes.fromhex(data['bytes'])))
 
         elif data.get('int') is not None:

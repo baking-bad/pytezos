@@ -76,6 +76,10 @@ class BlockHeader(ContextMixin):
         :param parameters: protocol parameters
         :param context: execution context
         """
+        # FIXME: Rio bson fixup
+        if parameters.get('all_bakers_attest_activation_level', '') is None:
+            parameters['all_bakers_attest_activation_level'] = 0
+
         prev_fitness = context.shell.head.header()['fitness']  # type: ignore
         protocol_data = {
             "content": {
