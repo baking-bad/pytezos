@@ -60,7 +60,7 @@ class SandboxTestCase(SandboxedNodeTestCase):
         balance_change = sum(int(op.get('amount', 0)) + int(op['fee']) for op in res['contents'])
         self.bake_block()
         # self.assertEqual(100500000000 - balance_change, int(client.account()['balance']))
-        self.assertEqual(3665, int(client.account()['balance']))
+        self.assertEqual(3465, int(client.account()['balance']))
 
     def test_7_register_constant(self):
         self.client.register_global_constant({'int': '12345'}).autofill().sign().inject()

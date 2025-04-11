@@ -91,7 +91,7 @@ def files_to_tar(files: List[Tuple[str, str]], output_path=None):
     if len(nameparts) == 3:
         mode = f'w:{nameparts[-1]}'
 
-    with tarfile.open(name=output_path, fileobj=fileobj, mode=mode) as tar:
+    with tarfile.open(name=output_path, fileobj=fileobj, mode=mode) as tar:  # type: ignore[call-overload]
         for filename, text in files:
             file = io.BytesIO(text.encode())
             ti = tarfile.TarInfo(filename)

@@ -19,7 +19,8 @@ OXFORD = 'ProxfordYmVfjWnRcgjWH36fW6PArwqykTFzotUxRs6gmTcZDuH'
 PARIS = 'PtParisBxoLz5gzMmn3d9WBQNoPSZakgnkMC2VNuQ3KXfUtUQeZ'
 PARISC = 'PsParisCZo7KAh1Z1smVd9ZMZ1HHn5gkzbM94V3PLCpknFWhUAi'
 QUEBEC = 'PsQuebecnLByd3JwTiGadoG4nGWi3HYiLXUjkibeFV8dCFeVMUg'
-LATEST = QUEBEC
+RIO = 'PsRiotumaAMotcRoDWW1bysEhQy2n1M5fy8JgRp8jjRfHGmfeA7'
+LATEST = RIO
 
 protocol_hashes = {
     'edo': EDO,
@@ -36,6 +37,7 @@ protocol_hashes = {
     'paris': PARIS,
     'parisc': PARISC,
     'quebec': QUEBEC,
+    'rio': RIO,
 }
 
 protocol_version = {
@@ -53,6 +55,7 @@ protocol_version = {
     PARIS: 19,
     PARISC: 20,
     QUEBEC: 21,
+    RIO: 22,
 }
 
 
@@ -94,7 +97,7 @@ sandbox_addresses = {
 
 # NOTE: Run `make sandbox-params` to update this file
 sandbox_params = json.loads(
-    Path(__file__).parent.joinpath('021-PsQuebec-parameters', 'test-parameters.json').read_text()
+    Path(__file__).parent.joinpath('022-PsRiotum-parameters', 'test-parameters.json').read_text()
 )
 
 

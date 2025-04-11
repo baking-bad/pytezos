@@ -8,8 +8,8 @@ DEFAULT_CONSTANTS = {
     'hard_gas_limit_per_operation': 1040000,
     'hard_storage_limit_per_operation': 60000,
 }
-# FIXME: Guessed for sandbox tests to pass
-DEFAULT_TRANSACTION_GAS_LIMIT = 1451
+# NOTE: Last update in Rio: https://gitlab.com/tezos/tezos/-/merge_requests/15993/diffs
+DEFAULT_TRANSACTION_GAS_LIMIT = 3_040
 DEFAULT_TRANSACTION_STORAGE_LIMIT = 257
 MINIMAL_FEES = 100
 MINIMAL_MUTEZ_PER_BYTE = 1
