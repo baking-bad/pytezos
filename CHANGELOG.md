@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog], and this project adheres to [Semantic Versioning].
 
+## [3.16.0](https://github.com/baking-bad/pytezos/compare/3.15.0...3.16.0) - 2026-09-15
+
+### Added
+
+- Seoulnet protocol support.
+
+### Changed
+
+- Octez binaries updated to v23.2
+
 ## [3.15.0](https://github.com/baking-bad/pytezos/compare/3.14.0...3.15.0) - 2025-04-11
 
 ### Added
