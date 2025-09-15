@@ -95,6 +95,7 @@ def forge_reveal(content: Dict[str, Any]) -> bytes:
     res += forge_nat(int(content['gas_limit']))
     res += forge_nat(int(content['storage_limit']))
     res += forge_public_key(content['public_key'])
+    res += forge_bool(False) if 'proof' not in content else forge_base58(content['proof'])
     return res
 
 
