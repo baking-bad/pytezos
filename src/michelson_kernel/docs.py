@@ -106,6 +106,9 @@ docs = {   'ABS': 'ABS\nABS :: int : A => nat : A\nObtain the absolute value of 
            'INT :: bytes : A => int : A\n'
            'Convert a natural number, a BLS12-381 field element, or a byte sequence to an integer',
     'ISNAT': 'ISNAT\nISNAT :: int : A => option nat : A\nConvert a non-negative integer to a natural number',
+    'IS_IMPLICIT_ACCOUNT': 'IS_IMPLICIT_ACCOUNT\n'
+                           'IS_IMPLICIT_ACCOUNT :: address : A => option key_hash : A\n'
+                           'Cast an address to a public key hash',
     'ITER': 'ITER instr\n'
             'ITER instr :: list ty : A => A\n'
             'ITER instr :: set cty : A => A\n'

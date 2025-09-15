@@ -204,6 +204,7 @@ class ContentMixin:
         fee=0,
         gas_limit=0,
         storage_limit=0,
+        proof='',
     ):
         """Reveal the public key associated with a tz address.
 
@@ -216,17 +217,18 @@ class ContentMixin:
         :param storage_limit: Leave None for autocomplete
         :returns: dict or OperationGroup
         """
-        return self.operation(
-            {
-                'kind': 'reveal',
-                'source': source,
-                'fee': format_mutez(fee),
-                'counter': str(counter),
-                'gas_limit': str(gas_limit),
-                'storage_limit': str(storage_limit),
-                'public_key': public_key,
-            }
-        )
+        contents = {
+            'kind': 'reveal',
+            'source': source,
+            'fee': format_mutez(fee),
+            'counter': str(counter),
+            'gas_limit': str(gas_limit),
+            'storage_limit': str(storage_limit),
+            'public_key': public_key,
+        }
+        if proof:
+            contents['proof'] = proof
+        return self.operation(contents)
 
     @inline_doc
     def transaction(
