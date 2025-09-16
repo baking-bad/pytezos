@@ -45,7 +45,7 @@
 
 ## Installation
 
-Make sure you have Python 3.8 to 3.12 installed and set as default in the system.  
+Make sure you have Python 3.9 to 3.13 installed and set as default in the system.  
 
 You also need to install cryptographic packages before installing the library/building the project:
 
@@ -129,7 +129,7 @@ $ docker-compose up -d notebook
 
 Requirements:
 
-* Python 3.8 to 3.12
+* Python 3.9 to 3.13
 * libsodium, coincurve, gmp
 * make
 
