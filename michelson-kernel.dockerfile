@@ -1,4 +1,5 @@
-FROM python:3.12-alpine3.17 AS compile-image
+FROM python:3.12-alpine3.22 AS compile-image
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 RUN apk add --update --no-cache \
 	build-base \
 	libtool \
@@ -20,9 +21,9 @@ ENV PYTHON_PATH="/opt/pytezos/src:$PATH"
 
 COPY pyproject.toml requirements.txt README.md /opt/pytezos/
 
-RUN /usr/local/bin/pip install --prefix /opt/pytezos --no-cache-dir --disable-pip-version-check --no-deps -r /opt/pytezos/requirements.txt -e .
+RUN uv pip install --prefix /opt/pytezos --no-cache-dir --disable-pip-version-check --no-deps -r /opt/pytezos/requirements.txt -e .
 
-FROM python:3.12-alpine3.17 AS build-image
+FROM python:3.12-alpine3.22 AS build-image
 RUN apk add --update --no-cache \
 	binutils \
 	gmp-dev \
