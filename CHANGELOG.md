@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog], and this project adheres to [Semantic Versioning].
 
+## [3.16.1](https://github.com/baking-bad/pytezos/compare/3.16.0...3.16.1) - 2026-10-27
+
+### Fixed
+
+- Michelson TZT tests updated and moved to new repo
+- Other maintenance infrastacture fixes
+
 ## [3.16.0](https://github.com/baking-bad/pytezos/compare/3.15.0...3.16.0) - 2026-09-15
 
 ### Added
