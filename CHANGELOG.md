@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog], and this project adheres to [Semantic Versioning].
 
+## [3.17.0](https://github.com/baking-bad/pytezos/compare/3.16.1...3.17.0) - 2026-01-19
+
+### Added
+
+- Tallinn protocol support (024).
+- `IS_IMPLICIT_ACCOUNT` Michelson instruction.
+
+### Fixed
+
+- Proof field forging for reveal operations.
+
+### Changed
+
+- Octez binaries updated to v24.0
+- Removed `adaptive_issuance_vote` from block headers (no longer in Tallinn).
+
 ## [3.16.1](https://github.com/baking-bad/pytezos/compare/3.16.0...3.16.1) - 2026-10-27
 
 ### Fixed

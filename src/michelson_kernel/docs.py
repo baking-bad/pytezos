@@ -87,6 +87,9 @@ docs = {   'ABS': 'ABS\nABS :: int : A => nat : A\nObtain the absolute value of 
             'GET 1 :: pair ty1 ty2 : A => ty1 : A\n'
             'GET ( n + 2 ) :: pair ty1 ty2 : A => ty : A\n'
             'Access an element or a sub comb in a right comb',
+    'GET_ADDRESS_INDEX': 'GET_ADDRESS_INDEX\n'
+                         'GET_ADDRESS_INDEX :: address : A => option nat : A\n'
+                         'Find the unique identifier for a given address if any',
     'GET_AND_UPDATE': 'GET_AND_UPDATE\n'
                       'GET_AND_UPDATE :: kty : option vty : map kty vty : A => option vty : map kty vty : A\n'
                       'GET_AND_UPDATE :: kty : option vty : big_map kty vty : A => option vty : big_map kty vty : A\n'
@@ -100,6 +103,9 @@ docs = {   'ABS': 'ABS\nABS :: int : A => nat : A\nObtain the absolute value of 
     'IMPLICIT_ACCOUNT': 'IMPLICIT_ACCOUNT\n'
                         'IMPLICIT_ACCOUNT :: key_hash : A => contract unit : A\n'
                         'Convert a key hash to a typed address',
+    'INDEX_ADDRESS': 'INDEX_ADDRESS\n'
+                     'INDEX_ADDRESS :: address : A => nat : A\n'
+                     'Returns a unique identifier for a given address',
     'INT': 'INT\n'
            'INT :: nat : A => int : A\n'
            'INT :: bls12_381_fr : A => int : A\n'

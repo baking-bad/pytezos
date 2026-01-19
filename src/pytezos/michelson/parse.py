@@ -72,10 +72,8 @@ class MichelsonParser:
 
     tokens = SimpleMichelsonLexer.tokens
 
-    @doc(
-        '''instr : expr 
-                  | empty'''
-    )
+    @doc('''instr : expr 
+                  | empty''')
     def p_instr(self, p):
         p[0] = p[1]
 
@@ -128,10 +126,8 @@ class MichelsonParser:
                 raise MichelsonParserError(p.slice[1], str(e)) from e
         p[0] = Sequence(expr) if isinstance(expr, list) else expr
 
-    @doc(
-        '''annots : annot 
-                   | empty'''
-    )
+    @doc('''annots : annot 
+                   | empty''')
     def p_annots(self, p):
         if p[1] is not None:
             p[0] = [p[1]]
@@ -148,10 +144,8 @@ class MichelsonParser:
     def p_annot(self, p):
         p[0] = p[1]
 
-    @doc(
-        '''args : arg 
-                 | empty'''
-    )
+    @doc('''args : arg 
+                 | empty''')
     def p_args(self, p):
         p[0] = []
         if p[1] is not None:
