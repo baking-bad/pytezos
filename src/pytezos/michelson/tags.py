@@ -165,6 +165,8 @@ prim_tags = {
     'NAT': b'\x9c',
     # PARIS
     'Ticket': b'\x9d',
+    # SEOUL
+    'IS_IMPLICIT_ACCOUNT': b'\x9e',
     # FIXME: Dummy values for TZT, refactor macros
     'Stack_elt': b'\xee',
     'Big_map': b'\xee',
