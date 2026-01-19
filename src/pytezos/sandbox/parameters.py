@@ -21,7 +21,8 @@ PARISC = 'PsParisCZo7KAh1Z1smVd9ZMZ1HHn5gkzbM94V3PLCpknFWhUAi'
 QUEBEC = 'PsQuebecnLByd3JwTiGadoG4nGWi3HYiLXUjkibeFV8dCFeVMUg'
 RIO = 'PsRiotumaAMotcRoDWW1bysEhQy2n1M5fy8JgRp8jjRfHGmfeA7'
 SEOUL = 'PtSeouLouXkxhg39oWzjxDWaCydNfR3RxCUrNe4Q9Ro8BTehcbh'
-LATEST = SEOUL
+TALLINN = 'PtTALLiNtPec7mE7yY4m3k26J8Qukef3E3ehzhfXgFZKGtDdAXu'
+LATEST = TALLINN
 
 protocol_hashes = {
     'edo': EDO,
@@ -40,6 +41,7 @@ protocol_hashes = {
     'quebec': QUEBEC,
     'rio': RIO,
     'seoul': SEOUL,
+    'tallinn': TALLINN,
 }
 
 protocol_version = {
@@ -59,6 +61,7 @@ protocol_version = {
     QUEBEC: 21,
     RIO: 22,
     SEOUL: 23,
+    TALLINN: 24,
 }
 
 
@@ -100,7 +103,7 @@ sandbox_addresses = {
 
 # NOTE: Run `make sandbox-params` to update this file
 sandbox_params = json.loads(
-    Path(__file__).parent.joinpath('023-PtSeouLo-parameters', 'test-parameters.json').read_text()
+    Path(__file__).parent.joinpath('024-PtTALLiN-parameters', 'test-parameters.json').read_text()
 )
 
 

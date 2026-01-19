@@ -129,7 +129,7 @@ kernel-docs:       ## Build docs for Michelson IPython kernel
 sandbox-params:
 	docker pull tezos/tezos:master
 	docker create --name temp tezos/tezos:master
-	docker cp temp:/usr/local/share/tezos/023-PtSeouLo-parameters src/pytezos/sandbox/
+	docker cp temp:/usr/local/share/tezos/024-PtTALLiN-parameters src/pytezos/sandbox/
 	docker rm temp
 
 rpc-docs:          ## Build docs for Tezos node RPC
