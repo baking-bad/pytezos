@@ -156,6 +156,10 @@ class BlockHeader(ContextMixin):
             **self.protocol_data,
         }
 
+        # NOTE: Tallinn (024) removed adaptive_issuance_vote from block headers
+        if protocol_version.get(protocol, 0) >= 24:
+            protocol_data.pop('adaptive_issuance_vote', None)
+
         if level % int(sandbox_params['blocks_per_commitment']) == 0:
             protocol_data['seed_nonce_hash'] = base58_encode(b'\x00' * 32, b'nce').decode()
 
