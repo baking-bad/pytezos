@@ -37,7 +37,7 @@ def apply_patch(source, patch, revert=False):
     target = ''
 
     i = sl = 0
-    (midx, sign) = (1, '+') if not revert else (3, '-')
+    midx, sign = (1, '+') if not revert else (3, '-')
 
     while i < len(patch) and patch[i].startswith(("---", "+++")):
         i += 1  # skip filename header

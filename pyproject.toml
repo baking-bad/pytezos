@@ -25,7 +25,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -40,7 +39,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.14"
+python = ">=3.10,<3.14"
 attrs = ">=21.4.0"
 base58 = ">=2.1.1"
 cattrs = ">=22.1.0"
@@ -100,7 +99,7 @@ force_single_line = true
 
 [tool.black]
 line-length = 120
-target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
+target-version = ['py310', 'py311', 'py312', 'py313']
 skip-string-normalization = true
 
 [tool.ruff]
@@ -128,11 +127,11 @@ lint.ignore = [
     "SIM108",
     "SIM114",
 ]
-target-version = "py39"
+target-version = "py310"
 lint.extend-select = ["B", "C", "RET", "SIM"]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 
 [tool.ruff.format]
 quote-style = "single"
