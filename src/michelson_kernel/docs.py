@@ -25,8 +25,8 @@ docs = {   'ABS': 'ABS\nABS :: int : A => nat : A\nObtain the absolute value of 
     'BALANCE': 'BALANCE\nBALANCE :: A => mutez : A\nPush the current amount of mutez of the executing contract',
     'BLAKE2B': 'BLAKE2B\nBLAKE2B :: bytes : A => bytes : A\nCompute a Blake2B cryptographic hash',
     'BYTES': 'BYTES\n'
-             'BYTES :: int : A => bytes : A\n'
              'BYTES :: nat : A => bytes : A\n'
+             'BYTES :: int : A => bytes : A\n'
              'Encode an integer or a natural number to bytes',
     'CAR': 'CAR\nCAR :: pair ty1 ty2 : A => ty1 : A\nAccess the left part of a pair',
     'CAST': '',
@@ -226,11 +226,11 @@ docs = {   'ABS': 'ABS\nABS :: int : A => nat : A\nObtain the absolute value of 
     'SHA3': 'SHA3\nSHA3 :: bytes : A => bytes : A\nCompute a SHA3-256 cryptographic hash',
     'SHA512': 'SHA512\nSHA512 :: bytes : A => bytes : A\nCompute a SHA-512 cryptographic hash',
     'SIZE': 'SIZE\n'
+            'SIZE :: string : A => nat : A\n'
+            'SIZE :: bytes : A => nat : A\n'
             'SIZE :: set cty : A => nat : A\n'
             'SIZE :: map kty vty : A => nat : A\n'
             'SIZE :: list ty : A => nat : A\n'
-            'SIZE :: string : A => nat : A\n'
-            'SIZE :: bytes : A => nat : A\n'
             'Obtain size of a string, list, set, map or byte sequence bytes',
     'SLICE': 'SLICE\n'
              'SLICE :: nat : nat : string : A => option string : A\n'
@@ -253,7 +253,7 @@ docs = {   'ABS': 'ABS\nABS :: int : A => nat : A\nObtain the absolute value of 
            'SUB :: timestamp : int : A => timestamp : A\n'
            'SUB :: timestamp : timestamp : A => int : A\n'
            'Subtract two numerical values',
-    'SUB_MUTEZ': 'SUB_MUTEZ\nSUB :: mutez : mutez : A => option mutez : A\nSubtract two mutez',
+    'SUB_MUTEZ': 'SUB_MUTEZ\nSUB_MUTEZ :: mutez : mutez : A => option mutez : A\nSubtract two mutez',
     'SWAP': 'SWAP\nSWAP :: ty1 : ty2 : A => ty2 : ty1 : A\nSwap the top two elements of the stack',
     'TICKET': 'TICKET\nTICKET :: cty : nat : A => option ( ticket cty ) : A\nCreate a ticket',
     'TOP': '',

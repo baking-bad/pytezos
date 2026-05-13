@@ -76,7 +76,7 @@ All active interaction with the blockchain starts with the PyTezosClient:
 
     Properties
     .key		tz1grSQDByRpnVs7sPtaprNZRp531ZKz6Jmm
-    .shell		['https://rpc.tzkt.io/ghostnet']
+    .shell		['https://rpc.tzkt.io/shadownet']
     .block_id	head
 
     Helpers
@@ -166,7 +166,7 @@ Set key as default
 
     Properties
     .key		tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp
-    .shell		['https://rpc.tzkt.io/ghostnet']
+    .shell		['https://rpc.tzkt.io/shadownet']
     .block_id	head
 
     Helpers
@@ -202,7 +202,7 @@ Set key as default
 Top up account
 ^^^^^^^^^^^^^^
 
-Go to the `https://faucet.ghostnet.teztnets.xyz/ <https://faucet.ghostnet.teztnets.xyz/>` and paste your public key hash key file to the "Wallet address" field.  
+Go to the `https://faucet.shadownet.teztnets.com/ <https://faucet.ghostnet.teztnets.com/>` and paste your public key hash key file to the "Wallet address" field.  
 Press "Request 2001 tez" and wait for transaction to be completed.  
 
 Check that your balance is non-zero:
@@ -213,7 +213,6 @@ Check that your balance is non-zero:
    {'balance': '2001000000', 'counter': '1'}
 
 What happened is your account has been allocated by an incoming transaction and its balance is now positive.
-
 
 Reveal public key
 -----------------
@@ -228,7 +227,7 @@ Now, in order to start using this key we need to send the according public key t
 
     Properties
     .key		tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp
-    .shell		['https://rpc.tzkt.io/ghostnet']
+    .shell		['https://rpc.tzkt.io/shadownet']
     .block_id	head
 
     Hash
@@ -392,7 +391,7 @@ We have our contracts deployed and ready to be invoked, let's see the list of en
 
     Properties
     .key		tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp
-    .shell		['https://rpc.tzkt.io/ghostnet']
+    .shell		['https://rpc.tzkt.io/shadownet']
     .address	KT1Si4t6ETLoj6eEsjp8hvfJeiFe3b6Z7eM5
     .block_id	head
     .entrypoint	default
@@ -440,7 +439,7 @@ And for the wallet:
 
     Properties
     .key		tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp
-    .shell		['https://rpc.tzkt.io/ghostnet']
+    .shell		['https://rpc.tzkt.io/shadownet']
     .address	KT1S4UmLNwVcmLBE9VgHKpJJWpKE1JE8VjwN
     .block_id	head
     .entrypoint	default

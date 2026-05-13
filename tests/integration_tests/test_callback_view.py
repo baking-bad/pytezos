@@ -1,3 +1,5 @@
+import pytest
+
 from pytezos import pytezos
 
 
@@ -26,7 +28,8 @@ class TestCallbackView:
         ).callback_view(storage=storage)
         assert res[0]['balance'] == 42
 
+    @pytest.mark.skip('shadownet: Contract KT1G9uxhbEApw2Z7yvUA4WvqCedG2a48ggzc not found')
     def test_onchain_view(self):
-        ci = pytezos.using('ghostnet').contract('KT1G9uxhbEApw2Z7yvUA4WvqCedG2a48ggzc')
+        ci = pytezos.using('shadownet').contract('KT1G9uxhbEApw2Z7yvUA4WvqCedG2a48ggzc')
         res = ci.get_current_state().run_view()
         assert res

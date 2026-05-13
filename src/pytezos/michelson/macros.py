@@ -1,6 +1,8 @@
 import functools
 import re
 from collections import namedtuple
+from typing import Any
+from typing import List
 from typing import Tuple
 
 from pytezos.michelson.tags import prim_tags
@@ -17,7 +19,7 @@ CDR__ = {'prim': 'CDR', 'annots': ['@%%']}
 DROP = {'prim': 'DROP'}
 FAIL = [[UNIT, FAILWITH]]
 
-macros = []
+macros: List[Any] = []
 
 PxrNode = namedtuple('PxrNode', ['depth', 'annots', 'args', 'is_root'])
 
