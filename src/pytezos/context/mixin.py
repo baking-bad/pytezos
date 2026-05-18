@@ -17,7 +17,7 @@ from pytezos.rpc import ShellQuery
 from pytezos.rpc.errors import RpcError
 
 # NOTE: Built-in key for PyTezos client, please, use responsibly.
-default_network = 'ghostnet'
+default_network = 'shadownet'
 default_key = 'edsk33N474hxzA4sKeWVM6iuGNGDpX2mGwHNxEA4UbWS8sW3Ta3NKH'
 default_key_hash = 'tz1grSQDByRpnVs7sPtaprNZRp531ZKz6Jmm'
 
@@ -33,15 +33,9 @@ nodes = {
     'sandbox': ['http://127.0.0.1:8732/'],
     'sandboxnet': ['http://127.0.0.1:8732/'],
     'localhost': ['http://127.0.0.1:8732/'],
-    'ghostnet': ['https://rpc.tzkt.io/ghostnet'],
-    'jakartanet': ['https://rpc.tzkt.io/jakartanet'],
-    'kathmandunet': ['https://rpc.tzkt.io/kathmandunet'],
-    'limanet': ['https://rpc.tzkt.io/limanet'],
-    'mumbainet': ['https://rpc.tzkt.io/mumbainet'],
-    'nairobinet': ['https://rpc.tzkt.io/nairobinet'],
-    'oxfordnet': ['https://rpc.tzkt.io/oxfordnet'],
-    'parisnet': ['https://rpc.tzkt.io/parisnet'],
-    'quebecnet': ['https://rpc.tzkt.io/quebecnet'],
+    # NOTE: Ghostnet was deprecated and replaced by shadownet.
+    # See https://docs.tatum.io/changelog/tezos-ghostnet-deprecation-migration-to-shadownet
+    'shadownet': ['https://rpc.tzkt.io/shadownet'],
 }
 keys = {
     'alice': alice_key,

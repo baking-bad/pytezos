@@ -27,6 +27,6 @@ class TestCallbackView:
         assert res[0]['balance'] == 42
 
     def test_onchain_view(self):
-        ci = pytezos.using('ghostnet').contract('KT1G9uxhbEApw2Z7yvUA4WvqCedG2a48ggzc')
-        res = ci.get_current_state().run_view()
+        ci = pytezos.using('mainnet').contract('KT1F6Amndd62P8yySM5NkyF4b1Kz27Ft4QeT')
+        res = ci.get_price().run_view()
         assert res
