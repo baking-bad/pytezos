@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.rpc.helpers &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/rpc/helpers.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -85,11 +83,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.rpc.helpers</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pytezos.rpc.query</span> <span class="kn">import</span> <span class="n">RpcQuery</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.query</span><span class="w"> </span><span class="kn">import</span> <span class="n">RpcQuery</span>
 
 
-<div class="viewcode-block" id="BakingRightsQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.BakingRightsQuery">[docs]</a><span class="k">class</span> <span class="nc">BakingRightsQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/baking_rights&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="BakingRightsQuery.__call__"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.BakingRightsQuery.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delegate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_priority</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">_all</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="BakingRightsQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.BakingRightsQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BakingRightsQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/baking_rights&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="BakingRightsQuery.__call__">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.BakingRightsQuery.__call__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delegate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_priority</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">_all</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the list of delegates allowed to bake a block.</span>
 
 <span class="sd">        By default, it gives the best baking priorities for bakers that have at least one opportunity</span>
@@ -113,11 +115,17 @@
                 <span class="s1">&#39;max_priority&#39;</span><span class="p">:</span> <span class="n">max_priority</span><span class="p">,</span>
                 <span class="s1">&#39;all&#39;</span><span class="p">:</span> <span class="n">_all</span><span class="p">,</span>
             <span class="p">}</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ForgeOperationsQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeOperationsQuery">[docs]</a><span class="k">class</span> <span class="nc">ForgeOperationsQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/forge/operations&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ForgeOperationsQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeOperationsQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ForgeOperationsQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeOperationsQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ForgeOperationsQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/forge/operations&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ForgeOperationsQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeOperationsQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get raw bytes encoding of an unsigned operation</span>
 
 <span class="sd">        operation format:</span>
@@ -132,11 +140,17 @@
 <span class="sd">        :param operation: JSON input</span>
 <span class="sd">        :returns: Hex string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">operation</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">operation</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ForgeProtocolDataQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeProtocolDataQuery">[docs]</a><span class="k">class</span> <span class="nc">ForgeProtocolDataQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/forge/protocol_data&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ForgeProtocolDataQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeProtocolDataQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol_data</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ForgeProtocolDataQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeProtocolDataQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ForgeProtocolDataQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/forge/protocol_data&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ForgeProtocolDataQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeProtocolDataQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol_data</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Forge the protocol-specific part of a block header.</span>
 
 <span class="sd">        protocol_data format:</span>
@@ -152,11 +166,17 @@
 <span class="sd">        :param protocol_data: JSON input</span>
 <span class="sd">        :returns: { &quot;protocol_data&quot;: &lt;hex encoded&gt; }</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">protocol_data</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">protocol_data</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ForgeBlockHeaderQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeBlockHeaderQuery">[docs]</a><span class="k">class</span> <span class="nc">ForgeBlockHeaderQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/forge_block_header&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ForgeBlockHeaderQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeBlockHeaderQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_header</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ForgeBlockHeaderQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeBlockHeaderQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ForgeBlockHeaderQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/forge_block_header&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ForgeBlockHeaderQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ForgeBlockHeaderQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_header</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Forge block header.</span>
 
 <span class="sd">        block_header format:</span>
@@ -179,11 +199,17 @@
 <span class="sd">        :param block_header: JSON input</span>
 <span class="sd">        :returns: { &quot;block&quot;: &lt;hex encoded&gt; }</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">block_header</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">block_header</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ParseBlockQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ParseBlockQuery">[docs]</a><span class="k">class</span> <span class="nc">ParseBlockQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/parse/block&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ParseBlockQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ParseBlockQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_header</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ParseBlockQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ParseBlockQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParseBlockQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/parse/block&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ParseBlockQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ParseBlockQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_header</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve protocol-specific part of a block header and signature.</span>
 
 <span class="sd">        block_header format:</span>
@@ -205,11 +231,17 @@
 <span class="sd">        :param block_header: JSON input</span>
 <span class="sd">        :returns: JSON object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">block_header</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">block_header</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ParseOperationsQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ParseOperationsQuery">[docs]</a><span class="k">class</span> <span class="nc">ParseOperationsQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/parse/operations&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ParseOperationsQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ParseOperationsQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operations</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ParseOperationsQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ParseOperationsQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParseOperationsQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/parse/operations&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ParseOperationsQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ParseOperationsQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operations</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract contents and signatures from the forged and optionally signed operations (bulk).</span>
 
 <span class="sd">        operations format:</span>
@@ -227,11 +259,17 @@
 <span class="sd">        :param operations: JSON input</span>
 <span class="sd">        :returns: JSON object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">operations</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">operations</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="PreapplyBlockQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.PreapplyBlockQuery">[docs]</a><span class="k">class</span> <span class="nc">PreapplyBlockQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/preapply/block&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="PreapplyBlockQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.PreapplyBlockQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PreapplyBlockQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.PreapplyBlockQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PreapplyBlockQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/preapply/block&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="PreapplyBlockQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.PreapplyBlockQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Simulate the validation of a block that would contain the given operations</span>
 <span class="sd">        and return the resulting fitness and context hash.</span>
 
@@ -266,11 +304,17 @@
                 <span class="s1">&#39;sort&#39;</span><span class="p">:</span> <span class="n">sort</span><span class="p">,</span>
                 <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
             <span class="p">},</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="PreapplyOperationsQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.PreapplyOperationsQuery">[docs]</a><span class="k">class</span> <span class="nc">PreapplyOperationsQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/preapply/operations&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="PreapplyOperationsQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.PreapplyOperationsQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operations</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PreapplyOperationsQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.PreapplyOperationsQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PreapplyOperationsQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/preapply/operations&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="PreapplyOperationsQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.PreapplyOperationsQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operations</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Simulate the validation of operation(s).</span>
 
 <span class="sd">        operations format:</span>
@@ -287,11 +331,17 @@
 <span class="sd">        :param operations: JSON input</span>
 <span class="sd">        :returns: JSON array (operations with metadata)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">operations</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">operations</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ScriptsEntrypoint"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsEntrypoint">[docs]</a><span class="k">class</span> <span class="nc">ScriptsEntrypoint</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/entrypoint&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ScriptsEntrypoint.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsEntrypoint.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">entrypoint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScriptsEntrypoint">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsEntrypoint">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScriptsEntrypoint</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/entrypoint&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ScriptsEntrypoint.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsEntrypoint.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">entrypoint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the type of the given entrypoint.</span>
 
 <span class="sd">        :param script: Micheline expression</span>
@@ -301,20 +351,32 @@
         <span class="k">if</span> <span class="n">entrypoint</span><span class="p">:</span>
             <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entrypoint</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ScriptsEntrypoints"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsEntrypoints">[docs]</a><span class="k">class</span> <span class="nc">ScriptsEntrypoints</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/entrypoints&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ScriptsEntrypoints.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsEntrypoints.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScriptsEntrypoints">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsEntrypoints">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScriptsEntrypoints</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/entrypoints&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ScriptsEntrypoints.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsEntrypoints.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the list of entrypoints of the given script.</span>
 
 <span class="sd">        :param script: Micheline expression</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">({</span><span class="s1">&#39;script&#39;</span><span class="p">:</span> <span class="n">script</span><span class="p">})</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">({</span><span class="s1">&#39;script&#39;</span><span class="p">:</span> <span class="n">script</span><span class="p">})</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ScriptsPackDataQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsPackDataQuery">[docs]</a><span class="k">class</span> <span class="nc">ScriptsPackDataQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/pack_data&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ScriptsPackDataQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsPackDataQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScriptsPackDataQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsPackDataQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScriptsPackDataQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/pack_data&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ScriptsPackDataQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsPackDataQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the serialized version of some data expression using the same algorithm as script instruction PACK.</span>
 
 <span class="sd">        expression format:</span>
@@ -330,11 +392,17 @@
 <span class="sd">        :param expression: JSON input</span>
 <span class="sd">        :returns: Packed data (hex encoded)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">expression</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">expression</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ScriptsRunCodeQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunCodeQuery">[docs]</a><span class="k">class</span> <span class="nc">ScriptsRunCodeQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/run_code&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ScriptsRunCodeQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunCodeQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invocation</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScriptsRunCodeQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunCodeQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScriptsRunCodeQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/run_code&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ScriptsRunCodeQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunCodeQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invocation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run a piece of code in the current context.</span>
 
 <span class="sd">        invocation format:</span>
@@ -356,11 +424,17 @@
 <span class="sd">        :param invocation: JSON input</span>
 <span class="sd">        :returns: Resulting storage, spawned operations, and bigmap diff</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">invocation</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">invocation</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ScriptsRunScriptViewQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunScriptViewQuery">[docs]</a><span class="k">class</span> <span class="nc">ScriptsRunScriptViewQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/run_script_view&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ScriptsRunScriptViewQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunScriptViewQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invocation</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScriptsRunScriptViewQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunScriptViewQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScriptsRunScriptViewQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/run_script_view&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ScriptsRunScriptViewQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunScriptViewQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invocation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Simulate a call to a michelson view</span>
 
 <span class="sd">        invocation format:</span>
@@ -384,11 +458,17 @@
 <span class="sd">        :param invocation: JSON input</span>
 <span class="sd">        :returns: Resulting storage, spawned operations, and bigmap diff</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">invocation</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">invocation</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ScriptsRunOperationQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunOperationQuery">[docs]</a><span class="k">class</span> <span class="nc">ScriptsRunOperationQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/run_operation&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ScriptsRunOperationQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunOperationQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScriptsRunOperationQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunOperationQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScriptsRunOperationQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/run_operation&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ScriptsRunOperationQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsRunOperationQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run an operation without signature checks.</span>
 
 <span class="sd">        operation format:</span>
@@ -404,11 +484,17 @@
 <span class="sd">        :param operation: JSON input</span>
 <span class="sd">        :returns: JSON object (operation with metadata)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">operation</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">operation</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ScriptsTraceCodeQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTraceCodeQuery">[docs]</a><span class="k">class</span> <span class="nc">ScriptsTraceCodeQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/trace_code&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ScriptsTraceCodeQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTraceCodeQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invocation</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScriptsTraceCodeQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTraceCodeQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScriptsTraceCodeQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/trace_code&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ScriptsTraceCodeQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTraceCodeQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">invocation</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run a piece of code in the current context, keeping a trace.</span>
 
 <span class="sd">        invocation format:</span>
@@ -430,11 +516,17 @@
 <span class="sd">        :param invocation: JSON input</span>
 <span class="sd">        :returns: Resulting storage, spawned operations, bigmap diff, and trace</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">invocation</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">invocation</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ScriptsTypecheckCodeQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTypecheckCodeQuery">[docs]</a><span class="k">class</span> <span class="nc">ScriptsTypecheckCodeQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/typecheck_code&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ScriptsTypecheckCodeQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTypecheckCodeQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScriptsTypecheckCodeQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTypecheckCodeQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScriptsTypecheckCodeQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/typecheck_code&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ScriptsTypecheckCodeQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTypecheckCodeQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that some data expression is well formed and of a given type in the current context.</span>
 
 <span class="sd">        expression format:</span>
@@ -449,11 +541,17 @@
 <span class="sd">        :param expression: JSON input</span>
 <span class="sd">        :returns: JSON object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">expression</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">expression</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ScriptsTypecheckDataQuery"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTypecheckDataQuery">[docs]</a><span class="k">class</span> <span class="nc">ScriptsTypecheckDataQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/typecheck_data&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ScriptsTypecheckDataQuery.post"><a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTypecheckDataQuery.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ScriptsTypecheckDataQuery">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTypecheckDataQuery">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ScriptsTypecheckDataQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks/</span><span class="si">{}</span><span class="s1">/helpers/scripts/typecheck_data&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ScriptsTypecheckDataQuery.post">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.helpers.ScriptsTypecheckDataQuery.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that some data expression is well formed and of a given type in the current context.</span>
 
 <span class="sd">        expression format:</span>
@@ -469,7 +567,9 @@
 <span class="sd">        :param expression: JSON input</span>
 <span class="sd">        :returns: JSON object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">expression</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">expression</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

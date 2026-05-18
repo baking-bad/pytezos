@@ -1,25 +1,23 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quick start &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/quick_start.html" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -107,16 +105,16 @@
            <div itemprop="articleBody">
              
   <section id="quick-start">
-<h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h1>
+<h1>Quick start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
 <p>PyTezos library is a Python toolset for Tezos blockchain, including work with keys, signatures, contracts, operations,
 RPC query builder, and a high-level interface for smart contract interaction. It can be used to build a full-fledged
 application, but also it’s perfect for doing researches in Jupyter interactive notebooks.
 In this quick start guide, we’ll go through the main concepts and inspect one of the common use cases.</p>
 </section>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
 <p>Make sure you have Python 3.8+ installed and set as default in the system.</p>
 <p>You also need to install cryptographic packages before installing the library/building the project:</p>
 <p><em>Linux</em></p>
@@ -141,29 +139,29 @@ but if you feel lucky you can try to install natively:</p>
 </ol>
 </section>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>In console:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install pytezos
 </pre></div>
 </div>
 <p>In Google Colab notebook:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; !apt install libsodium-dev libgmp-dev
-&gt;&gt;&gt; !pip install pytezos
-[RESTART RUNTIME]
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="err">!</span><span class="n">apt</span> <span class="n">install</span> <span class="n">libsodium</span><span class="o">-</span><span class="n">dev</span> <span class="n">libgmp</span><span class="o">-</span><span class="n">dev</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pytezos</span>
+<span class="go">[RESTART RUNTIME]</span>
 </pre></div>
 </div>
 <p>That’s it! You can open Python console or Jupyter notebook and get to the next step.</p>
 </section>
 <section id="set-key-and-rpc-node">
-<h2>Set key and RPC node<a class="headerlink" href="#set-key-and-rpc-node" title="Permalink to this heading"></a></h2>
+<h2>Set key and RPC node<a class="headerlink" href="#set-key-and-rpc-node" title="Link to this heading"></a></h2>
 <p>All active interaction with the blockchain starts with the PyTezosClient:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytezos</span> <span class="kn">import</span> <span class="n">pytezos</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pytezos</span><span class="w"> </span><span class="kn">import</span> <span class="n">pytezos</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pytezos</span>
 <span class="go">&lt;pytezos.client.PyTezosClient object at 0x7f95b0c9e5b0&gt;</span>
 
 <span class="go"> Properties</span>
 <span class="go"> .key                tz1grSQDByRpnVs7sPtaprNZRp531ZKz6Jmm</span>
-<span class="go"> .shell              [&#39;https://rpc.tzkt.io/ghostnet&#39;]</span>
+<span class="go"> .shell              [&#39;https://rpc.tzkt.io/shadownet&#39;]</span>
 <span class="go"> .block_id   head</span>
 
 <span class="go"> Helpers</span>
@@ -213,8 +211,8 @@ We are interested in <code class="docutils literal notranslate"><span class="pre
 <p>Note, that by default <code class="docutils literal notranslate"><span class="pre">pytezos</span></code> is initialized with the latest testnet and a predefined private key for demo purpose,
 so you can start to interact immediately, but it’s highly recommended to use your own key. Let’s do that!</p>
 <section id="generate-keys">
-<h3>Generate keys<a class="headerlink" href="#generate-keys" title="Permalink to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytezos</span> <span class="kn">import</span> <span class="n">Key</span>
+<h3>Generate keys<a class="headerlink" href="#generate-keys" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pytezos</span><span class="w"> </span><span class="kn">import</span> <span class="n">Key</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">key</span> <span class="o">=</span> <span class="n">Key</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">key</span>
 <span class="go">&lt;pytezos.crypto.key.Key object at 0x7f958bd3b7f0&gt;</span>
@@ -240,14 +238,14 @@ so you can start to interact immediately, but it’s highly recommended to use y
 </div>
 </section>
 <section id="set-key-as-default">
-<h3>Set key as default<a class="headerlink" href="#set-key-as-default" title="Permalink to this heading"></a></h3>
+<h3>Set key as default<a class="headerlink" href="#set-key-as-default" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pytezos</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pytezos</span>
 <span class="go">&lt;pytezos.client.PyTezosClient object at 0x7f958b64f190&gt;</span>
 
 <span class="go">Properties</span>
 <span class="go">.key                tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp</span>
-<span class="go">.shell              [&#39;https://rpc.tzkt.io/ghostnet&#39;]</span>
+<span class="go">.shell              [&#39;https://rpc.tzkt.io/shadownet&#39;]</span>
 <span class="go">.block_id   head</span>
 
 <span class="go">Helpers</span>
@@ -283,8 +281,8 @@ so you can start to interact immediately, but it’s highly recommended to use y
 </div>
 </section>
 <section id="top-up-account">
-<h3>Top up account<a class="headerlink" href="#top-up-account" title="Permalink to this heading"></a></h3>
-<p>Go to the <cite>https://faucet.ghostnet.teztnets.xyz/ &lt;https://faucet.ghostnet.teztnets.xyz/&gt;</cite> and paste your public key hash key file to the “Wallet address” field.
+<h3>Top up account<a class="headerlink" href="#top-up-account" title="Link to this heading"></a></h3>
+<p>Go to the <cite>https://faucet.shadownet.teztnets.com/ &lt;https://faucet.shadownet.teztnets.com/&gt;</cite> and paste your public key hash key file to the “Wallet address” field.
 Press “Request 2001 tez” and wait for transaction to be completed.</p>
 <p>Check that your balance is non-zero:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pytezos</span><span class="o">.</span><span class="n">account</span><span class="p">()</span>
@@ -295,7 +293,7 @@ Press “Request 2001 tez” and wait for transaction to be completed.</p>
 </section>
 </section>
 <section id="reveal-public-key">
-<h2>Reveal public key<a class="headerlink" href="#reveal-public-key" title="Permalink to this heading"></a></h2>
+<h2>Reveal public key<a class="headerlink" href="#reveal-public-key" title="Link to this heading"></a></h2>
 <p>Now, in order to start using this key we need to send the according public key to the chain so that bakers can validate operation signatures.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reveal_op</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">reveal</span><span class="p">()</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">reveal_op</span>
@@ -303,7 +301,7 @@ Press “Request 2001 tez” and wait for transaction to be completed.</p>
 
 <span class="go"> Properties</span>
 <span class="go"> .key                tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp</span>
-<span class="go"> .shell              [&#39;https://rpc.tzkt.io/ghostnet&#39;]</span>
+<span class="go"> .shell              [&#39;https://rpc.tzkt.io/shadownet&#39;]</span>
 <span class="go"> .block_id   head</span>
 
 <span class="go"> Hash</span>
@@ -382,11 +380,11 @@ Press “Request 2001 tez” and wait for transaction to be completed.</p>
 </div>
 </section>
 <section id="originate-contract">
-<h2>Originate contract<a class="headerlink" href="#originate-contract" title="Permalink to this heading"></a></h2>
+<h2>Originate contract<a class="headerlink" href="#originate-contract" title="Link to this heading"></a></h2>
 <p>Now we can do something interesting. Let’s deploy a Michelson smart contract! First we need to load data, in this
 tutorial we will get it from Michelson source file. There are plenty of available methods, but we’are interested in
 <code class="docutils literal notranslate"><span class="pre">script</span></code> which gives us payload for origination.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytezos</span> <span class="kn">import</span> <span class="n">ContractInterface</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pytezos</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContractInterface</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/baking-bad/pytezos/master/tests/unit_tests/test_michelson/test_repl/mini_scenarios/ticket_wallet_fungible.tz&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span><span class="o">.</span><span class="n">script</span>
 <span class="go">&lt;function ContractInterface.script at 0x7fc1768e2c10&gt;</span>
@@ -411,7 +409,7 @@ Let’s attach shell and key to the contract interface and see the default stora
 </div>
 <p>Note that we used synchronous injection this time, PyTezos does all the polling job for you and freezes the execution until operations is included into a block.
 Previously we were searching operation using an integer offset (N levels ago), here’s another example how to search an operation using branch:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytezos.operation.result</span> <span class="kn">import</span> <span class="n">OperationResult</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation.result</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationResult</span>
 <span class="gp">... </span><span class="n">opg</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="s1">&#39;BM8tcfVyd1g8yqqfE8UpasXZWFLS3Xr3cRyYaoKTTfhU9PUr1YR&#39;</span><span class="p">:]</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">find_operation</span><span class="p">(</span><span class="s1">&#39;ooKx4wBV4DerrXnAEMRfZrwTyBZQQgBMGGD3xbyXeffWn88QC1f&#39;</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">res</span> <span class="o">=</span> <span class="n">OperationResult</span><span class="o">.</span><span class="n">from_operation_group</span><span class="p">(</span><span class="n">opg</span><span class="p">)</span>
@@ -421,7 +419,7 @@ Previously we were searching operation using an integer offset (N levels ago), h
 </div>
 </section>
 <section id="bulk-injecting">
-<h2>Bulk injecting<a class="headerlink" href="#bulk-injecting" title="Permalink to this heading"></a></h2>
+<h2>Bulk injecting<a class="headerlink" href="#bulk-injecting" title="Link to this heading"></a></h2>
 <p>The example we chose is actually a ticket wallet that can only send or receive existing tickets, so we need another contract capable of minting new ones.
 Simultaneously, we will explore how to batch several operations in a single group.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wallet</span> <span class="o">=</span> <span class="n">ContractInterface</span> \
@@ -443,7 +441,7 @@ Simultaneously, we will explore how to batch several operations in a single grou
 </div>
 </section>
 <section id="call-an-entrypoint">
-<h2>Call an entrypoint<a class="headerlink" href="#call-an-entrypoint" title="Permalink to this heading"></a></h2>
+<h2>Call an entrypoint<a class="headerlink" href="#call-an-entrypoint" title="Link to this heading"></a></h2>
 <p>We have our contracts deployed and ready to be invoked, let’s see the list of entrypoints available and their signatures:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">builder</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">&#39;KT1Si4t6ETLoj6eEsjp8hvfJeiFe3b6Z7eM5&#39;</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">builder</span><span class="o">.</span><span class="n">parameter</span>
@@ -451,7 +449,7 @@ Simultaneously, we will explore how to batch several operations in a single grou
 
 <span class="go"> Properties</span>
 <span class="go"> .key                tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp</span>
-<span class="go"> .shell              [&#39;https://rpc.tzkt.io/ghostnet&#39;]</span>
+<span class="go"> .shell              [&#39;https://rpc.tzkt.io/shadownet&#39;]</span>
 <span class="go"> .address    KT1Si4t6ETLoj6eEsjp8hvfJeiFe3b6Z7eM5</span>
 <span class="go"> .block_id   head</span>
 <span class="go"> .entrypoint default</span>
@@ -497,7 +495,7 @@ Simultaneously, we will explore how to batch several operations in a single grou
 
 <span class="go">Properties</span>
 <span class="go">.key                tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp</span>
-<span class="go">.shell              [&#39;https://rpc.tzkt.io/ghostnet&#39;]</span>
+<span class="go">.shell              [&#39;https://rpc.tzkt.io/shadownet&#39;]</span>
 <span class="go">.address    KT1S4UmLNwVcmLBE9VgHKpJJWpKE1JE8VjwN</span>
 <span class="go">.block_id   head</span>
 <span class="go">.entrypoint default</span>
@@ -553,7 +551,7 @@ Let’s also use bulk API again to demonstrate how to batch contract calls:</p>
 <p>Success!</p>
 </section>
 <section id="access-storage">
-<h2>Access storage<a class="headerlink" href="#access-storage" title="Permalink to this heading"></a></h2>
+<h2>Access storage<a class="headerlink" href="#access-storage" title="Link to this heading"></a></h2>
 <p>We have slightly touched storage access in the previous section, now let’s play with <a class="reference external" href="https://better-call.dev/mainnet/KT1REEb5VxWRjcHm5GzDMwErMmNFftsE5Gpf/operations">KT1REEb5VxWRjcHm5GzDMwErMmNFftsE5Gpf</a>
 as it has BigMap entries, named entrypoints, and a non-trivial data scheme.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="s1">&#39;mainnet&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">&#39;KT1REEb5VxWRjcHm5GzDMwErMmNFftsE5Gpf&#39;</span><span class="p">)</span>
@@ -663,7 +661,7 @@ In order to see type definition, just remove the trailing brackets:</p>
 </div>
 </section>
 <section id="bigmap-lookup">
-<h2>BigMap lookup<a class="headerlink" href="#bigmap-lookup" title="Permalink to this heading"></a></h2>
+<h2>BigMap lookup<a class="headerlink" href="#bigmap-lookup" title="Link to this heading"></a></h2>
 <p>The approach described in the previous section also works for lazy storage, here’s how you can access Big_map values:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="s1">&#39;ledger&#39;</span><span class="p">][</span><span class="s1">&#39;tz1PNsHbJRejCnnYzbsQ1CR8wUdEQqVjWen1&#39;</span><span class="p">]()</span>
 <span class="go">11000000</span>
@@ -672,7 +670,7 @@ In order to see type definition, just remove the trailing brackets:</p>
 <p>Pretty cool, hah?</p>
 </section>
 <section id="view-method">
-<h2>View method<a class="headerlink" href="#view-method" title="Permalink to this heading"></a></h2>
+<h2>View method<a class="headerlink" href="#view-method" title="Link to this heading"></a></h2>
 <p>In the previous example we queried a token balance for a particular owner.
 We can do the same using special entrypoint <code class="docutils literal notranslate"><span class="pre">balance_of</span></code>. Let’s give a look at the interface:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">balance_of</span>
@@ -735,7 +733,7 @@ PyTezos allows you to keep that address empty and get the view result:</p>
 </div>
 </section>
 <section id="get-contract-balance">
-<h2>Get Contract Balance<a class="headerlink" href="#get-contract-balance" title="Permalink to this heading"></a></h2>
+<h2>Get Contract Balance<a class="headerlink" href="#get-contract-balance" title="Link to this heading"></a></h2>
 <p>Looking for a balance for a contract involves interacting with the contract context. You can inspect the context object to see the methods, or read about it here - <a class="reference internal" href="repl.html#pytezos.context.impl.ExecutionContext" title="pytezos.context.impl.ExecutionContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">pytezos.context.impl.ExecutionContext</span></code></a></p>
 <p>The context object holds general functions for retriving data about a contract/address, including the <cite>get_balance()</cite> call.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kolibri_oven</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="s1">&#39;mainnet&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">&#39;KT1KH3wH4sneEevPVW7AACiVKMjhTvmXLSK6&#39;</span><span class="p">)</span>

@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.michelson.sections.parameter &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/michelson/sections/parameter.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -85,48 +83,55 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.michelson.sections.parameter</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
 
-<span class="kn">from</span> <span class="nn">pytezos.context.abstract</span> <span class="kn">import</span> <span class="n">AbstractContext</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">Micheline</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">MichelsonRuntimeError</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types</span> <span class="kn">import</span> <span class="n">OrType</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.adt</span> <span class="kn">import</span> <span class="n">wrap_or</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.adt</span> <span class="kn">import</span> <span class="n">wrap_parameters</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.base</span> <span class="kn">import</span> <span class="n">MichelsonType</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.base</span> <span class="kn">import</span> <span class="n">parse_name</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.core</span> <span class="kn">import</span> <span class="n">Unit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.context.abstract</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractContext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Micheline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">MichelsonRuntimeError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.adt</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap_or</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.adt</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap_parameters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">MichelsonType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_name</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Unit</span>
 
 
-<div class="viewcode-block" id="ParameterSection"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection">[docs]</a><span class="k">class</span> <span class="nc">ParameterSection</span><span class="p">(</span><span class="n">Micheline</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;parameter&#39;</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="ParameterSection">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParameterSection</span><span class="p">(</span><span class="n">Micheline</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;parameter&#39;</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">MichelsonType</span><span class="p">]]</span>  <span class="c1"># type: ignore</span>
     <span class="n">root_name</span><span class="p">:</span> <span class="nb">str</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">MichelsonType</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">MichelsonType</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">item</span> <span class="o">=</span> <span class="n">item</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ParameterSection.match"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.match">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="n">type_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;ParameterSection&#39;</span><span class="p">]:</span>
+<div class="viewcode-block" id="ParameterSection.match">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.match">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">match</span><span class="p">(</span><span class="n">type_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;ParameterSection&#39;</span><span class="p">]:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">cls</span> <span class="o">=</span> <span class="n">Micheline</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">type_expr</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ParameterSection</span><span class="p">):</span>
                 <span class="bp">cls</span> <span class="o">=</span> <span class="n">ParameterSection</span><span class="o">.</span><span class="n">create_type</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">])</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">MichelsonRuntimeError</span><span class="p">(</span><span class="s1">&#39;parameter&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="n">MichelsonRuntimeError</span><span class="p">(</span><span class="s1">&#39;parameter&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">return</span> <span class="bp">cls</span></div>
 
-<div class="viewcode-block" id="ParameterSection.create_type"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.create_type">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">create_type</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ParameterSection.create_type">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.create_type">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_type</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;Micheline&#39;</span><span class="p">],</span> <span class="n">Any</span><span class="p">]],</span>
         <span class="n">annots</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -146,13 +151,19 @@
         <span class="n">res</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="p">(</span><span class="bp">cls</span><span class="p">,),</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">root_name</span><span class="o">=</span><span class="n">root_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;ParameterSection&#39;</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ParameterSection.execute"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.execute">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">stack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ParameterSection.execute">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.execute">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">stack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">):</span>
         <span class="n">context</span><span class="o">.</span><span class="n">set_parameter_expr</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">())</span>
         <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;parameter: updated&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ParameterSection.list_entrypoints"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.list_entrypoints">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">list_entrypoints</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">MichelsonType</span><span class="p">]]:</span>
+
+<div class="viewcode-block" id="ParameterSection.list_entrypoints">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.list_entrypoints">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_entrypoints</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">MichelsonType</span><span class="p">]]:</span>
         <span class="n">entrypoints</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">root_type</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">,</span> <span class="n">OrType</span><span class="p">):</span>
@@ -163,8 +174,11 @@
         <span class="n">entrypoints</span><span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">root_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">root_type</span>
         <span class="k">return</span> <span class="n">entrypoints</span></div>
 
-<div class="viewcode-block" id="ParameterSection.from_parameters"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.from_parameters">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_parameters</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;ParameterSection&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ParameterSection.from_parameters">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.from_parameters">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_parameters</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;ParameterSection&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">:</span> <span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;Unit&#39;</span><span class="p">}}</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
@@ -184,7 +198,10 @@
             <span class="n">item</span> <span class="o">=</span> <span class="n">root_type</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">val_expr</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ParameterSection.to_parameters"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.to_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">to_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ParameterSection.to_parameters">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.to_parameters">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="n">entrypoint</span><span class="p">,</span> <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">item</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">,</span> <span class="n">OrType</span><span class="p">):</span>
             <span class="n">flat_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">get_flat_values</span><span class="p">(</span><span class="n">entrypoints</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -195,21 +212,30 @@
             <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="ParameterSection.generate_pydoc"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.generate_pydoc">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">generate_pydoc</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ParameterSection.generate_pydoc">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.generate_pydoc">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_pydoc</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">definitions</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: ignore</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">generate_pydoc</span><span class="p">(</span><span class="n">definitions</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">res</span> <span class="o">!=</span> <span class="sa">f</span><span class="s1">&#39;$</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span>
             <span class="n">definitions</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="p">,</span> <span class="n">res</span><span class="p">))</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;$</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s1">:</span><span class="se">\n\t</span><span class="si">{</span><span class="n">doc</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">definitions</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ParameterSection.from_micheline_value"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.from_micheline_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ParameterSection&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ParameterSection.from_micheline_value">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.from_micheline_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ParameterSection&#39;</span><span class="p">:</span>
         <span class="n">item</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">val_expr</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ParameterSection.from_python_object"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.from_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ParameterSection&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ParameterSection.from_python_object">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.from_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ParameterSection&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">py_obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">entrypoint</span> <span class="o">=</span> <span class="n">py_obj</span>
             <span class="n">py_obj</span> <span class="o">=</span> <span class="p">{</span><span class="n">entrypoint</span><span class="p">:</span> <span class="n">Unit</span><span class="p">}</span>
@@ -230,10 +256,16 @@
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ParameterSection.to_micheline_value"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.to_micheline_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ParameterSection.to_micheline_value">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.to_micheline_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ParameterSection.to_python_object"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ParameterSection.to_python_object">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">py_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">(</span>
             <span class="n">try_unpack</span><span class="o">=</span><span class="n">try_unpack</span><span class="p">,</span>
             <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -243,21 +275,32 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">root_name</span><span class="p">:</span> <span class="n">py_obj</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="ParameterSection.merge_lazy_diff"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.merge_lazy_diff">[docs]</a>    <span class="k">def</span> <span class="nf">merge_lazy_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;ParameterSection&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ParameterSection.merge_lazy_diff">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.merge_lazy_diff">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">merge_lazy_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;ParameterSection&#39;</span><span class="p">:</span>
         <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">merge_lazy_diff</span><span class="p">(</span><span class="n">lazy_diff</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">item</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ParameterSection.attach_context"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.attach_context">[docs]</a>    <span class="k">def</span> <span class="nf">attach_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ParameterSection.attach_context">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.attach_context">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">attach_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">attach_context</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">big_map_copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ParameterSection.aggregate_lazy_diff"><a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.aggregate_lazy_diff">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate_lazy_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ParameterSection.aggregate_lazy_diff">
+<a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.parameter.ParameterSection.aggregate_lazy_diff">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aggregate_lazy_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="n">lazy_diff</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: ignore</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">aggregate_lazy_diff</span><span class="p">(</span><span class="n">lazy_diff</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">lazy_diff</span></div>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">,</span> <span class="s1">&#39;__getitem__&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;index access is not implemented for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">item</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+
 </pre></div>
 
            </div>

@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.michelson.program &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/michelson/program.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -85,47 +83,49 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.michelson.program</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
 
-<span class="kn">from</span> <span class="nn">pytezos.context.impl</span> <span class="kn">import</span> <span class="n">ExecutionContext</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">base58_encode</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.instructions.base</span> <span class="kn">import</span> <span class="n">MichelsonInstruction</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.instructions.base</span> <span class="kn">import</span> <span class="n">format_stdout</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.instructions.tzt</span> <span class="kn">import</span> <span class="n">BigMapInstruction</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.instructions.tzt</span> <span class="kn">import</span> <span class="n">StackEltInstruction</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">MichelineSequence</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">get_script_section</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">get_script_sections</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">try_catch</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">validate_sections</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.code</span> <span class="kn">import</span> <span class="n">CodeSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.parameter</span> <span class="kn">import</span> <span class="n">ParameterSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.storage</span> <span class="kn">import</span> <span class="n">StorageSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.tzt</span> <span class="kn">import</span> <span class="n">AmountSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.tzt</span> <span class="kn">import</span> <span class="n">BalanceSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.tzt</span> <span class="kn">import</span> <span class="n">BigMapsSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.tzt</span> <span class="kn">import</span> <span class="n">ChainIdSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.tzt</span> <span class="kn">import</span> <span class="n">InputSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.tzt</span> <span class="kn">import</span> <span class="n">NowSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.tzt</span> <span class="kn">import</span> <span class="n">OutputSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.tzt</span> <span class="kn">import</span> <span class="n">SelfSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.tzt</span> <span class="kn">import</span> <span class="n">SenderSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.tzt</span> <span class="kn">import</span> <span class="n">SourceSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.view</span> <span class="kn">import</span> <span class="n">ViewSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.stack</span> <span class="kn">import</span> <span class="n">MichelsonStack</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types</span> <span class="kn">import</span> <span class="n">ListType</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types</span> <span class="kn">import</span> <span class="n">MichelsonType</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types</span> <span class="kn">import</span> <span class="n">OperationType</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types</span> <span class="kn">import</span> <span class="n">PairType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.context.impl</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExecutionContext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">base58_encode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.instructions.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">MichelsonInstruction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.instructions.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_stdout</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.instructions.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">BigMapInstruction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.instructions.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">StackEltInstruction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">MichelineSequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_script_section</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_script_sections</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">try_catch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_sections</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.code</span><span class="w"> </span><span class="kn">import</span> <span class="n">CodeSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.parameter</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">AmountSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">BalanceSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">BigMapsSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChainIdSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">InputSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">NowSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">OutputSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">SelfSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">SenderSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.tzt</span><span class="w"> </span><span class="kn">import</span> <span class="n">SourceSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.view</span><span class="w"> </span><span class="kn">import</span> <span class="n">ViewSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.stack</span><span class="w"> </span><span class="kn">import</span> <span class="n">MichelsonStack</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ListType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">MichelsonType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">PairType</span>
 
 
-<div class="viewcode-block" id="MichelsonProgram"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram">[docs]</a><span class="k">class</span> <span class="nc">MichelsonProgram</span><span class="p">:</span>
+<div class="viewcode-block" id="MichelsonProgram">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonProgram</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Michelson .tz contract interpreter interface&quot;&quot;&quot;</span>
 
     <span class="n">parameter</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">ParameterSection</span><span class="p">]</span>
@@ -133,13 +133,15 @@
     <span class="n">code</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">CodeSection</span><span class="p">]</span>
     <span class="n">views</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">ViewSection</span><span class="p">]]</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">ParameterSection</span><span class="p">,</span> <span class="n">storage</span><span class="p">:</span> <span class="n">StorageSection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="n">ParameterSection</span><span class="p">,</span> <span class="n">storage</span><span class="p">:</span> <span class="n">StorageSection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameter_value</span> <span class="o">=</span> <span class="n">parameter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">storage_value</span> <span class="o">=</span> <span class="n">storage</span>
 
-<div class="viewcode-block" id="MichelsonProgram.load"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.load">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span> <span class="n">with_code</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">]:</span>
+<div class="viewcode-block" id="MichelsonProgram.load">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.load">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span> <span class="n">with_code</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create MichelsonProgram type from filled context&quot;&quot;&quot;</span>
         <span class="bp">cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span>
             <span class="n">MichelsonProgram</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
@@ -153,8 +155,11 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">],</span> <span class="bp">cls</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.create"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.create">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">sequence</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">MichelineSequence</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="MichelsonProgram.create">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.create">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="n">sequence</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">MichelineSequence</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create MichelsonProgram type from micheline&quot;&quot;&quot;</span>
         <span class="n">validate_sections</span><span class="p">(</span>
             <span class="n">sequence</span><span class="p">,</span>
@@ -176,15 +181,21 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">],</span> <span class="bp">cls</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.match"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.match">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="MichelsonProgram.match">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.match">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">match</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">]:</span>
         <span class="n">seq</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="n">MichelineSequence</span><span class="p">],</span> <span class="n">MichelineSequence</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">expr</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">MichelineSequence</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Expected sequence, got </span><span class="si">{</span><span class="n">seq</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">MichelsonProgram</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.as_micheline_expr"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.as_micheline_expr">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">as_micheline_expr</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+
+<div class="viewcode-block" id="MichelsonProgram.as_micheline_expr">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.as_micheline_expr">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_micheline_expr</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">(),</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">(),</span>
@@ -192,26 +203,38 @@
             <span class="o">*</span><span class="p">[</span><span class="n">view</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">()</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">views</span><span class="p">],</span>
         <span class="p">]</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.get_view"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.get_view">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_view</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">ViewSection</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="MichelsonProgram.get_view">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.get_view">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_view</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">ViewSection</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">view</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">views</span> <span class="k">if</span> <span class="n">view</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.instantiate"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.instantiate">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">instantiate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">storage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="MichelsonProgram.instantiate">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.instantiate">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">instantiate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">storage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">:</span>
         <span class="n">parameter_value</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">({</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">:</span> <span class="n">entrypoint</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">parameter</span><span class="p">})</span>
         <span class="n">storage_value</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">,</span> <span class="n">parameter_value</span><span class="p">,</span> <span class="n">storage_value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.instantiate_view"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.instantiate_view">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">instantiate_view</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">storage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="MichelsonProgram.instantiate_view">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.instantiate_view">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">instantiate_view</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">storage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MichelsonProgram&#39;</span><span class="p">:</span>
         <span class="n">view</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_view</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">parameter_ty</span> <span class="o">=</span> <span class="n">ParameterSection</span><span class="o">.</span><span class="n">create_type</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">view</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
         <span class="n">parameter_value</span> <span class="o">=</span> <span class="n">parameter_ty</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span>
         <span class="n">storage_value</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">parameter_value</span><span class="p">,</span> <span class="n">storage_value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.begin"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.begin">[docs]</a>    <span class="nd">@try_catch</span><span class="p">(</span><span class="s1">&#39;BEGIN&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="MichelsonProgram.begin">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.begin">[docs]</a>
+    <span class="nd">@try_catch</span><span class="p">(</span><span class="s1">&#39;BEGIN&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare stack for contract execution&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameter_value</span><span class="o">.</span><span class="n">attach_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">storage_value</span><span class="o">.</span><span class="n">attach_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
@@ -219,17 +242,26 @@
         <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">format_stdout</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;BEGIN %</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[</span><span class="n">res</span><span class="p">]))</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.execute"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MichelsonInstruction</span><span class="p">:</span>
+
+<div class="viewcode-block" id="MichelsonProgram.execute">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.execute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MichelsonInstruction</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute contract in interpreter&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.execute_view"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.execute_view">[docs]</a>    <span class="k">def</span> <span class="nf">execute_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonProgram.execute_view">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.execute_view">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute view in interpreter&quot;&quot;&quot;</span>
         <span class="n">view</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_view</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">view</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.end"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.end">[docs]</a>    <span class="nd">@try_catch</span><span class="p">(</span><span class="s1">&#39;END&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span>
+
+<div class="viewcode-block" id="MichelsonProgram.end">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.end">[docs]</a>
+    <span class="nd">@try_catch</span><span class="p">(</span><span class="s1">&#39;END&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span>
         <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -251,8 +283,11 @@
         <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">format_stdout</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;END %</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">res</span><span class="p">],</span> <span class="p">[]))</span>
         <span class="k">return</span> <span class="n">operations</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="p">,</span> <span class="n">res</span></div>
 
-<div class="viewcode-block" id="MichelsonProgram.ret"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.ret">[docs]</a>    <span class="nd">@try_catch</span><span class="p">(</span><span class="s1">&#39;RET&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">ret</span><span class="p">(</span>
+
+<div class="viewcode-block" id="MichelsonProgram.ret">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.MichelsonProgram.ret">[docs]</a>
+    <span class="nd">@try_catch</span><span class="p">(</span><span class="s1">&#39;RET&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ret</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span>
         <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -264,10 +299,14 @@
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Stack is not empty: </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">res</span><span class="o">.</span><span class="n">assert_type_equal</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">message</span><span class="o">=</span><span class="s1">&#39;view return type&#39;</span><span class="p">)</span>
         <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">format_stdout</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;RET %</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">res</span><span class="p">],</span> <span class="p">[]))</span>
-        <span class="k">return</span> <span class="n">view</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">output_mode</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="n">view</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">output_mode</span><span class="p">))</span></div>
+</div>
 
 
-<div class="viewcode-block" id="TztMichelsonProgram"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram">[docs]</a><span class="k">class</span> <span class="nc">TztMichelsonProgram</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TztMichelsonProgram">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TztMichelsonProgram</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Michelson .tzt contract interpreter interface&quot;&quot;&quot;</span>
 
     <span class="n">code</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">CodeSection</span><span class="p">]</span>
@@ -275,8 +314,10 @@
     <span class="n">output</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">OutputSection</span><span class="p">]</span>
     <span class="n">big_maps</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">BigMapsSection</span><span class="p">]]</span>
 
-<div class="viewcode-block" id="TztMichelsonProgram.load"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.load">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span> <span class="n">with_code</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="TztMichelsonProgram.load">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.load">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span> <span class="n">with_code</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create TztMichelsonProgram type from filled context&quot;&quot;&quot;</span>
         <span class="bp">cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span>
             <span class="n">TztMichelsonProgram</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
@@ -290,8 +331,11 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;TztMichelsonProgram&#39;</span><span class="p">],</span> <span class="bp">cls</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TztMichelsonProgram.create"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.create">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">sequence</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">MichelineSequence</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;TztMichelsonProgram&#39;</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="TztMichelsonProgram.create">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.create">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="n">sequence</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">MichelineSequence</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;TztMichelsonProgram&#39;</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create TztMichelsonProgram type from micheline&quot;&quot;&quot;</span>
         <span class="n">validate_sections</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">))</span>
         <span class="bp">cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span>
@@ -306,15 +350,21 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;TztMichelsonProgram&#39;</span><span class="p">],</span> <span class="bp">cls</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TztMichelsonProgram.match"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.match">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;TztMichelsonProgram&#39;</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="TztMichelsonProgram.match">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.match">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">match</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;TztMichelsonProgram&#39;</span><span class="p">]:</span>
         <span class="n">seq</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="n">MichelineSequence</span><span class="p">],</span> <span class="n">MichelineSequence</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">expr</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">MichelineSequence</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;expected sequence, got </span><span class="si">{</span><span class="n">seq</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">TztMichelsonProgram</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TztMichelsonProgram.as_micheline_expr"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.as_micheline_expr">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">as_micheline_expr</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+
+<div class="viewcode-block" id="TztMichelsonProgram.as_micheline_expr">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.as_micheline_expr">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_micheline_expr</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
         <span class="c1"># TODO: Serialize all sections</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">(),</span>
@@ -322,11 +372,17 @@
             <span class="bp">cls</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">(),</span>
         <span class="p">]</span></div>
 
-<div class="viewcode-block" id="TztMichelsonProgram.instantiate"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.instantiate">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">instantiate</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TztMichelsonProgram&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TztMichelsonProgram.instantiate">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.instantiate">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">instantiate</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TztMichelsonProgram&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="TztMichelsonProgram.fill_context"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.fill_context">[docs]</a>    <span class="k">def</span> <span class="nf">fill_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TztMichelsonProgram.fill_context">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.fill_context">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fill_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">sender</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get_sender_expr</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">sender</span><span class="p">:</span>
             <span class="n">context</span><span class="o">.</span><span class="n">sender</span> <span class="o">=</span> <span class="n">SenderSection</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_string</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
@@ -353,14 +409,20 @@
                 <span class="n">prefix</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;Net&#39;</span><span class="p">,</span>
             <span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="TztMichelsonProgram.register_bigmaps"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.register_bigmaps">[docs]</a>    <span class="k">def</span> <span class="nf">register_bigmaps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TztMichelsonProgram.register_bigmaps">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.register_bigmaps">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register_bigmaps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">big_maps</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">big_maps</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">BigMapInstruction</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Only `Big_map` instructions can be used in `big_maps` section&#39;</span><span class="p">)</span>
                 <span class="n">item</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">stack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TztMichelsonProgram.begin"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.begin">[docs]</a>    <span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TztMichelsonProgram.begin">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.begin">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare stack for contract execution&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
@@ -369,11 +431,17 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Only `Stack_elt` instructions can be used in `input` section&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TztMichelsonProgram.execute"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MichelsonInstruction</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TztMichelsonProgram.execute">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.execute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MichelsonInstruction</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute contract in interpreter&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">context</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="TztMichelsonProgram.end"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.end">[docs]</a>    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TztMichelsonProgram.end">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.program.TztMichelsonProgram.end">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Finish contract execution&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">StackEltInstruction</span><span class="p">):</span>
@@ -381,7 +449,9 @@
             <span class="n">item</span><span class="o">.</span><span class="n">pull</span><span class="p">(</span><span class="n">stack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Stack is not empty after processing `output` section&#39;</span><span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Stack is not empty after processing `output` section&#39;</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

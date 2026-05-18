@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.operation.forge &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/operation/forge.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -85,20 +83,20 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.operation.forge</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
 
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_address</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_array</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_base58</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_bool</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_int16</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_int32</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_micheline</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_nat</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_public_key</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_script</span>
-<span class="kn">from</span> <span class="nn">pytezos.rpc.kind</span> <span class="kn">import</span> <span class="n">operation_tags</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_address</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_base58</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_bool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_int16</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_int32</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_micheline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_nat</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_public_key</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_script</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.kind</span><span class="w"> </span><span class="kn">import</span> <span class="n">operation_tags</span>
 
 <span class="n">reserved_entrypoints</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -110,13 +108,18 @@
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="has_parameters"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.has_parameters">[docs]</a><span class="k">def</span> <span class="nf">has_parameters</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="has_parameters">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.has_parameters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">has_parameters</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">content</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;parameters&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">][</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span> <span class="ow">and</span> <span class="n">content</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;Unit&#39;</span><span class="p">})</span></div>
 
 
-<div class="viewcode-block" id="forge_entrypoint"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_entrypoint">[docs]</a><span class="k">def</span> <span class="nf">forge_entrypoint</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_entrypoint">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_entrypoint">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_entrypoint</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Encode Michelson contract entrypoint into the byte form.</span>
 
 <span class="sd">    :param entrypoint: string</span>
@@ -127,11 +130,17 @@
         <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xff</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">forge_array</span><span class="p">(</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span> <span class="n">len_bytes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="forge_tag"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_tag">[docs]</a><span class="k">def</span> <span class="nf">forge_tag</span><span class="p">(</span><span class="n">operation_tag</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_tag">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_tag">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_tag</span><span class="p">(</span><span class="n">operation_tag</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">operation_tag</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="forge_operation"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_operation">[docs]</a><span class="k">def</span> <span class="nf">forge_operation</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_operation">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_operation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_operation</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Forge operation content (locally).</span>
 
 <span class="sd">    :param content: {.., &quot;kind&quot;: &quot;transaction&quot;, ...}</span>
@@ -157,7 +166,10 @@
     <span class="k">return</span> <span class="n">encode_proc</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="forge_operation_group"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_operation_group">[docs]</a><span class="k">def</span> <span class="nf">forge_operation_group</span><span class="p">(</span><span class="n">operation_group</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_operation_group">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_operation_group">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_operation_group</span><span class="p">(</span><span class="n">operation_group</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Forge operation group (locally).</span>
 
 <span class="sd">    :param operation_group: {&quot;branch&quot;: &quot;B...&quot;, &quot;contents&quot;: [], ...}</span>
@@ -167,14 +179,20 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_activate_account"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_activate_account">[docs]</a><span class="k">def</span> <span class="nf">forge_activate_account</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_activate_account">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_activate_account">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_activate_account</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_base58</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;pkh&#39;</span><span class="p">])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;secret&#39;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_reveal"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_reveal">[docs]</a><span class="k">def</span> <span class="nf">forge_reveal</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_reveal">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_reveal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_reveal</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_address</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="n">tz_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;fee&#39;</span><span class="p">]))</span>
@@ -182,10 +200,20 @@
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;gas_limit&#39;</span><span class="p">]))</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;storage_limit&#39;</span><span class="p">]))</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_public_key</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;public_key&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="s1">&#39;proof&#39;</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_bool</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_array</span><span class="p">(</span><span class="n">forge_base58</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;proof&#39;</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_bool</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_transaction"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_transaction">[docs]</a><span class="k">def</span> <span class="nf">forge_transaction</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_transaction">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_transaction">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_transaction</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_address</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="n">tz_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;fee&#39;</span><span class="p">]))</span>
@@ -205,7 +233,10 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_origination"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_origination">[docs]</a><span class="k">def</span> <span class="nf">forge_origination</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_origination">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_origination">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_origination</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_address</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="n">tz_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;fee&#39;</span><span class="p">]))</span>
@@ -225,7 +256,10 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_delegation"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_delegation">[docs]</a><span class="k">def</span> <span class="nf">forge_delegation</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_delegation">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_delegation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_delegation</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_address</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="n">tz_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;fee&#39;</span><span class="p">]))</span>
@@ -242,13 +276,19 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_endorsement"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_endorsement">[docs]</a><span class="k">def</span> <span class="nf">forge_endorsement</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_endorsement">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_endorsement">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_endorsement</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_int32</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_inline_endorsement"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_inline_endorsement">[docs]</a><span class="k">def</span> <span class="nf">forge_inline_endorsement</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_inline_endorsement">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_inline_endorsement">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_inline_endorsement</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_base58</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;branch&#39;</span><span class="p">])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;operations&#39;</span><span class="p">][</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_int32</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;operations&#39;</span><span class="p">][</span><span class="s1">&#39;level&#39;</span><span class="p">]))</span>
@@ -256,20 +296,29 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_endorsement_with_slot"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_endorsement_with_slot">[docs]</a><span class="k">def</span> <span class="nf">forge_endorsement_with_slot</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_endorsement_with_slot">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_endorsement_with_slot">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_endorsement_with_slot</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_array</span><span class="p">(</span><span class="n">forge_inline_endorsement</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;endorsement&#39;</span><span class="p">]))</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_int16</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;slot&#39;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_failing_noop"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_failing_noop">[docs]</a><span class="k">def</span> <span class="nf">forge_failing_noop</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_failing_noop">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_failing_noop">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_failing_noop</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_array</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;arbitrary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_register_global_constant"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_register_global_constant">[docs]</a><span class="k">def</span> <span class="nf">forge_register_global_constant</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_register_global_constant">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_register_global_constant">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_register_global_constant</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_address</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="n">tz_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;fee&#39;</span><span class="p">]))</span>
@@ -280,7 +329,10 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_transfer_ticket"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_transfer_ticket">[docs]</a><span class="k">def</span> <span class="nf">forge_transfer_ticket</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_transfer_ticket">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_transfer_ticket">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_transfer_ticket</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_address</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="n">tz_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;fee&#39;</span><span class="p">]))</span>
@@ -296,7 +348,10 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_smart_rollup_add_messages"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_smart_rollup_add_messages">[docs]</a><span class="k">def</span> <span class="nf">forge_smart_rollup_add_messages</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_smart_rollup_add_messages">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_smart_rollup_add_messages">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_smart_rollup_add_messages</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_address</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="n">tz_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;fee&#39;</span><span class="p">]))</span>
@@ -307,7 +362,10 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="forge_smart_rollup_execute_outbox_message"><a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_smart_rollup_execute_outbox_message">[docs]</a><span class="k">def</span> <span class="nf">forge_smart_rollup_execute_outbox_message</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="forge_smart_rollup_execute_outbox_message">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_smart_rollup_execute_outbox_message">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_smart_rollup_execute_outbox_message</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_address</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="n">tz_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_nat</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;fee&#39;</span><span class="p">]))</span>
@@ -318,6 +376,7 @@
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_base58</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;cemented_commitment&#39;</span><span class="p">])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_array</span><span class="p">(</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;output_proof&#39;</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">res</span></div>
+
 </pre></div>
 
            </div>

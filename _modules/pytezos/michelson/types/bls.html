@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.michelson.types.bls &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/michelson/types/bls.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -85,38 +83,48 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.michelson.types.bls</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
 
-<span class="kn">from</span> <span class="nn">py_ecc</span> <span class="kn">import</span> <span class="n">optimized_bls12_381</span> <span class="k">as</span> <span class="n">bls12_381</span>
-<span class="kn">from</span> <span class="nn">py_ecc.bls.constants</span> <span class="kn">import</span> <span class="n">POW_2_382</span>
-<span class="kn">from</span> <span class="nn">py_ecc.bls.typing</span> <span class="kn">import</span> <span class="n">G1Uncompressed</span>
-<span class="kn">from</span> <span class="nn">py_ecc.bls.typing</span> <span class="kn">import</span> <span class="n">G2Uncompressed</span>
-<span class="kn">from</span> <span class="nn">py_ecc.fields</span> <span class="kn">import</span> <span class="n">optimized_bls12_381_FQ</span> <span class="k">as</span> <span class="n">FQ</span>
-<span class="kn">from</span> <span class="nn">py_ecc.fields</span> <span class="kn">import</span> <span class="n">optimized_bls12_381_FQ2</span> <span class="k">as</span> <span class="n">FQ2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">py_ecc</span><span class="w"> </span><span class="kn">import</span> <span class="n">optimized_bls12_381</span> <span class="k">as</span> <span class="n">bls12_381</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">py_ecc.bls.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">POW_2_382</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">py_ecc.bls.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">G1Uncompressed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">py_ecc.bls.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">G2Uncompressed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">py_ecc.fields</span><span class="w"> </span><span class="kn">import</span> <span class="n">optimized_bls12_381_FQ</span> <span class="k">as</span> <span class="n">FQ</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">py_ecc.fields</span><span class="w"> </span><span class="kn">import</span> <span class="n">optimized_bls12_381_FQ2</span> <span class="k">as</span> <span class="n">FQ2</span>
 
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">parse_micheline_literal</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.core</span> <span class="kn">import</span> <span class="n">BytesType</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.core</span> <span class="kn">import</span> <span class="n">IntType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_micheline_literal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">BytesType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntType</span>
 
 
-<div class="viewcode-block" id="BLS12_381_FrType"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType">[docs]</a><span class="k">class</span> <span class="nc">BLS12_381_FrType</span><span class="p">(</span><span class="n">IntType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;bls12_381_fr&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="BLS12_381_FrType">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BLS12_381_FrType</span><span class="p">(</span><span class="n">IntType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;bls12_381_fr&#39;</span><span class="p">):</span>
     <span class="n">modulus</span> <span class="o">=</span> <span class="mh">0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">BLS12_381_FrType</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
 
-<div class="viewcode-block" id="BLS12_381_FrType.bytes_to_int"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.bytes_to_int">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">bytes_to_int</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="BLS12_381_FrType.bytes_to_int">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.bytes_to_int">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bytes_to_int</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">32</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;expected no more than 32 bytes, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BLS12_381_FrType.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BLS12_381_FrType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BLS12_381_FrType.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BLS12_381_FrType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span> <span class="o">%</span> <span class="bp">cls</span><span class="o">.</span><span class="n">modulus</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BLS12_381_FrType.from_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.from_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BLS12_381_FrType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BLS12_381_FrType.from_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.from_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BLS12_381_FrType&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">py_obj</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">py_obj</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">py_obj</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
@@ -129,8 +137,11 @@
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unexpected value </span><span class="si">{</span><span class="n">py_obj</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BLS12_381_FrType.from_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.from_micheline_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;IntType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BLS12_381_FrType.from_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.from_micheline_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;IntType&#39;</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">parse_micheline_literal</span><span class="p">(</span>
             <span class="n">val_expr</span><span class="p">,</span>
             <span class="p">{</span>
@@ -140,25 +151,40 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BLS12_381_FrType.to_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.to_micheline_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BLS12_381_FrType.to_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.to_micheline_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;readable&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()}</span></div>
 
-<div class="viewcode-block" id="BLS12_381_FrType.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BLS12_381_FrType.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_FrType.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">comparable</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> is not comparable&#39;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BLS12_381_FrType</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BLS12_381_FrType</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span></div>
+</div>
 
 
-<div class="viewcode-block" id="BLS12_381_G1Type"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G1Type">[docs]</a><span class="k">class</span> <span class="nc">BLS12_381_G1Type</span><span class="p">(</span><span class="n">BytesType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;bls12_381_g1&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="BLS12_381_G1Type.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G1Type.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BLS12_381_G1Type">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G1Type">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BLS12_381_G1Type</span><span class="p">(</span><span class="n">BytesType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;bls12_381_g1&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="BLS12_381_G1Type.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G1Type.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">96</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;expected 98 bytes, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BLS12_381_G1Type.from_point"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G1Type.from_point">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_point</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">G1Uncompressed</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BLS12_381_G1Type&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BLS12_381_G1Type.from_point">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G1Type.from_point">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_point</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">G1Uncompressed</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BLS12_381_G1Type&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">bls12_381</span><span class="o">.</span><span class="n">is_inf</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">POW_2_382</span><span class="p">,</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
@@ -167,25 +193,40 @@
         <span class="n">value</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BLS12_381_G1Type.to_point"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G1Type.to_point">[docs]</a>    <span class="k">def</span> <span class="nf">to_point</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">G1Uncompressed</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BLS12_381_G1Type.to_point">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G1Type.to_point">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_point</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">G1Uncompressed</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[:</span><span class="mi">48</span><span class="p">],</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
         <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">48</span><span class="p">:],</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
         <span class="n">point</span> <span class="o">=</span> <span class="n">FQ</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">FQ</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">FQ</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">G1Uncompressed</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BLS12_381_G1Type.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G1Type.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BLS12_381_G1Type.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G1Type.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">comparable</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> is not comparable&#39;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BLS12_381_G1Type</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BLS12_381_G1Type</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span></div>
+</div>
 
 
-<div class="viewcode-block" id="BLS12_381_G2Type"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G2Type">[docs]</a><span class="k">class</span> <span class="nc">BLS12_381_G2Type</span><span class="p">(</span><span class="n">BytesType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;bls12_381_g2&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="BLS12_381_G2Type.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G2Type.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BLS12_381_G2Type">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G2Type">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BLS12_381_G2Type</span><span class="p">(</span><span class="n">BytesType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;bls12_381_g2&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="BLS12_381_G2Type.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G2Type.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">192</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;expected 98 bytes, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BLS12_381_G2Type.from_point"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G2Type.from_point">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_point</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">G2Uncompressed</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BLS12_381_G2Type&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BLS12_381_G2Type.from_point">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G2Type.from_point">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_point</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">G2Uncompressed</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BLS12_381_G2Type&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">bls12_381</span><span class="o">.</span><span class="n">is_inf</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
             <span class="n">x_re</span><span class="p">,</span> <span class="n">x_im</span><span class="p">,</span> <span class="n">y_re</span><span class="p">,</span> <span class="n">y_im</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">POW_2_382</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
@@ -197,7 +238,10 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BLS12_381_G2Type.to_point"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G2Type.to_point">[docs]</a>    <span class="k">def</span> <span class="nf">to_point</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">G2Uncompressed</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BLS12_381_G2Type.to_point">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G2Type.to_point">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_point</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">G2Uncompressed</span><span class="p">:</span>
         <span class="n">x_im</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[:</span><span class="mi">48</span><span class="p">],</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
         <span class="n">x_re</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">48</span><span class="p">:</span><span class="mi">96</span><span class="p">],</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
         <span class="n">y_im</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">96</span><span class="p">:</span><span class="mi">144</span><span class="p">],</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
@@ -205,9 +249,14 @@
         <span class="n">point</span> <span class="o">=</span> <span class="n">FQ2</span><span class="p">([</span><span class="n">x_re</span><span class="p">,</span> <span class="n">x_im</span><span class="p">]),</span> <span class="n">FQ2</span><span class="p">([</span><span class="n">y_re</span><span class="p">,</span> <span class="n">y_im</span><span class="p">]),</span> <span class="n">FQ2</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">G2Uncompressed</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BLS12_381_G2Type.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G2Type.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BLS12_381_G2Type.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.bls.BLS12_381_G2Type.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">comparable</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> is not comparable&#39;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BLS12_381_G2Type</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BLS12_381_G2Type</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span></div>
+</div>
+
 </pre></div>
 
            </div>

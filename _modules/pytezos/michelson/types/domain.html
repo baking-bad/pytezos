@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.michelson.types.domain &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/michelson/types/domain.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -85,54 +83,64 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.michelson.types.domain</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
 
-<span class="kn">from</span> <span class="nn">pytezos.context.abstract</span> <span class="kn">import</span> <span class="n">AbstractContext</span>
-<span class="kn">from</span> <span class="nn">pytezos.context.abstract</span> <span class="kn">import</span> <span class="n">get_originated_address</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">base58_decode</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">is_address</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">is_chain_id</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">is_kt</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">is_pkh</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">is_public_key</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">is_sig</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">is_txr_address</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_address</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_base58</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_contract</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_public_key</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">optimize_timestamp</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">unforge_address</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">unforge_chain_id</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">unforge_contract</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">unforge_public_key</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">unforge_signature</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.format</span> <span class="kn">import</span> <span class="n">format_timestamp</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.format</span> <span class="kn">import</span> <span class="n">micheline_to_michelson</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">Micheline</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">parse_micheline_literal</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.parse</span> <span class="kn">import</span> <span class="n">michelson_to_micheline</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.base</span> <span class="kn">import</span> <span class="n">Undefined</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.core</span> <span class="kn">import</span> <span class="n">IntType</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.core</span> <span class="kn">import</span> <span class="n">MichelsonType</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.core</span> <span class="kn">import</span> <span class="n">NatType</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.types.core</span> <span class="kn">import</span> <span class="n">StringType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.context.abstract</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractContext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.context.abstract</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_originated_address</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">base58_decode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_address</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_chain_id</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_kt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_pkh</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_public_key</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_sig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_txr_address</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_address</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_base58</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_contract</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_public_key</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">optimize_timestamp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">unforge_address</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">unforge_chain_id</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">unforge_contract</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">unforge_public_key</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">unforge_signature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.format</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_timestamp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.format</span><span class="w"> </span><span class="kn">import</span> <span class="n">micheline_to_michelson</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Micheline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_micheline_literal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">michelson_to_micheline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Undefined</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">MichelsonType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">NatType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.types.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringType</span>
 
 
-<div class="viewcode-block" id="TimestampType"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType">[docs]</a><span class="k">class</span> <span class="nc">TimestampType</span><span class="p">(</span><span class="n">IntType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;timestamp&#39;</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
-<div class="viewcode-block" id="TimestampType.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TimestampType&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="TimestampType">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TimestampType</span><span class="p">(</span><span class="n">IntType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;timestamp&#39;</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class="viewcode-block" id="TimestampType.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TimestampType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TimestampType.from_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType.from_micheline_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TimestampType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TimestampType.from_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType.from_micheline_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TimestampType&#39;</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">parse_micheline_literal</span><span class="p">(</span><span class="n">val_expr</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">:</span> <span class="n">optimize_timestamp</span><span class="p">})</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TimestampType.from_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType.from_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TimestampType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TimestampType.from_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType.from_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TimestampType&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">py_obj</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">py_obj</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">py_obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -141,7 +149,10 @@
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unexpected value type </span><span class="si">{</span><span class="n">py_obj</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TimestampType.to_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType.to_micheline_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TimestampType.to_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType.to_micheline_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;optimized&#39;</span><span class="p">,</span> <span class="s1">&#39;legacy_optimized&#39;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)}</span>
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;readable&#39;</span><span class="p">:</span>
@@ -149,23 +160,35 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unsupported mode </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TimestampType.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div></div>
+
+<div class="viewcode-block" id="TimestampType.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TimestampType.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+</div>
 
 
-<div class="viewcode-block" id="MutezType"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.MutezType">[docs]</a><span class="k">class</span> <span class="nc">MutezType</span><span class="p">(</span><span class="n">NatType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;mutez&#39;</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MutezType">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.MutezType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MutezType</span><span class="p">(</span><span class="n">NatType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;mutez&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">Decimal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MutezType.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.MutezType.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MutezType&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="MutezType.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.MutezType.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MutezType&#39;</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;expected natural number, got </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">63</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">OverflowError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mutez overflow, got </span><span class="si">{</span><span class="n">value</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span><span class="si">}</span><span class="s1"> bits, should not exceed 63&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MutezType.from_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.MutezType.from_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MutezType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="MutezType.from_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.MutezType.from_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MutezType&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">py_obj</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">py_obj</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">py_obj</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">):</span>
@@ -174,14 +197,18 @@
             <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">Decimal</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unexpected value type </span><span class="si">{</span><span class="n">py_obj</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="AddressType"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType">[docs]</a><span class="k">class</span> <span class="nc">AddressType</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;address&#39;</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="AddressType">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AddressType</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;address&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s1">…</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;AddressType&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;AddressType&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
         <span class="k">if</span> <span class="n">is_pkh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_kt</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">elif</span> <span class="n">is_kt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_pkh</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
@@ -189,19 +216,27 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span>
 
-<div class="viewcode-block" id="AddressType.dummy"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.dummy">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AddressType&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="AddressType.dummy">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.dummy">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AddressType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_dummy_address</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="AddressType.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AddressType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="AddressType.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AddressType&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">efault&#39;</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">assert</span> <span class="n">is_address</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;expected tz/KT/sr address, got </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AddressType.from_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.from_micheline_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AddressType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="AddressType.from_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.from_micheline_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AddressType&#39;</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">parse_micheline_literal</span><span class="p">(</span>
             <span class="n">val_expr</span><span class="p">,</span>
             <span class="p">{</span>
@@ -211,11 +246,17 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AddressType.from_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.from_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AddressType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="AddressType.from_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.from_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AddressType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AddressType.to_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.to_micheline_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="AddressType.to_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.to_micheline_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;optimized&#39;</span><span class="p">,</span> <span class="s1">&#39;legacy_optimized&#39;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="n">forge_contract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()}</span>  <span class="c1"># because address can also have an entrypoint</span>
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;readable&#39;</span><span class="p">:</span>
@@ -223,15 +264,22 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unsupported mode </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AddressType.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div></div>
+
+<div class="viewcode-block" id="AddressType.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.AddressType.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+</div>
 
 
-<div class="viewcode-block" id="TXRAddress"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress">[docs]</a><span class="k">class</span> <span class="nc">TXRAddress</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;tx_rollup_l2_address&#39;</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TXRAddress">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TXRAddress</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;tx_rollup_l2_address&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s1">…</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;TXRAddress&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;TXRAddress&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
         <span class="k">if</span> <span class="n">is_kt</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">elif</span> <span class="n">is_pkh</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
@@ -239,19 +287,27 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span>
 
-<div class="viewcode-block" id="TXRAddress.dummy"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.dummy">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TXRAddress&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="TXRAddress.dummy">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.dummy">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TXRAddress&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_dummy_txr_address</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="TXRAddress.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TXRAddress&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TXRAddress.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TXRAddress&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">efault&#39;</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">assert</span> <span class="n">is_txr_address</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;expected txr1 address, got </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TXRAddress.from_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.from_micheline_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TXRAddress&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TXRAddress.from_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.from_micheline_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TXRAddress&#39;</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">parse_micheline_literal</span><span class="p">(</span>
             <span class="n">val_expr</span><span class="p">,</span>
             <span class="p">{</span>
@@ -261,11 +317,17 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TXRAddress.from_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.from_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TXRAddress&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="TXRAddress.from_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.from_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TXRAddress&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TXRAddress.to_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.to_micheline_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TXRAddress.to_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.to_micheline_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;optimized&#39;</span><span class="p">,</span> <span class="s1">&#39;legacy_optimized&#39;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="n">forge_contract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()}</span>  <span class="c1"># because address can also have an entrypoint</span>
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;readable&#39;</span><span class="p">:</span>
@@ -273,20 +335,27 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unsupported mode </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TXRAddress.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div></div>
+
+<div class="viewcode-block" id="TXRAddress.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.TXRAddress.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+</div>
 
 
-<div class="viewcode-block" id="KeyType"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType">[docs]</a><span class="k">class</span> <span class="nc">KeyType</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="KeyType">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">KeyType</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;key&#39;</span><span class="p">):</span>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">raw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">raw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">base58_decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;KeyType&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;KeyType&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Keys are ordered as follows: edpk &lt; sppk &lt; p2pk</span>
 <span class="sd">        All keys are in compressed form in Tezos (flag | X) where flag specifies if Y is odd or even</span>
@@ -307,17 +376,25 @@
             <span class="n">offset</span> <span class="o">=</span> <span class="n">curves</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">[</span><span class="n">offset</span><span class="p">:]</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">raw</span><span class="p">[</span><span class="n">offset</span><span class="p">:]</span>
 
-<div class="viewcode-block" id="KeyType.dummy"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.dummy">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyType&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="KeyType.dummy">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.dummy">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_dummy_public_key</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="KeyType.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="KeyType.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyType&#39;</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">is_public_key</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;expected ed/sp/p2 public key, got </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KeyType.from_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.from_micheline_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="KeyType.from_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.from_micheline_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyType&#39;</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">parse_micheline_literal</span><span class="p">(</span>
             <span class="n">val_expr</span><span class="p">,</span>
             <span class="p">{</span>
@@ -327,11 +404,17 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KeyType.parse_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.parse_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">parse_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="KeyType.parse_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.parse_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KeyType.to_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.to_micheline_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="KeyType.to_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.to_micheline_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;optimized&#39;</span><span class="p">,</span> <span class="s1">&#39;legacy_optimized&#39;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="n">forge_public_key</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()}</span>
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;readable&#39;</span><span class="p">:</span>
@@ -339,32 +422,53 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unsupported mode </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KeyType.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div></div>
+
+<div class="viewcode-block" id="KeyType.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyType.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+</div>
 
 
-<div class="viewcode-block" id="KeyHashType"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType">[docs]</a><span class="k">class</span> <span class="nc">KeyHashType</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;key_hash&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="KeyHashType.dummy"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.dummy">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyHashType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="KeyHashType">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">KeyHashType</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;key_hash&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="KeyHashType.dummy">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.dummy">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyHashType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_dummy_key_hash</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="KeyHashType.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyHashType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="KeyHashType.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyHashType&#39;</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">is_pkh</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;expected tz1/tz2/tz3 key hash, got </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KeyHashType.from_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.from_micheline_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyHashType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="KeyHashType.from_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.from_micheline_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;KeyHashType&#39;</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">parse_micheline_literal</span><span class="p">(</span>
             <span class="n">val_expr</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">unforge_address</span><span class="p">(</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="s1">&#39;string&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">}</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KeyHashType.parse_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.parse_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">parse_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">):</span>
+
+<div class="viewcode-block" id="KeyHashType.parse_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.parse_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KeyHashType.to_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.to_micheline_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="KeyHashType.to_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.to_micheline_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;optimized&#39;</span><span class="p">,</span> <span class="s1">&#39;legacy_optimized&#39;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="n">forge_address</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">tz_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()}</span>
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;readable&#39;</span><span class="p">:</span>
@@ -372,22 +476,37 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unsupported mode </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="KeyHashType.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div></div>
+
+<div class="viewcode-block" id="KeyHashType.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.KeyHashType.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+</div>
 
 
-<div class="viewcode-block" id="SignatureType"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType">[docs]</a><span class="k">class</span> <span class="nc">SignatureType</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;signature&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="SignatureType.dummy"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.dummy">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SignatureType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="SignatureType">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SignatureType</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;signature&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="SignatureType.dummy">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.dummy">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SignatureType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_dummy_signature</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="SignatureType.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SignatureType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="SignatureType.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SignatureType&#39;</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">is_sig</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;expected signature, got </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SignatureType.from_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.from_micheline_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SignatureType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="SignatureType.from_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.from_micheline_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SignatureType&#39;</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">parse_micheline_literal</span><span class="p">(</span>
             <span class="n">val_expr</span><span class="p">,</span>
             <span class="p">{</span>
@@ -397,11 +516,17 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SignatureType.from_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.from_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SignatureType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="SignatureType.from_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.from_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SignatureType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SignatureType.to_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.to_micheline_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SignatureType.to_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.to_micheline_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;optimized&#39;</span><span class="p">,</span> <span class="s1">&#39;legacy_optimized&#39;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="n">forge_base58</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()}</span>
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;readable&#39;</span><span class="p">:</span>
@@ -409,32 +534,53 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unsupported mode </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SignatureType.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div></div>
+
+<div class="viewcode-block" id="SignatureType.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.SignatureType.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ChainIdType"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType">[docs]</a><span class="k">class</span> <span class="nc">ChainIdType</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;chain_id&#39;</span><span class="p">):</span>
-<div class="viewcode-block" id="ChainIdType.dummy"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.dummy">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ChainIdType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ChainIdType">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChainIdType</span><span class="p">(</span><span class="n">StringType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;chain_id&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ChainIdType.dummy">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.dummy">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ChainIdType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_dummy_chain_id</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="ChainIdType.from_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.from_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ChainIdType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ChainIdType.from_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.from_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ChainIdType&#39;</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">is_chain_id</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;expected chain id, got </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChainIdType.from_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.from_micheline_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ChainIdType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ChainIdType.from_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.from_micheline_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ChainIdType&#39;</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">parse_micheline_literal</span><span class="p">(</span>
             <span class="n">val_expr</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">unforge_chain_id</span><span class="p">(</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="s1">&#39;string&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">}</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChainIdType.from_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.from_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ChainIdType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ChainIdType.from_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.from_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ChainIdType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChainIdType.to_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.to_micheline_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ChainIdType.to_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.to_micheline_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;optimized&#39;</span><span class="p">,</span> <span class="s1">&#39;legacy_optimized&#39;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="n">forge_base58</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()}</span>
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;readable&#39;</span><span class="p">:</span>
@@ -442,17 +588,26 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unsupported mode </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChainIdType.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div></div>
+
+<div class="viewcode-block" id="ChainIdType.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ChainIdType.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ContractType"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType">[docs]</a><span class="k">class</span> <span class="nc">ContractType</span><span class="p">(</span><span class="n">AddressType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;contract&#39;</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ContractType">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContractType</span><span class="p">(</span><span class="n">AddressType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;contract&#39;</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">address</span><span class="p">,</span> <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_address</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_entrypoint</span><span class="p">()</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">address</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s1">…</span><span class="si">{</span><span class="n">address</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span><span class="si">}</span><span class="s1">%</span><span class="si">{</span><span class="n">entrypoint</span><span class="si">}</span><span class="s1">&#39;</span>
 
-<div class="viewcode-block" id="ContractType.generate_pydoc"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType.generate_pydoc">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">generate_pydoc</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">definitions</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">inferred_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ContractType.generate_pydoc">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType.generate_pydoc">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_pydoc</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">definitions</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">inferred_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ContractType</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">generate_pydoc</span><span class="p">(</span><span class="n">definitions</span><span class="p">)</span>
         <span class="n">param_expr</span> <span class="o">=</span> <span class="n">micheline_to_michelson</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">())</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
@@ -463,41 +618,59 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;contract (</span><span class="si">{</span><span class="n">param_expr</span><span class="si">}</span><span class="s1">)&#39;</span></div>
 
-<div class="viewcode-block" id="ContractType.from_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType.from_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ContractType.from_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType.from_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractType&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">py_obj</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">py_obj</span> <span class="ow">is</span> <span class="n">Undefined</span><span class="p">:</span>
             <span class="n">py_obj</span> <span class="o">=</span> <span class="n">get_originated_address</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ContractType</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">from_python_object</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">ContractType</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ContractType.get_address"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType.get_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ContractType.get_address">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType.get_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="ContractType.get_entrypoint"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType.get_entrypoint">[docs]</a>    <span class="k">def</span> <span class="nf">get_entrypoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ContractType.get_entrypoint">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType.get_entrypoint">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_entrypoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="s1">&#39;default&#39;</span></div>
 
-<div class="viewcode-block" id="ContractType.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ContractType.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.ContractType.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">comparable</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> is not comparable&#39;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ContractType</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ContractType</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span></div>
+</div>
 
 
-<div class="viewcode-block" id="LambdaType"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType">[docs]</a><span class="k">class</span> <span class="nc">LambdaType</span><span class="p">(</span><span class="n">MichelsonType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;lambda&#39;</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Micheline</span><span class="p">]):</span>
+
+<div class="viewcode-block" id="LambdaType">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LambdaType</span><span class="p">(</span><span class="n">MichelsonType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;lambda&#39;</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Micheline</span><span class="p">]):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LambdaType</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;Lambda&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">LambdaType</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="c1"># FIXME: That seems ugly</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">()</span>
 
-<div class="viewcode-block" id="LambdaType.generate_pydoc"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.generate_pydoc">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">generate_pydoc</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">definitions</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">inferred_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="LambdaType.generate_pydoc">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.generate_pydoc">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_pydoc</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">definitions</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">inferred_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LambdaType</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">generate_pydoc</span><span class="p">(</span><span class="n">definitions</span><span class="p">)</span>
         <span class="n">name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">field_name</span> <span class="ow">or</span> <span class="bp">cls</span><span class="o">.</span><span class="n">type_name</span> <span class="ow">or</span> <span class="n">inferred_name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">definitions</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">expr</span> <span class="o">=</span> <span class="p">{}</span>
@@ -511,31 +684,51 @@
                 <span class="n">expr</span><span class="p">[</span><span class="n">suffix</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg_expr</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;lambda (</span><span class="si">{</span><span class="n">expr</span><span class="p">[</span><span class="s2">&quot;param&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> -&gt; </span><span class="si">{</span><span class="n">expr</span><span class="p">[</span><span class="s2">&quot;return&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">)&#39;</span></div>
 
-<div class="viewcode-block" id="LambdaType.dummy"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.dummy">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;LambdaType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="LambdaType.dummy">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.dummy">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dummy</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;LambdaType&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Micheline</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">get_dummy_lambda</span><span class="p">()))</span></div>
 
-<div class="viewcode-block" id="LambdaType.from_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.from_micheline_value">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;LambdaType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="LambdaType.from_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.from_micheline_value">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;LambdaType&#39;</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val_expr</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;expected list, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">val_expr</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Micheline</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">val_expr</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="LambdaType.from_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.from_python_object">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;LambdaType&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="LambdaType.from_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.from_python_object">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_python_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;LambdaType&#39;</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">py_obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;expected string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">michelson_to_micheline</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LambdaType.to_literal"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.to_literal">[docs]</a>    <span class="k">def</span> <span class="nf">to_literal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">Micheline</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="LambdaType.to_literal">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.to_literal">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_literal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">Micheline</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
 
-<div class="viewcode-block" id="LambdaType.to_micheline_value"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.to_micheline_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="LambdaType.to_micheline_value">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.to_micheline_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="c1"># TODO: optimized mode -&gt; harcoded values in the code</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="LambdaType.to_python_object"><a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.to_python_object">[docs]</a>    <span class="k">def</span> <span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="LambdaType.to_python_object">
+<a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.domain.LambdaType.to_python_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">comparable</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> is not comparable&#39;</span>
-        <span class="k">return</span> <span class="n">micheline_to_michelson</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">())</span></div></div>
+        <span class="k">return</span> <span class="n">micheline_to_michelson</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">())</span></div>
+</div>
+
 </pre></div>
 
            </div>

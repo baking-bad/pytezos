@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.protocol.protocol &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/protocol/protocol.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -85,30 +83,32 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.protocol.protocol</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">io</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">tarfile</span>
-<span class="kn">from</span> <span class="nn">binascii</span> <span class="kn">import</span> <span class="n">hexlify</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">TemporaryDirectory</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tarfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">binascii</span><span class="w"> </span><span class="kn">import</span> <span class="n">hexlify</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tempfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemporaryDirectory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
 
-<span class="kn">import</span> <span class="nn">netstruct</span>  <span class="c1"># type: ignore</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">simplejson</span> <span class="k">as</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>  <span class="c1"># type: ignore</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">netstruct</span>  <span class="c1"># type: ignore</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">simplejson</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>  <span class="c1"># type: ignore</span>
 
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">base58_encode</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.key</span> <span class="kn">import</span> <span class="n">blake2b_32</span>
-<span class="kn">from</span> <span class="nn">pytezos.jupyter</span> <span class="kn">import</span> <span class="n">InlineDocstring</span>
-<span class="kn">from</span> <span class="nn">pytezos.jupyter</span> <span class="kn">import</span> <span class="n">get_class_docstring</span>
-<span class="kn">from</span> <span class="nn">pytezos.protocol.diff</span> <span class="kn">import</span> <span class="n">apply_patch</span>
-<span class="kn">from</span> <span class="nn">pytezos.protocol.diff</span> <span class="kn">import</span> <span class="n">generate_unidiff_html</span>
-<span class="kn">from</span> <span class="nn">pytezos.protocol.diff</span> <span class="kn">import</span> <span class="n">make_patch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">base58_encode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.key</span><span class="w"> </span><span class="kn">import</span> <span class="n">blake2b_32</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.jupyter</span><span class="w"> </span><span class="kn">import</span> <span class="n">InlineDocstring</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.jupyter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_class_docstring</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.protocol.diff</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_patch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.protocol.diff</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_unidiff_html</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.protocol.diff</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_patch</span>
 
 
-<div class="viewcode-block" id="dir_to_files"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.dir_to_files">[docs]</a><span class="k">def</span> <span class="nf">dir_to_files</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<div class="viewcode-block" id="dir_to_files">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.dir_to_files">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dir_to_files</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
     <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;TEZOS_PROTOCOL&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -129,7 +129,10 @@
     <span class="k">return</span> <span class="n">files</span></div>
 
 
-<div class="viewcode-block" id="tar_to_files"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.tar_to_files">[docs]</a><span class="k">def</span> <span class="nf">tar_to_files</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+
+<div class="viewcode-block" id="tar_to_files">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.tar_to_files">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tar_to_files</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
     <span class="k">assert</span> <span class="n">path</span> <span class="ow">or</span> <span class="n">raw</span>
 
     <span class="n">fileobj</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span> <span class="k">if</span> <span class="n">raw</span> <span class="k">else</span> <span class="kc">None</span>
@@ -140,7 +143,10 @@
     <span class="k">return</span> <span class="n">files</span></div>
 
 
-<div class="viewcode-block" id="url_to_files"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.url_to_files">[docs]</a><span class="k">def</span> <span class="nf">url_to_files</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+
+<div class="viewcode-block" id="url_to_files">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.url_to_files">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">url_to_files</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
 
@@ -150,7 +156,10 @@
     <span class="k">return</span> <span class="n">tar_to_files</span><span class="p">(</span><span class="n">raw</span><span class="o">=</span><span class="n">raw</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="files_to_proto"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.files_to_proto">[docs]</a><span class="k">def</span> <span class="nf">files_to_proto</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+
+<div class="viewcode-block" id="files_to_proto">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.files_to_proto">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">files_to_proto</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="n">components</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
 
     <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
@@ -171,14 +180,17 @@
     <span class="k">return</span> <span class="n">proto</span></div>
 
 
-<div class="viewcode-block" id="files_to_tar"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.files_to_tar">[docs]</a><span class="k">def</span> <span class="nf">files_to_tar</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="files_to_tar">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.files_to_tar">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">files_to_tar</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">fileobj</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">nameparts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
     <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nameparts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
         <span class="n">mode</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;w:</span><span class="si">{</span><span class="n">nameparts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
 
-    <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span> <span class="n">fileobj</span><span class="o">=</span><span class="n">fileobj</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span> <span class="n">fileobj</span><span class="o">=</span><span class="n">fileobj</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>  <span class="c1"># type: ignore[call-overload]</span>
         <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
             <span class="n">file</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
             <span class="n">ti</span> <span class="o">=</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">TarInfo</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -190,7 +202,10 @@
     <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="proto_to_files"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.proto_to_files">[docs]</a><span class="k">def</span> <span class="nf">proto_to_files</span><span class="p">(</span><span class="n">proto</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+
+<div class="viewcode-block" id="proto_to_files">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.proto_to_files">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">proto_to_files</span><span class="p">(</span><span class="n">proto</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
     <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">extensions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;interface&#39;</span><span class="p">:</span> <span class="s1">&#39;mli&#39;</span><span class="p">,</span> <span class="s1">&#39;implementation&#39;</span><span class="p">:</span> <span class="s1">&#39;ml&#39;</span><span class="p">}</span>
 
@@ -204,7 +219,10 @@
     <span class="k">return</span> <span class="n">files</span></div>
 
 
-<div class="viewcode-block" id="proto_to_bytes"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.proto_to_bytes">[docs]</a><span class="k">def</span> <span class="nf">proto_to_bytes</span><span class="p">(</span><span class="n">proto</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+
+<div class="viewcode-block" id="proto_to_bytes">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.proto_to_bytes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">proto_to_bytes</span><span class="p">(</span><span class="n">proto</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
 
     <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">proto</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;components&#39;</span><span class="p">,</span> <span class="p">[]):</span>
@@ -222,11 +240,14 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="Protocol"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol">[docs]</a><span class="k">class</span> <span class="nc">Protocol</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">InlineDocstring</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proto</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Protocol">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Protocol</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">InlineDocstring</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proto</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_proto</span> <span class="o">=</span> <span class="n">proto</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
             <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Helpers&#39;</span><span class="p">,</span>
@@ -234,11 +255,13 @@
         <span class="p">]</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">proto_to_files</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Protocol.from_uri"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.from_uri">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_uri</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+<div class="viewcode-block" id="Protocol.from_uri">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.from_uri">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_uri</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads protocol implementation from various sources and converts it to the RPC-like format.</span>
 
 <span class="sd">        :param uri: link/path to a tar archive or path to a folder with extracted contents</span>
@@ -255,7 +278,10 @@
 
         <span class="k">return</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">files_to_proto</span><span class="p">(</span><span class="n">files</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Protocol.index"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Protocol.index">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.index">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates TEZOS_PROTOCOL file.</span>
 
 <span class="sd">        :returns: dict with protocol hash and modules</span>
@@ -266,7 +292,10 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="Protocol.export_tar"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.export_tar">[docs]</a>    <span class="k">def</span> <span class="nf">export_tar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Protocol.export_tar">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.export_tar">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_tar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a tarball and dumps to a file or returns bytes.</span>
 
 <span class="sd">        :param output_path: Path to the tarball [optional]. You can add .bz2 or .gz extension to make it compressed</span>
@@ -276,7 +305,10 @@
         <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;TEZOS_PROTOCOL&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">())))</span>
         <span class="k">return</span> <span class="n">files_to_tar</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">output_path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Protocol.export_html"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.export_html">[docs]</a>    <span class="k">def</span> <span class="nf">export_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Protocol.export_html">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.export_html">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates github-like side-by-side diff viewe, powered by diff2html.js</span>
 
 <span class="sd">        :param output_path: will write to this file if specified</span>
@@ -285,7 +317,10 @@
         <span class="n">diffs</span> <span class="o">=</span> <span class="p">[</span><span class="n">text</span> <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">text</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">generate_unidiff_html</span><span class="p">(</span><span class="n">diffs</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Protocol.diff"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.diff">[docs]</a>    <span class="k">def</span> <span class="nf">diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">context_size</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Protocol.diff">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.diff">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">context_size</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates file diff between two protocol versions.</span>
 
 <span class="sd">        :param proto: an instance of Protocol</span>
@@ -307,7 +342,10 @@
 
         <span class="k">return</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">files_to_proto</span><span class="p">(</span><span class="n">files</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Protocol.patch"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.patch">[docs]</a>    <span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Protocol.patch">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.patch">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Applies unified diff and returns full-fledged protocol.</span>
 
 <span class="sd">        :param patch: an instance of Protocol containing diff of files</span>
@@ -325,9 +363,14 @@
 
         <span class="k">return</span> <span class="n">Protocol</span><span class="p">(</span><span class="n">files_to_proto</span><span class="p">(</span><span class="n">files</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Protocol.hash"><a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.hash">[docs]</a>    <span class="k">def</span> <span class="nf">hash</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Protocol.hash">
+<a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.hash">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hash</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">hash_digest</span> <span class="o">=</span> <span class="n">blake2b_32</span><span class="p">(</span><span class="n">proto_to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="n">hash_digest</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;P&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="n">hash_digest</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;P&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+</div>
+
 </pre></div>
 
            </div>

@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.context.impl &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/context/impl.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -85,32 +83,34 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.context.impl</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">pytezos.context.abstract</span> <span class="kn">import</span> <span class="n">AbstractContext</span>
-<span class="kn">from</span> <span class="nn">pytezos.context.abstract</span> <span class="kn">import</span> <span class="n">get_originated_address</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">base58_encode</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.key</span> <span class="kn">import</span> <span class="n">Key</span>
-<span class="kn">from</span> <span class="nn">pytezos.logging</span> <span class="kn">import</span> <span class="n">logger</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_micheline</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.forge</span> <span class="kn">import</span> <span class="n">forge_script_expr</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">get_script_section</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.micheline</span> <span class="kn">import</span> <span class="n">get_script_sections</span>
-<span class="kn">from</span> <span class="nn">pytezos.operation</span> <span class="kn">import</span> <span class="n">DEFAULT_OPERATIONS_TTL</span>
-<span class="kn">from</span> <span class="nn">pytezos.operation</span> <span class="kn">import</span> <span class="n">MAX_OPERATIONS_TTL</span>
-<span class="kn">from</span> <span class="nn">pytezos.rpc.errors</span> <span class="kn">import</span> <span class="n">RpcError</span>
-<span class="kn">from</span> <span class="nn">pytezos.rpc.shell</span> <span class="kn">import</span> <span class="n">ShellQuery</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.context.abstract</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractContext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.context.abstract</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_originated_address</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">base58_encode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.key</span><span class="w"> </span><span class="kn">import</span> <span class="n">Key</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_micheline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_script_expr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_script_section</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_script_sections</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_OPERATIONS_TTL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation</span><span class="w"> </span><span class="kn">import</span> <span class="n">MAX_OPERATIONS_TTL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">RpcError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShellQuery</span>
 
 <span class="n">DEFAULT_IPFS_GATEWAY</span> <span class="o">=</span> <span class="s1">&#39;https://ipfs.io/ipfs&#39;</span>
 
 
-<div class="viewcode-block" id="ExecutionContext"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext">[docs]</a><span class="k">class</span> <span class="nc">ExecutionContext</span><span class="p">(</span><span class="n">AbstractContext</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="ExecutionContext">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExecutionContext</span><span class="p">(</span><span class="n">AbstractContext</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">amount</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -182,11 +182,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ipfs_gateway</span> <span class="o">=</span> <span class="p">(</span><span class="n">ipfs_gateway</span> <span class="ow">or</span> <span class="n">DEFAULT_IPFS_GATEWAY</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">storage_value</span> <span class="o">=</span> <span class="n">script</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;storage&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="k">else</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;It&#39;s not allowed to copy context&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expr</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_expr</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">code_expr</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span>
                 <span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="p">[</span>
@@ -201,7 +201,7 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">sandboxed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sandboxed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;`shell` is not set&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sandboxed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -209,7 +209,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_sandboxed</span> <span class="o">=</span> <span class="s1">&#39;SANDBOXED&#39;</span> <span class="ow">in</span> <span class="n">version</span><span class="p">[</span><span class="s1">&#39;network_version&#39;</span><span class="p">][</span><span class="s1">&#39;chain_name&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sandboxed</span>
 
-<div class="viewcode-block" id="ExecutionContext.reset"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExecutionContext.reset">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.reset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">origination_index</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tmp_big_map_index</span> <span class="o">=</span> <span class="mi">0</span>
@@ -221,10 +223,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">tzt_big_maps</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">global_constants</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_counter"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_counter">[docs]</a>    <span class="k">def</span> <span class="nf">set_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">counter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_counter">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_counter">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">counter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_counter"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_counter">[docs]</a>    <span class="k">def</span> <span class="nf">get_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_counter">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_counter">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;key is undefined&#39;</span><span class="p">)</span>
@@ -237,7 +245,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">counter</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_counter_offset"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_counter_offset">[docs]</a>    <span class="k">def</span> <span class="nf">get_counter_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_counter_offset">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_counter_offset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_counter_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current count of pending transactions in mempool.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;`key` is not set&#39;</span><span class="p">)</span>
@@ -259,7 +270,10 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;counter offset: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">counter_offset</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">counter_offset</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.register_big_map"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.register_big_map">[docs]</a>    <span class="k">def</span> <span class="nf">register_big_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.register_big_map">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.register_big_map">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register_big_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
             <span class="n">tmp_ptr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tmp_big_map_id</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">big_maps</span><span class="p">[</span><span class="n">tmp_ptr</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -268,11 +282,17 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">big_maps</span><span class="p">[</span><span class="n">ptr</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ptr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_tmp_big_map_id"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_tmp_big_map_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_tmp_big_map_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_tmp_big_map_id">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_tmp_big_map_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tmp_big_map_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tmp_big_map_index</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_big_map_index</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_big_map_diff"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_big_map_diff">[docs]</a>    <span class="k">def</span> <span class="nf">get_big_map_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_big_map_diff">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_big_map_diff">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_big_map_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">ptr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">big_maps</span><span class="p">:</span>
             <span class="n">src_big_map</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">big_maps</span><span class="p">[</span><span class="n">ptr</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
@@ -286,17 +306,26 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">alloc_big_map_index</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">big_map</span><span class="p">,</span> <span class="s1">&#39;alloc&#39;</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_originated_address"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_originated_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_originated_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_originated_address">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_originated_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_originated_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">get_originated_address</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">origination_index</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">origination_index</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.spend_balance"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.spend_balance">[docs]</a>    <span class="k">def</span> <span class="nf">spend_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.spend_balance">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.spend_balance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spend_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_balance</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">amount</span> <span class="o">&lt;=</span> <span class="n">balance</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;cannot spend </span><span class="si">{</span><span class="n">amount</span><span class="si">}</span><span class="s1"> tez, </span><span class="si">{</span><span class="n">balance</span><span class="si">}</span><span class="s1"> tez left&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">balance_update</span> <span class="o">-=</span> <span class="n">amount</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_parameter_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_parameter_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_parameter_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_parameter_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_parameter_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_parameter_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="ow">and</span> <span class="n">address</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">address</span> <span class="o">==</span> <span class="n">get_originated_address</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># dummy callback</span>
@@ -309,7 +338,10 @@
             <span class="n">expr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expr</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_global_constants</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_storage_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_storage_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_storage_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_storage_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_storage_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_storage_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="ow">and</span> <span class="n">address</span><span class="p">:</span>
             <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">contracts</span><span class="p">[</span><span class="n">address</span><span class="p">]</span><span class="o">.</span><span class="n">script</span><span class="p">()</span>
             <span class="n">expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;storage&#39;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
@@ -319,22 +351,37 @@
             <span class="n">expr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_expr</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_global_constants</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_storage_value"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_storage_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_storage_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_storage_value">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_storage_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_storage_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">contracts</span><span class="p">[</span><span class="n">address</span><span class="p">]</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">address</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_global_constants</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_code_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_code_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_code_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_code_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_code_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_code_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_global_constants</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">code_expr</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_view_result"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_view_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_view_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_view_result">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_view_result">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_view_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
         <span class="n">key</span> <span class="o">=</span> <span class="n">name</span> <span class="k">if</span> <span class="n">address</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">address</span><span class="si">}</span><span class="s1">%</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">view_results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_views_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_views_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_views_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_views_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_views_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_views_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_global_constants</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">views_expr</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_view_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_view_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_view_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_view_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_view_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_view_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">address</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
                 <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">contracts</span><span class="p">[</span><span class="n">address</span><span class="p">]</span><span class="o">.</span><span class="n">script</span><span class="p">()</span>
@@ -350,61 +397,118 @@
         <span class="k">except</span> <span class="p">(</span><span class="ne">StopIteration</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_input_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_input_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_input_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_input_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_input_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_input_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_output_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_output_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_output_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_output_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_output_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_output_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_sender_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_sender_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_sender_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_sender_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_sender_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sender_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender_expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_balance_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_balance_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_balance_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_balance_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_balance_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_balance_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance_expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_amount_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_amount_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_amount_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_amount_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_amount_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_amount_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">amount_expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_self_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_self_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_self_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_self_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_self_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_self_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">self_expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_now_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_now_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_now_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_now_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_now_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_now_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">now_expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_source_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_source_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_source_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_source_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_source_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_source_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_chain_id_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_chain_id_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_chain_id_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_chain_id_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_chain_id_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_chain_id_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain_id_expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_big_maps_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_big_maps_expr">[docs]</a>    <span class="k">def</span> <span class="nf">get_big_maps_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_big_maps_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_big_maps_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_big_maps_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">big_maps_expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_storage_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_storage_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_storage_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_storage_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_storage_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_storage_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">storage_expr</span> <span class="o">=</span> <span class="n">expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_parameter_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_parameter_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameter_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_parameter_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_parameter_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_parameter_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expr</span> <span class="o">=</span> <span class="n">expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_code_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_code_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_code_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_code_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_code_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_code_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">code_expr</span> <span class="o">=</span> <span class="n">expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_input_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_input_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_input_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_input_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_input_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_input_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_expr</span> <span class="o">=</span> <span class="n">expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_output_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_output_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_output_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_output_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_output_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_output_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_expr</span> <span class="o">=</span> <span class="n">expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_source_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_source_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_source_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_source_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_source_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_source_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source_expr</span> <span class="o">=</span> <span class="n">expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_chain_id_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_chain_id_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_chain_id_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_chain_id_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_chain_id_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_chain_id_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">chain_id_expr</span> <span class="o">=</span> <span class="n">expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_big_maps_expr"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_big_maps_expr">[docs]</a>    <span class="k">def</span> <span class="nf">set_big_maps_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_big_maps_expr">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_big_maps_expr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_big_maps_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">big_maps_expr</span> <span class="o">=</span> <span class="n">expr</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_big_map_value"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_big_map_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_big_map_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key_hash</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_big_map_value">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_big_map_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_big_map_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key_hash</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tzt</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ptr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">big_maps</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">ptr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">big_maps</span><span class="p">[</span><span class="n">ptr</span><span class="p">]</span>
@@ -417,31 +521,55 @@
         <span class="k">except</span> <span class="n">RpcError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># TODO: special exception/value | Key does not exist</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.register_sapling_state"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.register_sapling_state">[docs]</a>    <span class="k">def</span> <span class="nf">register_sapling_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.register_sapling_state">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.register_sapling_state">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register_sapling_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_tmp_sapling_state_id"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_tmp_sapling_state_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_tmp_sapling_state_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_tmp_sapling_state_id">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_tmp_sapling_state_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_tmp_sapling_state_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tmp_sapling_index</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_sapling_index</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_sapling_state_diff"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_sapling_state_diff">[docs]</a>    <span class="k">def</span> <span class="nf">get_sapling_state_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset_commitment</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">offset_nullifier</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_sapling_state_diff">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_sapling_state_diff">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sapling_state_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset_commitment</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">offset_nullifier</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
         <span class="n">ptr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alloc_sapling_index</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alloc_sapling_index</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ptr</span><span class="p">,</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_self_address"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_self_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_self_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_self_address">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_self_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_self_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="ow">or</span> <span class="n">get_originated_address</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_amount"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_amount">[docs]</a>    <span class="k">def</span> <span class="nf">get_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_amount">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_amount">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="ow">or</span> <span class="mi">0</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_sender"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_sender">[docs]</a>    <span class="k">def</span> <span class="nf">get_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_sender">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_sender">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sender</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dummy_key_hash</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_source"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_source">[docs]</a>    <span class="k">def</span> <span class="nf">get_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_source">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_source">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dummy_key_hash</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_now"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_now">[docs]</a>    <span class="k">def</span> <span class="nf">get_now</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_now">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_now">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_now</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">now</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">now</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
@@ -452,7 +580,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_level"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_level">[docs]</a>    <span class="k">def</span> <span class="nf">get_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_level">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_level">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
@@ -461,7 +592,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_balance"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_balance">[docs]</a>    <span class="k">def</span> <span class="nf">get_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_balance">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_balance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
@@ -471,7 +605,10 @@
             <span class="n">balance</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="n">balance</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance_update</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_voting_power"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_voting_power">[docs]</a>    <span class="k">def</span> <span class="nf">get_voting_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_voting_power">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_voting_power">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_voting_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">voting_power</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">voting_power</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
@@ -479,7 +616,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_total_voting_power"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_total_voting_power">[docs]</a>    <span class="k">def</span> <span class="nf">get_total_voting_power</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_total_voting_power">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_total_voting_power">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_total_voting_power</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_voting_power</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_voting_power</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
@@ -487,7 +627,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_min_block_time"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_min_block_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_min_block_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_min_block_time">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_min_block_time">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_min_block_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_block_time</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_block_time</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
@@ -496,7 +639,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_chain_id"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_chain_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_chain_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_chain_id">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_chain_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_chain_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
@@ -504,7 +650,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dummy_chain_id</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_protocol"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_protocol">[docs]</a>    <span class="k">def</span> <span class="nf">get_protocol</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_protocol">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_protocol">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_protocol</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
@@ -512,73 +661,109 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_dummy_address"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_dummy_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_dummy_address">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;KT1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_dummy_txr_address"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_txr_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_dummy_txr_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_dummy_txr_address">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_txr_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_txr_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;txr1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_dummy_public_key"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_public_key">[docs]</a>    <span class="k">def</span> <span class="nf">get_dummy_public_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_dummy_public_key">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_public_key">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_public_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;edpk&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_dummy_key_hash"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_key_hash">[docs]</a>    <span class="k">def</span> <span class="nf">get_dummy_key_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_dummy_key_hash">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_key_hash">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_key_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;tz1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_dummy_signature"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_signature">[docs]</a>    <span class="k">def</span> <span class="nf">get_dummy_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_dummy_signature">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_signature">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">64</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;sig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_dummy_chain_id"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_chain_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_dummy_chain_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_dummy_chain_id">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_chain_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_chain_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;Net&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_dummy_lambda"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_lambda">[docs]</a>    <span class="k">def</span> <span class="nf">get_dummy_lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_dummy_lambda">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_lambda">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;FAILWITH&#39;</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_total_voting_power"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_total_voting_power">[docs]</a>    <span class="k">def</span> <span class="nf">set_total_voting_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_voting_power</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_total_voting_power">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_total_voting_power">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_total_voting_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_voting_power</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">total_voting_power</span> <span class="o">=</span> <span class="n">total_voting_power</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.set_voting_power"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_voting_power">[docs]</a>    <span class="k">def</span> <span class="nf">set_voting_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voting_power</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.set_voting_power">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_voting_power">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_voting_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voting_power</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">voting_power</span><span class="p">[</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="n">voting_power</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.get_operations_ttl"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_operations_ttl">[docs]</a>    <span class="k">def</span> <span class="nf">get_operations_ttl</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ExecutionContext.get_operations_ttl">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_operations_ttl">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_operations_ttl</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sandboxed</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">MAX_OPERATIONS_TTL</span>
         <span class="k">return</span> <span class="n">DEFAULT_OPERATIONS_TTL</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.register_global_constant"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.register_global_constant">[docs]</a>    <span class="k">def</span> <span class="nf">register_global_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.register_global_constant">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.register_global_constant">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register_global_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Register global constant</span>
 <span class="sd">        :param expression: Micheline expression</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">constant_hash</span> <span class="o">=</span> <span class="n">forge_script_expr</span><span class="p">(</span><span class="n">forge_micheline</span><span class="p">(</span><span class="n">expression</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">global_constants</span><span class="p">[</span><span class="n">constant_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">expression</span></div>
 
-<div class="viewcode-block" id="ExecutionContext.resolve_global_constants"><a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.resolve_global_constants">[docs]</a>    <span class="k">def</span> <span class="nf">resolve_global_constants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ExecutionContext.resolve_global_constants">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.resolve_global_constants">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve_global_constants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Replace global constants with their respectful values or throw an error if the constant is not defined</span>
 <span class="sd">        :param expression: Micheline expression</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">_resolve_constant</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_constant</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">constant_hash</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;string&#39;</span><span class="p">]</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unexpected constant expression&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unexpected constant expression&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
             <span class="k">if</span> <span class="n">constant_hash</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_constants</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Constant </span><span class="si">{</span><span class="n">constant_hash</span><span class="si">}</span><span class="s1"> is not defined&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">global_constants</span><span class="p">[</span><span class="n">constant_hash</span><span class="p">])</span>
             <span class="c1"># TODO: check if global constants are really recursive</span>
 
-        <span class="k">def</span> <span class="nf">_resolve</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_resolve</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prim&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;constant&#39;</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">_resolve_constant</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
@@ -592,7 +777,9 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">node</span>
 
-        <span class="k">return</span> <span class="n">_resolve</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">_resolve</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

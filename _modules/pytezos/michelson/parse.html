@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.michelson.parse &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/michelson/parse.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -86,46 +84,60 @@
              
   <h1>Source code for pytezos.michelson.parse</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Inspired by https://github.com/jansorg/tezos-intellij/blob/master/grammar/michelson.bnf</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">ply.lex</span> <span class="kn">import</span> <span class="n">Lexer</span>  <span class="c1"># type: ignore</span>
-<span class="kn">from</span> <span class="nn">ply.lex</span> <span class="kn">import</span> <span class="n">LexToken</span>
-<span class="kn">from</span> <span class="nn">ply.lex</span> <span class="kn">import</span> <span class="n">lex</span>
-<span class="kn">from</span> <span class="nn">ply.yacc</span> <span class="kn">import</span> <span class="n">yacc</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ply.lex</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lexer</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ply.lex</span><span class="w"> </span><span class="kn">import</span> <span class="n">LexToken</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ply.lex</span><span class="w"> </span><span class="kn">import</span> <span class="n">lex</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ply.yacc</span><span class="w"> </span><span class="kn">import</span> <span class="n">yacc</span>  <span class="c1"># type: ignore</span>
 
-<span class="kn">from</span> <span class="nn">pytezos.michelson.macros</span> <span class="kn">import</span> <span class="n">expand_macro</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.macros</span> <span class="kn">import</span> <span class="n">expr</span> <span class="k">as</span> <span class="n">make_expr</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.tags</span> <span class="kn">import</span> <span class="n">prim_tags</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.macros</span><span class="w"> </span><span class="kn">import</span> <span class="n">expand_macro</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.macros</span><span class="w"> </span><span class="kn">import</span> <span class="n">expr</span> <span class="k">as</span> <span class="n">make_expr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.tags</span><span class="w"> </span><span class="kn">import</span> <span class="n">prim_tags</span>
 
 
-<div class="viewcode-block" id="doc"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.doc">[docs]</a><span class="k">def</span> <span class="nf">doc</span><span class="p">(</span><span class="n">docstring</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<div class="viewcode-block" id="doc">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.doc">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">doc</span><span class="p">(</span><span class="n">docstring</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">docstring</span>
         <span class="k">return</span> <span class="n">func</span>
 
     <span class="k">return</span> <span class="n">decorate</span></div>
 
 
-<div class="viewcode-block" id="MichelsonParserError"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParserError">[docs]</a><span class="k">class</span> <span class="nc">MichelsonParserError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">:</span> <span class="n">LexToken</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParserError">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParserError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonParserError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">:</span> <span class="n">LexToken</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">message</span> <span class="o">=</span> <span class="n">message</span> <span class="ow">or</span> <span class="sa">f</span><span class="s1">&#39;failed to parse expression </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">MichelsonParserError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">lineno</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">lexpos</span>
 
-<div class="viewcode-block" id="MichelsonParserError.format_stdout"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParserError.format_stdout">[docs]</a>    <span class="k">def</span> <span class="nf">format_stdout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span></div></div>
+<div class="viewcode-block" id="MichelsonParserError.format_stdout">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParserError.format_stdout">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_stdout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s1">&#39;</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Sequence"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.Sequence">[docs]</a><span class="k">class</span> <span class="nc">Sequence</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Sequence">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.Sequence">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Sequence</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="SimpleMichelsonLexer"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.SimpleMichelsonLexer">[docs]</a><span class="k">class</span> <span class="nc">SimpleMichelsonLexer</span><span class="p">(</span><span class="n">Lexer</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SimpleMichelsonLexer">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.SimpleMichelsonLexer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleMichelsonLexer</span><span class="p">(</span><span class="n">Lexer</span><span class="p">):</span>
     <span class="n">tokens</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;INT&#39;</span><span class="p">,</span> <span class="s1">&#39;BYTE&#39;</span><span class="p">,</span> <span class="s1">&#39;STR&#39;</span><span class="p">,</span> <span class="s1">&#39;ANNOT&#39;</span><span class="p">,</span> <span class="s1">&#39;PRIM&#39;</span><span class="p">,</span> <span class="s1">&#39;LEFT_CURLY&#39;</span><span class="p">,</span> <span class="s1">&#39;RIGHT_CURLY&#39;</span><span class="p">,</span> <span class="s1">&#39;LEFT_PAREN&#39;</span><span class="p">,</span> <span class="s1">&#39;RIGHT_PAREN&#39;</span><span class="p">,</span> <span class="s1">&#39;SEMI&#39;</span><span class="p">)</span>
 
     <span class="n">t_INT</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;-?[0-9]+&#39;</span>
@@ -143,43 +155,61 @@
     <span class="n">t_ignore_COMMENT</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;#[^\n]*&#39;</span>
     <span class="n">t_ignore</span> <span class="o">=</span> <span class="s1">&#39; </span><span class="se">\t\r\n\f</span><span class="s1">&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SimpleMichelsonLexer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lexer</span> <span class="o">=</span> <span class="n">lex</span><span class="p">(</span><span class="n">module</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">reflags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SimpleMichelsonLexer.t_error"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.SimpleMichelsonLexer.t_error">[docs]</a>    <span class="k">def</span> <span class="nf">t_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="SimpleMichelsonLexer.t_error">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.SimpleMichelsonLexer.t_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">t_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
         <span class="n">t</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">t</span><span class="o">.</span><span class="n">lexer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">t</span></div></div>
+        <span class="k">return</span> <span class="n">t</span></div>
+</div>
 
 
-<div class="viewcode-block" id="MichelsonParser"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser">[docs]</a><span class="k">class</span> <span class="nc">MichelsonParser</span><span class="p">:</span>
+
+<div class="viewcode-block" id="MichelsonParser">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonParser</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Customizable Michelson parser&quot;&quot;&quot;</span>
 
     <span class="n">tokens</span> <span class="o">=</span> <span class="n">SimpleMichelsonLexer</span><span class="o">.</span><span class="n">tokens</span>
 
-<div class="viewcode-block" id="MichelsonParser.p_instr"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;instr : expr </span>
-<span class="sd">                  | empty&#39;&#39;&#39;</span>
-    <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_instr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<div class="viewcode-block" id="MichelsonParser.p_instr">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;instr : expr </span>
+<span class="s1">                  | empty&#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_instr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_instr_int"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr_int">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;instr : INT&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_instr_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_instr_int">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr_int">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;instr : INT&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_instr_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_instr_byte"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr_byte">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;instr : BYTE&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_instr_byte</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_instr_byte">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr_byte">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;instr : BYTE&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_instr_byte</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">:]}</span>  <span class="c1"># strip 0x prefix</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_instr_str"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr_str">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;instr : STR&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_instr_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_instr_str">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr_str">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;instr : STR&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_instr_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;string&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_instr_list"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr_list">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;instr : instr SEMI instr&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_instr_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_instr_list">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr_list">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;instr : instr SEMI instr&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_instr_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">3</span><span class="p">]]:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
@@ -187,16 +217,22 @@
             <span class="k">elif</span> <span class="n">i</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_instr_subseq"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr_subseq">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;instr : LEFT_CURLY instr RIGHT_CURLY&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_instr_subseq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_instr_subseq">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_instr_subseq">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;instr : LEFT_CURLY instr RIGHT_CURLY&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_instr_subseq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="k">elif</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_expr"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_expr">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;expr : PRIM annots args&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_expr">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_expr">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;expr : PRIM annots args&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">prim</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">prim</span> <span class="ow">in</span> <span class="n">prim_tags</span> <span class="ow">or</span> <span class="n">prim</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_primitives</span><span class="p">:</span>
             <span class="n">expr</span> <span class="o">=</span> <span class="n">make_expr</span><span class="p">(</span>
@@ -212,64 +248,90 @@
                     <span class="n">args</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">or</span> <span class="p">[],</span>
                 <span class="p">)</span>
             <span class="k">except</span> <span class="ne">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">MichelsonParserError</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">slice</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span> <span class="nn">e</span>
+                <span class="k">raise</span> <span class="n">MichelsonParserError</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">slice</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">expr</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_annots"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_annots">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;annots : annot </span>
-<span class="sd">                   | empty&#39;&#39;&#39;</span>
-    <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_annots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_annots">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_annots">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;annots : annot </span>
+<span class="s1">                   | empty&#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_annots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_annots_list"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_annots_list">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;annots : annots annot&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_annots_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_annots_list">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_annots_list">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;annots : annots annot&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_annots_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_annot"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_annot">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;annot : ANNOT&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_annot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_annot">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_annot">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;annot : ANNOT&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_annot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_args"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_args">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;args : arg </span>
-<span class="sd">                 | empty&#39;&#39;&#39;</span>
-    <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_args">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_args">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;args : arg </span>
+<span class="s1">                 | empty&#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_args_list"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_args_list">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;args : args arg&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_args_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_args_list">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_args_list">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;args : args arg&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_args_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_arg_prim"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_prim">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : PRIM&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_arg_prim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_arg_prim">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_prim">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : PRIM&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_arg_prim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_arg_int"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_int">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : INT&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_arg_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_arg_int">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_int">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : INT&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_arg_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_arg_byte"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_byte">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : BYTE&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_arg_byte</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_arg_byte">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_byte">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : BYTE&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_arg_byte</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bytes&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">:]}</span>  <span class="c1"># strip 0x prefix</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_arg_str"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_str">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : STR&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_arg_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_arg_str">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_str">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : STR&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_arg_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;string&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_arg_subseq"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_subseq">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : LEFT_CURLY instr RIGHT_CURLY&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_arg_subseq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_arg_subseq">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_subseq">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : LEFT_CURLY instr RIGHT_CURLY&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_arg_subseq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -277,17 +339,27 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_arg_group"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_group">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : LEFT_PAREN expr RIGHT_PAREN&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_arg_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MichelsonParser.p_arg_group">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_arg_group">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;arg : LEFT_PAREN expr RIGHT_PAREN&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_arg_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_empty"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_empty">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;empty :&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">p_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span> <span class="o">...</span></div>
 
-<div class="viewcode-block" id="MichelsonParser.p_error"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_error">[docs]</a>    <span class="k">def</span> <span class="nf">p_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<div class="viewcode-block" id="MichelsonParser.p_empty">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_empty">[docs]</a>
+    <span class="nd">@doc</span><span class="p">(</span><span class="s1">&#39;empty :&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span> <span class="o">...</span></div>
+
+
+<div class="viewcode-block" id="MichelsonParser.p_error">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.p_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">MichelsonParserError</span><span class="p">(</span><span class="n">p</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">write_tables</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">extra_primitives</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">write_tables</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">extra_primitives</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Michelson parser</span>
 
 <span class="sd">        :param debug: Verbose output</span>
@@ -302,7 +374,9 @@
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extra_primitives</span> <span class="o">=</span> <span class="n">extra_primitives</span> <span class="ow">or</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="MichelsonParser.parse"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+<div class="viewcode-block" id="MichelsonParser.parse">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.MichelsonParser.parse">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse Michelson source.</span>
 
 <span class="sd">        :param code: Michelson source</span>
@@ -310,10 +384,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">code</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;(&#39;</span> <span class="ow">and</span> <span class="n">code</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;)&#39;</span><span class="p">:</span>
             <span class="n">code</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">code</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">code</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="michelson_to_micheline"><a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.michelson_to_micheline">[docs]</a><span class="k">def</span> <span class="nf">michelson_to_micheline</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="michelson_to_micheline">
+<a class="viewcode-back" href="../../../code.html#pytezos.michelson.parse.michelson_to_micheline">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">michelson_to_micheline</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts Michelson source text into a Micheline expression.</span>
 
 <span class="sd">    :param data: Michelson string</span>
@@ -323,6 +401,7 @@
     <span class="k">if</span> <span class="n">parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">parser</span> <span class="o">=</span> <span class="n">MichelsonParser</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
 </pre></div>
 
            </div>

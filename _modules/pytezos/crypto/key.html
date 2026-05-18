@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.crypto.key &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/crypto/key.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -85,26 +83,28 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.crypto.key</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">binascii</span>
-<span class="kn">import</span> <span class="nn">hashlib</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">getpass</span> <span class="kn">import</span> <span class="n">getpass</span>
-<span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">blake2b</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span> <span class="k">as</span> <span class="n">env</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">expanduser</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">getpass</span><span class="w"> </span><span class="kn">import</span> <span class="n">getpass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">hashlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">blake2b</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">environ</span> <span class="k">as</span> <span class="n">env</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">abspath</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">expanduser</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">join</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">mnemonic</span> <span class="kn">import</span> <span class="n">Mnemonic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">eth_typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">BLSPubkey</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">eth_typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">BLSSignature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mnemonic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mnemonic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">py_ecc.bls</span><span class="w"> </span><span class="kn">import</span> <span class="n">G2MessageAugmentation</span> <span class="k">as</span> <span class="n">G2</span>  <span class="c1"># noqa: N814</span>
 
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">base58_decode</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">base58_encode</span>
-<span class="kn">from</span> <span class="nn">pytezos.crypto.encoding</span> <span class="kn">import</span> <span class="n">scrub_input</span>
-<span class="kn">from</span> <span class="nn">pytezos.jupyter</span> <span class="kn">import</span> <span class="n">InlineDocstring</span>
-<span class="kn">from</span> <span class="nn">pytezos.jupyter</span> <span class="kn">import</span> <span class="n">get_class_docstring</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">base58_decode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">base58_encode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.crypto.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">scrub_input</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.jupyter</span><span class="w"> </span><span class="kn">import</span> <span class="n">InlineDocstring</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.jupyter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_class_docstring</span>
 
 <span class="n">VALID_MNEMONIC_LENGTHS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">]</span>
 <span class="n">DEFAULT_LANGUAGE</span> <span class="o">=</span> <span class="s1">&#39;english&#39;</span>
@@ -113,7 +113,7 @@
 <span class="n">PassphraseInput</span> <span class="o">=</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]]</span>
 
 
-<span class="k">def</span> <span class="nf">get_passphrase</span><span class="p">(</span><span class="n">passphrase</span><span class="p">:</span> <span class="n">PassphraseInput</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_passphrase</span><span class="p">(</span><span class="n">passphrase</span><span class="p">:</span> <span class="n">PassphraseInput</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">passphrase</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">passphrase</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PYTEZOS_PASSPHRASE&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">passphrase</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -127,47 +127,50 @@
     <span class="k">return</span> <span class="n">passphrase</span>
 
 
-<span class="k">class</span> <span class="nc">CryptoExtraFallback</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CryptoExtraFallback</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-            <span class="s2">&quot;Please, install packages libsodium-dev, and libgmp-dev, &quot;</span>
-            <span class="s2">&quot;and Python libraries pysodium, coincurve, and fastecdsa&quot;</span>
+            <span class="s1">&#39;Please, install packages libsodium-dev, and libgmp-dev, &#39;</span>
+            <span class="s1">&#39;and Python libraries pysodium, coincurve, and fastecdsa&#39;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="s1">&#39;throw&#39;</span><span class="p">)</span>
 
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">coincurve</span>  <span class="c1"># type: ignore</span>
-    <span class="kn">import</span> <span class="nn">fastecdsa.curve</span>  <span class="c1"># type: ignore</span>
-    <span class="kn">import</span> <span class="nn">fastecdsa.ecdsa</span>  <span class="c1"># type: ignore</span>
-    <span class="kn">import</span> <span class="nn">fastecdsa.encoding.sec1</span>  <span class="c1"># type: ignore</span>
-    <span class="kn">import</span> <span class="nn">fastecdsa.keys</span>  <span class="c1"># type: ignore</span>
-    <span class="kn">import</span> <span class="nn">pysodium</span>  <span class="c1"># type: ignore</span>
-    <span class="kn">from</span> <span class="nn">coincurve</span> <span class="kn">import</span> <span class="n">ecdsa</span>  <span class="c1"># type: ignore</span>
-    <span class="kn">from</span> <span class="nn">fastecdsa.encoding.util</span> <span class="kn">import</span> <span class="n">bytes_to_int</span>  <span class="c1"># type: ignore</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">coincurve</span>  <span class="c1"># type: ignore</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">fastecdsa.curve</span>  <span class="c1"># type: ignore</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">fastecdsa.ecdsa</span>  <span class="c1"># type: ignore</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">fastecdsa.encoding.sec1</span>  <span class="c1"># type: ignore</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">fastecdsa.keys</span>  <span class="c1"># type: ignore</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pysodium</span>  <span class="c1"># type: ignore</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">coincurve</span><span class="w"> </span><span class="kn">import</span> <span class="n">ecdsa</span>  <span class="c1"># type: ignore</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">fastecdsa.encoding.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">bytes_to_int</span>  <span class="c1"># type: ignore</span>
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">coincurve</span> <span class="o">=</span> <span class="n">CryptoExtraFallback</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
     <span class="n">ecdsa</span> <span class="o">=</span> <span class="n">CryptoExtraFallback</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
-    <span class="n">pysodium</span> <span class="o">=</span> <span class="n">CryptoExtraFallback</span><span class="p">()</span>
-    <span class="n">fastecdsa</span> <span class="o">=</span> <span class="n">CryptoExtraFallback</span><span class="p">()</span>
-    <span class="n">bytes_to_int</span> <span class="o">=</span> <span class="n">CryptoExtraFallback</span><span class="p">()</span>
+    <span class="n">pysodium</span> <span class="o">=</span> <span class="n">CryptoExtraFallback</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+    <span class="n">fastecdsa</span> <span class="o">=</span> <span class="n">CryptoExtraFallback</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+    <span class="n">bytes_to_int</span> <span class="o">=</span> <span class="n">CryptoExtraFallback</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
     <span class="n">__crypto__</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">__crypto__</span> <span class="o">=</span> <span class="kc">True</span>
 
 
-<span class="k">def</span> <span class="nf">is_installed</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_installed</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">__crypto__</span>
 
 
-<div class="viewcode-block" id="blake2b_32"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.blake2b_32">[docs]</a><span class="k">def</span> <span class="nf">blake2b_32</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="blake2b_32">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.blake2b_32">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">blake2b_32</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a BLAKE2B hash of bytes&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">scrub_input</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">digest_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">validate_mnemonic</span><span class="p">(</span><span class="n">mnemonic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_LANGUAGE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_mnemonic</span><span class="p">(</span><span class="n">mnemonic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_LANGUAGE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">Mnemonic</span><span class="p">(</span><span class="n">language</span><span class="p">)</span>
     <span class="n">mnemonic_words</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">normalize_string</span><span class="p">(</span><span class="n">mnemonic</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mnemonic_words</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">VALID_MNEMONIC_LENGTHS</span><span class="p">:</span>
@@ -187,12 +190,14 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Mnemonic checksum verification failed&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Key"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key">[docs]</a><span class="k">class</span> <span class="nc">Key</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">InlineDocstring</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a public or secret key for Tezos. Ed25519, Secp256k1 and P256</span>
+<div class="viewcode-block" id="Key">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Key</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">InlineDocstring</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a public or secret key for Tezos. Ed25519, Secp256k1, P256 and BLS12-381</span>
 <span class="sd">    are supported.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">public_point</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
         <span class="n">secret_exponent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -204,7 +209,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">=</span> <span class="n">curve</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">activation_code</span> <span class="o">=</span> <span class="n">activation_code</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
             <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Public key hash&#39;</span><span class="p">,</span>
@@ -215,20 +220,22 @@
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_secret</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_secret</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_exponent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Key.from_secret_exponent"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_secret_exponent">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_secret_exponent</span><span class="p">(</span>
+<div class="viewcode-block" id="Key.from_secret_exponent">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_secret_exponent">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_secret_exponent</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">secret_exponent</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
-        <span class="n">curve</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">,</span>
-        <span class="n">activation_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">curve</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">,</span>
+        <span class="n">activation_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Key&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a key object from a secret exponent.</span>
 
 <span class="sd">        :param secret_exponent: secret exponent or seed</span>
-<span class="sd">        :param curve: b&#39;sp&#39; for Secp251k1, b&#39;p2&#39; for P256/Secp256r1, b&#39;ed&#39; for Ed25519 (default)</span>
+<span class="sd">        :param curve: b&#39;sp&#39; for Secp256k1, b&#39;p2&#39; for P256/Secp256r1, b&#39;ed&#39; for Ed25519 (default), b&#39;BL&#39; for BLS12-381</span>
 <span class="sd">        :param activation_code: secret for initializing account balance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Ed25519</span>
@@ -238,21 +245,32 @@
                 <span class="n">public_point</span> <span class="o">=</span> <span class="n">pysodium</span><span class="o">.</span><span class="n">crypto_sign_sk_to_pk</span><span class="p">(</span><span class="n">sk</span><span class="o">=</span><span class="n">secret_exponent</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">public_point</span><span class="p">,</span> <span class="n">secret_exponent</span> <span class="o">=</span> <span class="n">pysodium</span><span class="o">.</span><span class="n">crypto_sign_seed_keypair</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">secret_exponent</span><span class="p">)</span>
+
         <span class="c1"># Secp256k1</span>
         <span class="k">elif</span> <span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;sp&#39;</span><span class="p">:</span>
             <span class="n">sk</span> <span class="o">=</span> <span class="n">coincurve</span><span class="o">.</span><span class="n">PrivateKey</span><span class="p">(</span><span class="n">secret_exponent</span><span class="p">)</span>
             <span class="n">public_point</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">public_key</span><span class="o">.</span><span class="n">format</span><span class="p">()</span>
+
         <span class="c1"># P256</span>
         <span class="k">elif</span> <span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;p2&#39;</span><span class="p">:</span>
             <span class="n">pk</span> <span class="o">=</span> <span class="n">fastecdsa</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">get_public_key</span><span class="p">(</span><span class="n">bytes_to_int</span><span class="p">(</span><span class="n">secret_exponent</span><span class="p">),</span> <span class="n">curve</span><span class="o">=</span><span class="n">fastecdsa</span><span class="o">.</span><span class="n">curve</span><span class="o">.</span><span class="n">P256</span><span class="p">)</span>
             <span class="n">public_point</span> <span class="o">=</span> <span class="n">fastecdsa</span><span class="o">.</span><span class="n">encoding</span><span class="o">.</span><span class="n">sec1</span><span class="o">.</span><span class="n">SEC1Encoder</span><span class="o">.</span><span class="n">encode_public_key</span><span class="p">(</span><span class="n">pk</span><span class="p">)</span>
+
+        <span class="c1"># BLS12-381</span>
+        <span class="k">elif</span> <span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;BL&#39;</span><span class="p">:</span>
+            <span class="n">sk_int</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">secret_exponent</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;little&#39;</span><span class="p">)</span>
+            <span class="n">public_point</span> <span class="o">=</span> <span class="n">G2</span><span class="o">.</span><span class="n">SkToPk</span><span class="p">(</span><span class="n">sk_int</span><span class="p">)</span>
+
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid or unsupported curve type: `</span><span class="si">{</span><span class="n">curve</span><span class="si">!r}</span><span class="s1">`.&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">public_point</span><span class="p">,</span> <span class="n">secret_exponent</span><span class="p">,</span> <span class="n">curve</span><span class="o">=</span><span class="n">curve</span><span class="p">,</span> <span class="n">activation_code</span><span class="o">=</span><span class="n">activation_code</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Key.from_public_point"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_public_point">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_public_point</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Key.from_public_point">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_public_point">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_public_point</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">public_point</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
         <span class="n">curve</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">,</span>
@@ -260,12 +278,15 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a key object from a public elliptic point.</span>
 
 <span class="sd">        :param public_point: elliptic point in the compressed format (see https://tezos.stackexchange.com/a/623/309)</span>
-<span class="sd">        :param curve: b&#39;sp&#39; for secp251k1, b&#39;p2&#39; for P256/secp256r1, b&#39;ed&#39; for Ed25519 (default)</span>
+<span class="sd">        :param curve: b&#39;sp&#39; for Secp256k1, b&#39;p2&#39; for P256/Secp256r1, b&#39;ed&#39; for Ed25519 (default), b&#39;BL&#39; for BLS12-381</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">public_point</span><span class="p">,</span> <span class="n">curve</span><span class="o">=</span><span class="n">curve</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Key.from_encoded_key"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_encoded_key">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_encoded_key</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Key.from_encoded_key">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_encoded_key">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_encoded_key</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span>
         <span class="n">passphrase</span><span class="p">:</span> <span class="n">PassphraseInput</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -274,20 +295,20 @@
 
 <span class="sd">        :param key: a public or secret key in base58 encoding</span>
 <span class="sd">        :param passphrase: the passphrase used if the key provided is an encrypted private key,</span>
-<span class="sd">            if not set value from from PYTEZOS_PASSPHRASE env variable will be used or promted dynamically</span>
+<span class="sd">            if not set value from PYTEZOS_PASSPHRASE env variable will be used or prompted dynamically</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">encoded_key</span> <span class="o">=</span> <span class="n">scrub_input</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">encoded_key</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="n">scrub_input</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-        <span class="n">curve</span> <span class="o">=</span> <span class="n">encoded_key</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># &quot;sp&quot;, &quot;p2&quot; &quot;ed&quot;</span>
-        <span class="k">if</span> <span class="n">curve</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="sa">b</span><span class="s1">&#39;sp&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;p2&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid prefix for a key encoding.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">encoded_key</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">98</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid length for a key encoding.&quot;</span><span class="p">)</span>
+        <span class="n">curve</span> <span class="o">=</span> <span class="n">encoded_key</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># &quot;sp&quot;, &quot;p2&quot;, &quot;ed&quot;, &quot;BL&quot;</span>
+        <span class="k">if</span> <span class="n">curve</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="sa">b</span><span class="s1">&#39;sp&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;p2&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;BL&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid prefix for a key encoding.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">encoded_key</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">98</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid length for a key encoding.&#39;</span><span class="p">)</span>
 
         <span class="n">encrypted</span> <span class="o">=</span> <span class="n">encoded_key</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;e&#39;</span>
         <span class="n">public_or_secret</span> <span class="o">=</span> <span class="n">encoded_key</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="k">if</span> <span class="n">encrypted</span> <span class="k">else</span> <span class="n">encoded_key</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">public_or_secret</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="sa">b</span><span class="s1">&#39;pk&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;sk&#39;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid prefix for a key encoding.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Invalid prefix for a key encoding.&#39;</span><span class="p">)</span>
 
         <span class="n">encoded_key</span> <span class="o">=</span> <span class="n">base58_decode</span><span class="p">(</span><span class="n">encoded_key</span><span class="p">)</span>
         <span class="n">is_secret</span> <span class="o">=</span> <span class="n">public_or_secret</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;sk&#39;</span>
@@ -299,7 +320,7 @@
 
             <span class="n">salt</span><span class="p">,</span> <span class="n">encrypted_sk</span> <span class="o">=</span> <span class="n">encoded_key</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span> <span class="n">encoded_key</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>
             <span class="n">encryption_key</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">pbkdf2_hmac</span><span class="p">(</span>
-                <span class="n">hash_name</span><span class="o">=</span><span class="s2">&quot;sha512&quot;</span><span class="p">,</span>
+                <span class="n">hash_name</span><span class="o">=</span><span class="s1">&#39;sha512&#39;</span><span class="p">,</span>
                 <span class="n">password</span><span class="o">=</span><span class="n">passphrase</span><span class="p">,</span>
                 <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span>
                 <span class="n">iterations</span><span class="o">=</span><span class="mi">32768</span><span class="p">,</span>
@@ -314,8 +335,11 @@
 
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_secret_exponent</span><span class="p">(</span><span class="n">encoded_key</span><span class="p">,</span> <span class="n">curve</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Key.generate"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.generate">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Key.generate">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.generate">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">passphrase</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
         <span class="n">curve</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">,</span>
@@ -326,7 +350,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates new key.</span>
 
 <span class="sd">        :param passphrase: optional password</span>
-<span class="sd">        :param curve: b&#39;sp&#39; for secp251k1, b&#39;p2&#39; for P256/secp256r1, b&#39;ed&#39; for Ed25519 (default)</span>
+<span class="sd">        :param curve: b&#39;sp&#39; for Secp256k1, b&#39;p2&#39; for P256/Secp256r1, b&#39;ed&#39; for Ed25519 (default), b&#39;BL&#39; for BLS12-381</span>
 <span class="sd">        :param strength: mnemonic strength, default is 128</span>
 <span class="sd">        :param language: mnemonic language, default is english</span>
 <span class="sd">        :param export: export as json file in the current folder, default is True</span>
@@ -347,10 +371,13 @@
 
         <span class="k">return</span> <span class="n">key</span></div>
 
-<div class="viewcode-block" id="Key.from_mnemonic"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_mnemonic">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_mnemonic</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Key.from_mnemonic">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_mnemonic">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_mnemonic</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">mnemonic</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span>
+        <span class="n">mnemonic</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span>
         <span class="n">passphrase</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
         <span class="n">email</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
         <span class="n">validate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -364,7 +391,7 @@
 <span class="sd">        :param passphrase: a mnemonic password or a fundraiser key</span>
 <span class="sd">        :param email: email used if a fundraiser key is passed</span>
 <span class="sd">        :param validate: whether to check mnemonic or not</span>
-<span class="sd">        :param curve: b&#39;sp&#39; for secp251k1, b&#39;p2&#39; for P256/secp256r1, b&#39;ed&#39; for Ed25519 (default)</span>
+<span class="sd">        :param curve: b&#39;sp&#39; for Secp256k1, b&#39;p2&#39; for P256/Secp256r1, b&#39;ed&#39; for Ed25519 (default), b&#39;BL&#39; for BLS12-381</span>
 <span class="sd">        :param activation_code: secret for initializing account balance</span>
 <span class="sd">        :param language: The English label for the language of the mnemonic. This is needed for validation</span>
 <span class="sd">        :rtype: Key</span>
@@ -378,18 +405,27 @@
         <span class="n">seed</span> <span class="o">=</span> <span class="n">Mnemonic</span><span class="o">.</span><span class="n">to_seed</span><span class="p">(</span><span class="n">mnemonic</span><span class="p">,</span> <span class="n">passphrase</span><span class="o">=</span><span class="n">email</span> <span class="o">+</span> <span class="n">passphrase</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">:</span>
+            <span class="c1"># Ed25519</span>
             <span class="n">_</span><span class="p">,</span> <span class="n">secret_exponent</span> <span class="o">=</span> <span class="n">pysodium</span><span class="o">.</span><span class="n">crypto_sign_seed_keypair</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">[:</span><span class="mi">32</span><span class="p">])</span>
         <span class="k">elif</span> <span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;sp&#39;</span><span class="p">:</span>
+            <span class="c1"># Secp256k1</span>
             <span class="n">secret_exponent</span> <span class="o">=</span> <span class="n">seed</span><span class="p">[:</span><span class="mi">32</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;p2&#39;</span><span class="p">:</span>
+            <span class="c1"># P256</span>
+            <span class="n">secret_exponent</span> <span class="o">=</span> <span class="n">seed</span><span class="p">[:</span><span class="mi">32</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;BL&#39;</span><span class="p">:</span>
+            <span class="c1"># BLS12-381</span>
             <span class="n">secret_exponent</span> <span class="o">=</span> <span class="n">seed</span><span class="p">[:</span><span class="mi">32</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid or unsupported curve type: `</span><span class="si">{</span><span class="n">curve</span><span class="si">!r}</span><span class="s1">`.&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_secret_exponent</span><span class="p">(</span><span class="n">secret_exponent</span><span class="p">,</span> <span class="n">curve</span><span class="o">=</span><span class="n">curve</span><span class="p">,</span> <span class="n">activation_code</span><span class="o">=</span><span class="n">activation_code</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Key.from_faucet"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_faucet">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_faucet</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;Key&#39;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Key.from_faucet">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_faucet">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_faucet</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;Key&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Import key from a faucet file: https://teztnets.xyz/</span>
 
 <span class="sd">        :param source: path to the json file</span>
@@ -414,8 +450,11 @@
 
         <span class="k">return</span> <span class="n">key</span></div>
 
-<div class="viewcode-block" id="Key.from_alias"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_alias">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_alias</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Key.from_alias">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.from_alias">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_alias</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">passphrase</span><span class="p">:</span> <span class="n">PassphraseInput</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -444,14 +483,20 @@
 
         <span class="k">return</span> <span class="n">key</span></div>
 
-<div class="viewcode-block" id="Key.public_key"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.public_key">[docs]</a>    <span class="k">def</span> <span class="nf">public_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Key.public_key">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.public_key">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">public_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates base58 encoded public key representation.</span>
 
 <span class="sd">        :returns: the public key associated with the private key</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">public_point</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;pk&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Key.secret_key"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.secret_key">[docs]</a>    <span class="k">def</span> <span class="nf">secret_key</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Key.secret_key">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.secret_key">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">secret_key</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">passphrase</span><span class="p">:</span> <span class="n">PassphraseInput</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ed25519_seed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -463,7 +508,7 @@
 <span class="sd">        :returns: the secret key associated with this key, if available</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_exponent</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Secret key is undefined&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Secret key is undefined&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;ed&#39;</span> <span class="ow">and</span> <span class="n">ed25519_seed</span><span class="p">:</span>
             <span class="n">key</span> <span class="o">=</span> <span class="n">pysodium</span><span class="o">.</span><span class="n">crypto_sign_sk_to_seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">secret_exponent</span><span class="p">)</span>
@@ -479,7 +524,7 @@
 
             <span class="n">salt</span> <span class="o">=</span> <span class="n">pysodium</span><span class="o">.</span><span class="n">randombytes</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
             <span class="n">encryption_key</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">pbkdf2_hmac</span><span class="p">(</span>
-                <span class="n">hash_name</span><span class="o">=</span><span class="s2">&quot;sha512&quot;</span><span class="p">,</span>
+                <span class="n">hash_name</span><span class="o">=</span><span class="s1">&#39;sha512&#39;</span><span class="p">,</span>
                 <span class="n">password</span><span class="o">=</span><span class="n">passphrase</span><span class="p">,</span>
                 <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span>
                 <span class="n">iterations</span><span class="o">=</span><span class="mi">32768</span><span class="p">,</span>
@@ -493,29 +538,38 @@
 
         <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Key.public_key_hash"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.public_key_hash">[docs]</a>    <span class="k">def</span> <span class="nf">public_key_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Key.public_key_hash">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.public_key_hash">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">public_key_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates base58 encoded public key hash for this key.</span>
 
 <span class="sd">        :returns: the public key hash for this key</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pkh</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">public_point</span><span class="p">,</span> <span class="n">digest_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="p">{</span><span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;tz1&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;sp&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;tz2&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;p2&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;tz3&#39;</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">curve</span><span class="p">]</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="p">{</span><span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;tz1&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;sp&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;tz2&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;p2&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;tz3&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;BL&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;tz4&#39;</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">curve</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="n">pkh</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Key.blinded_public_key_hash"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.blinded_public_key_hash">[docs]</a>    <span class="k">def</span> <span class="nf">blinded_public_key_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Key.blinded_public_key_hash">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.blinded_public_key_hash">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">blinded_public_key_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates base58 encoded commitment out of activation code (required) and public key hash</span>
 
 <span class="sd">        :return: blinded public key hash</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation_code</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Activation code is undefined&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Activation code is undefined&#39;</span><span class="p">)</span>
 
         <span class="n">pkh</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">public_point</span><span class="p">,</span> <span class="n">digest_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
         <span class="n">key</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activation_code</span><span class="p">)</span>
         <span class="n">blinded_pkh</span> <span class="o">=</span> <span class="n">blake2b</span><span class="p">(</span><span class="n">pkh</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">digest_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="n">blinded_pkh</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;btz1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Key.sign"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.sign">[docs]</a>    <span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">generic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Key.sign">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.sign">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">generic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sign a raw sequence of bytes.</span>
 
 <span class="sd">        :param message: sequence of bytes, raw format or hexadecimal notation</span>
@@ -525,24 +579,28 @@
         <span class="n">encoded_message</span> <span class="o">=</span> <span class="n">scrub_input</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_exponent</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot sign without a secret key.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot sign without a secret key.&#39;</span><span class="p">)</span>
 
-        <span class="c1"># Ed25519</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">&quot;ed&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">:</span>
+            <span class="c1"># Ed25519</span>
             <span class="n">digest</span> <span class="o">=</span> <span class="n">pysodium</span><span class="o">.</span><span class="n">crypto_generichash</span><span class="p">(</span><span class="n">encoded_message</span><span class="p">)</span>
             <span class="n">signature</span> <span class="o">=</span> <span class="n">pysodium</span><span class="o">.</span><span class="n">crypto_sign_detached</span><span class="p">(</span><span class="n">digest</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_exponent</span><span class="p">)</span>
-        <span class="c1"># Secp256k1</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">&quot;sp&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;sp&#39;</span><span class="p">:</span>
+            <span class="c1"># Secp256k1</span>
             <span class="n">pk</span> <span class="o">=</span> <span class="n">coincurve</span><span class="o">.</span><span class="n">PrivateKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">secret_exponent</span><span class="p">)</span>
             <span class="n">signature</span> <span class="o">=</span> <span class="n">ecdsa</span><span class="o">.</span><span class="n">serialize_compact</span><span class="p">(</span>
                 <span class="n">ecdsa</span><span class="o">.</span><span class="n">der_to_cdata</span><span class="p">(</span><span class="n">pk</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">encoded_message</span><span class="p">,</span> <span class="n">hasher</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">blake2b_32</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()))</span>
             <span class="p">)</span>
-        <span class="c1"># P256</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">&quot;p2&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;p2&#39;</span><span class="p">:</span>
+            <span class="c1"># P256</span>
             <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">fastecdsa</span><span class="o">.</span><span class="n">ecdsa</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">encoded_message</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">bytes_to_int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">secret_exponent</span><span class="p">),</span> <span class="n">hashfunc</span><span class="o">=</span><span class="n">blake2b_32</span><span class="p">)</span>
             <span class="n">signature</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;BL&#39;</span><span class="p">:</span>
+            <span class="c1"># BLS12-381</span>
+            <span class="n">sk_int</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">secret_exponent</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;little&#39;</span><span class="p">)</span>
+            <span class="n">signature</span> <span class="o">=</span> <span class="n">G2</span><span class="o">.</span><span class="n">Sign</span><span class="p">(</span><span class="n">sk_int</span><span class="p">,</span> <span class="n">encoded_message</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid or unsupported curve type: `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">curve</span><span class="si">!r}</span><span class="s1">`.&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">generic</span><span class="p">:</span>
             <span class="n">prefix</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;sig&#39;</span>
@@ -551,7 +609,10 @@
 
         <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="n">signature</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Key.verify"><a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.verify">[docs]</a>    <span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signature</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">message</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Key.verify">
+<a class="viewcode-back" href="../../../crypto.html#pytezos.crypto.key.Key.verify">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signature</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">message</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify signature, raise exception if it is not valid.</span>
 
 <span class="sd">        :param message: sequance of bytes, raw format or hexadecimal notation</span>
@@ -563,23 +624,23 @@
         <span class="n">encoded_message</span> <span class="o">=</span> <span class="n">scrub_input</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">public_point</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot verify without a public key&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot verify without a public key.&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">encoded_signature</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="sa">b</span><span class="s1">&#39;sig&#39;</span><span class="p">:</span>  <span class="c1"># not generic</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">!=</span> <span class="n">encoded_signature</span><span class="p">[:</span><span class="mi">2</span><span class="p">]:</span>  <span class="c1"># &quot;sp&quot;, &quot;p2&quot; &quot;ed&quot;</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Signature and public key curves mismatch.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">!=</span> <span class="n">encoded_signature</span><span class="p">[:</span><span class="mi">2</span><span class="p">]:</span>  <span class="c1"># &quot;sp&quot;, &quot;p2&quot;, &quot;ed&quot;, &quot;BL&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Signature and public key curves mismatch.&#39;</span><span class="p">)</span>
 
         <span class="n">decoded_signature</span> <span class="o">=</span> <span class="n">base58_decode</span><span class="p">(</span><span class="n">encoded_signature</span><span class="p">)</span>
 
         <span class="c1"># Ed25519</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">&quot;ed&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;ed&#39;</span><span class="p">:</span>
             <span class="n">digest</span> <span class="o">=</span> <span class="n">pysodium</span><span class="o">.</span><span class="n">crypto_generichash</span><span class="p">(</span><span class="n">encoded_message</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">pysodium</span><span class="o">.</span><span class="n">crypto_sign_verify_detached</span><span class="p">(</span><span class="n">decoded_signature</span><span class="p">,</span> <span class="n">digest</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">public_point</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Signature is invalid.&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Signature is invalid.&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
         <span class="c1"># Secp256k1</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">&quot;sp&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;sp&#39;</span><span class="p">:</span>
             <span class="n">pk</span> <span class="o">=</span> <span class="n">coincurve</span><span class="o">.</span><span class="n">PublicKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">public_point</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">pk</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span>
                 <span class="n">signature</span><span class="o">=</span><span class="n">ecdsa</span><span class="o">.</span><span class="n">cdata_to_der</span><span class="p">(</span><span class="n">ecdsa</span><span class="o">.</span><span class="n">deserialize_compact</span><span class="p">(</span><span class="n">decoded_signature</span><span class="p">)),</span>
@@ -588,15 +649,27 @@
             <span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Signature is invalid.&#39;</span><span class="p">)</span>
         <span class="c1"># P256</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">&quot;p2&quot;</span><span class="p">:</span>
-            <span class="n">pk</span> <span class="o">=</span> <span class="n">fastecdsa</span><span class="o">.</span><span class="n">encoding</span><span class="o">.</span><span class="n">sec1</span><span class="o">.</span><span class="n">SEC1Encoder</span><span class="o">.</span><span class="n">decode_public_key</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">public_point</span><span class="p">,</span> <span class="n">curve</span><span class="o">=</span><span class="n">fastecdsa</span><span class="o">.</span><span class="n">curve</span><span class="o">.</span><span class="n">P256</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;p2&#39;</span><span class="p">:</span>
+            <span class="n">pk</span> <span class="o">=</span> <span class="n">fastecdsa</span><span class="o">.</span><span class="n">encoding</span><span class="o">.</span><span class="n">sec1</span><span class="o">.</span><span class="n">SEC1Encoder</span><span class="o">.</span><span class="n">decode_public_key</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">public_point</span><span class="p">,</span> <span class="n">curve</span><span class="o">=</span><span class="n">fastecdsa</span><span class="o">.</span><span class="n">curve</span><span class="o">.</span><span class="n">P256</span>
+            <span class="p">)</span>
             <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">bytes_to_int</span><span class="p">(</span><span class="n">decoded_signature</span><span class="p">[:</span><span class="mi">32</span><span class="p">]),</span> <span class="n">bytes_to_int</span><span class="p">(</span><span class="n">decoded_signature</span><span class="p">[</span><span class="mi">32</span><span class="p">:])</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">fastecdsa</span><span class="o">.</span><span class="n">ecdsa</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">sig</span><span class="o">=</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">msg</span><span class="o">=</span><span class="n">encoded_message</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="n">pk</span><span class="p">,</span> <span class="n">hashfunc</span><span class="o">=</span><span class="n">blake2b_32</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">fastecdsa</span><span class="o">.</span><span class="n">ecdsa</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">sig</span><span class="o">=</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">msg</span><span class="o">=</span><span class="n">encoded_message</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="n">pk</span><span class="p">,</span> <span class="n">hashfunc</span><span class="o">=</span><span class="n">blake2b_32</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Signature is invalid.&#39;</span><span class="p">)</span>
+        <span class="c1"># BLS12-381</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">curve</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;BL&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">G2</span><span class="o">.</span><span class="n">Verify</span><span class="p">(</span>
+                <span class="n">BLSPubkey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">public_point</span><span class="p">),</span>
+                <span class="n">encoded_message</span><span class="p">,</span>
+                <span class="n">BLSSignature</span><span class="p">(</span><span class="n">decoded_signature</span><span class="p">),</span>
+            <span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Signature is invalid.&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown elliptic curve </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">curve</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid or unsupported curve type: `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">curve</span><span class="si">!r}</span><span class="s1">`.&#39;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="kc">True</span></div></div>
+        <span class="k">return</span> <span class="kc">True</span></div>
+</div>
+
 </pre></div>
 
            </div>

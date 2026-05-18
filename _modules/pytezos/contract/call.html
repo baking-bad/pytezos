@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pytezos.contract.call &mdash; PyTezos  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
     <link rel="canonical" href="https://pytezos.org/_modules/pytezos/contract/call.html" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -85,43 +83,45 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.contract.call</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pformat</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pformat</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deprecation</span><span class="w"> </span><span class="kn">import</span> <span class="n">deprecated</span>  <span class="c1"># type: ignore</span>
 
-<span class="kn">from</span> <span class="nn">pytezos.context.impl</span> <span class="kn">import</span> <span class="n">ExecutionContext</span>
-<span class="kn">from</span> <span class="nn">pytezos.context.mixin</span> <span class="kn">import</span> <span class="n">ContextMixin</span>
-<span class="kn">from</span> <span class="nn">pytezos.contract.result</span> <span class="kn">import</span> <span class="n">ContractCallResult</span>
-<span class="kn">from</span> <span class="nn">pytezos.jupyter</span> <span class="kn">import</span> <span class="n">get_class_docstring</span>
-<span class="kn">from</span> <span class="nn">pytezos.logging</span> <span class="kn">import</span> <span class="n">logger</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.format</span> <span class="kn">import</span> <span class="n">micheline_to_michelson</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.repl</span> <span class="kn">import</span> <span class="n">Interpreter</span>
-<span class="kn">from</span> <span class="nn">pytezos.michelson.sections.storage</span> <span class="kn">import</span> <span class="n">StorageSection</span>
-<span class="kn">from</span> <span class="nn">pytezos.operation</span> <span class="kn">import</span> <span class="n">DEFAULT_BURN_RESERVE</span>
-<span class="kn">from</span> <span class="nn">pytezos.operation</span> <span class="kn">import</span> <span class="n">DEFAULT_GAS_RESERVE</span>
-<span class="kn">from</span> <span class="nn">pytezos.operation.content</span> <span class="kn">import</span> <span class="n">format_mutez</span>
-<span class="kn">from</span> <span class="nn">pytezos.operation.content</span> <span class="kn">import</span> <span class="n">format_tez</span>
-<span class="kn">from</span> <span class="nn">pytezos.operation.group</span> <span class="kn">import</span> <span class="n">OperationGroup</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.context.impl</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExecutionContext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.context.mixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.contract.result</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContractCallResult</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.jupyter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_class_docstring</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.format</span><span class="w"> </span><span class="kn">import</span> <span class="n">micheline_to_michelson</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.repl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interpreter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.sections.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageSection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_BURN_RESERVE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_GAS_RESERVE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation.content</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_mutez</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation.content</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_tez</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationGroup</span>
 
 
-<span class="k">def</span> <span class="nf">skip_nones</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">skip_nones</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
 
 
-<div class="viewcode-block" id="ContractCall"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall">[docs]</a><span class="k">class</span> <span class="nc">ContractCall</span><span class="p">(</span><span class="n">ContextMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="ContractCall">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContractCall</span><span class="p">(</span><span class="n">ContextMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Proxy class encapsulating a contract call: contract type scheme, contract address, parameters, and amount&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">=</span> <span class="n">amount</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
             <span class="sa">f</span><span class="s1">&#39;.amount</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -132,7 +132,9 @@
         <span class="p">]</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ContractCall.with_amount"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.with_amount">[docs]</a>    <span class="k">def</span> <span class="nf">with_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractCall&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="ContractCall.with_amount">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.with_amount">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractCall&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set amount of funds to send with transaction to the contract.</span>
 
 <span class="sd">        :param amount: amount in microtez (int) or tez (Decimal)</span>
@@ -144,7 +146,10 @@
             <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ContractCall.as_transaction"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.as_transaction">[docs]</a>    <span class="k">def</span> <span class="nf">as_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ContractCall.as_transaction">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.as_transaction">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get operation content.</span>
 
 <span class="sd">        :rtype: OperationGroup</span>
@@ -153,12 +158,15 @@
             <span class="n">destination</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
 
+
     <span class="nd">@property</span>  <span class="c1"># type: ignore</span>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use `as_transaction()` instead&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">operation_group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">operation_group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_transaction</span><span class="p">()</span><span class="o">.</span><span class="n">fill</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ContractCall.send"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span>
+<div class="viewcode-block" id="ContractCall.send">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.send">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">gas_reserve</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_GAS_RESERVE</span><span class="p">,</span>
         <span class="n">burn_reserve</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_BURN_RESERVE</span><span class="p">,</span>
@@ -180,7 +188,10 @@
             <span class="n">ttl</span><span class="o">=</span><span class="n">ttl</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ContractCall.send_async"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.send_async">[docs]</a>    <span class="k">def</span> <span class="nf">send_async</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ContractCall.send_async">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.send_async">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send_async</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ttl</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">counter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -206,8 +217,11 @@
             <span class="n">minimal_nanotez_per_gas_unit</span><span class="o">=</span><span class="n">minimal_nanotez_per_gas_unit</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ContractCall.inject"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.inject">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.2.2&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use `send()` instead&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">inject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">preapply</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_result</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_blocks_wait</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ContractCall.inject">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.inject">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.2.2&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use `send()` instead&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">preapply</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_result</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_blocks_wait</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Send operation to blockchain.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">as_transaction</span><span class="p">()</span>
@@ -221,7 +235,10 @@
             <span class="p">)</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ContractCall.cmdline"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.cmdline">[docs]</a>    <span class="k">def</span> <span class="nf">cmdline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ContractCall.cmdline">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.cmdline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cmdline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate command line for tezos-client.&quot;&quot;&quot;</span>
         <span class="n">arg</span> <span class="o">=</span> <span class="n">micheline_to_michelson</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">()</span>
@@ -229,7 +246,10 @@
         <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;transfer </span><span class="si">{</span><span class="n">amount</span><span class="si">}</span><span class="s1"> from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s1"> --entrypoint </span><span class="se">\&#39;</span><span class="si">{</span><span class="n">entrypoint</span><span class="si">}</span><span class="se">\&#39;</span><span class="s1"> --arg </span><span class="se">\&#39;</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="se">\&#39;</span><span class="s1">&#39;</span></div>
 
-<div class="viewcode-block" id="ContractCall.interpret"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.interpret">[docs]</a>    <span class="k">def</span> <span class="nf">interpret</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ContractCall.interpret">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.interpret">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">interpret</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -291,7 +311,10 @@
             <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ContractCall.run_code"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.run_code">[docs]</a>    <span class="k">def</span> <span class="nf">run_code</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ContractCall.run_code">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.run_code">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_code</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -333,7 +356,10 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">block_id</span><span class="p">]</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">scripts</span><span class="o">.</span><span class="n">run_code</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ContractCallResult</span><span class="o">.</span><span class="n">from_run_code</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ContractCall.run_operation"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.run_operation">[docs]</a>    <span class="k">def</span> <span class="nf">run_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractCallResult</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ContractCall.run_operation">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.run_operation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractCallResult</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Simulate operation using real context.</span>
 
 <span class="sd">        :rtype: ContractCallResult</span>
@@ -343,8 +369,11 @@
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="ContractCall.result"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.result">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use either `run_code` or `run_operation`&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractCallResult</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ContractCall.result">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.result">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use either `run_code` or `run_operation`&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractCallResult</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Simulate operation and parse the result.</span>
 
 <span class="sd">        :param storage: Python object only. If storage is specified, `run_code` is called instead of `run_operation`.</span>
@@ -358,7 +387,10 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_code</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_operation</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ContractCall.callback_view"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.callback_view">[docs]</a>    <span class="k">def</span> <span class="nf">callback_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ContractCall.callback_view">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.callback_view">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">callback_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get return value of an on-chain callback method.</span>
 
 <span class="sd">        :param storage: initial storage as Python object,</span>
@@ -389,9 +421,14 @@
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Multiple internal operations, not sure which one to pick&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="ContractCall.view"><a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.view">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.4&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;Use callback_view instead&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback_view</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="ContractCall.view">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.view">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.4&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;Use callback_view instead&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback_view</span><span class="p">()</span></div>
+</div>
+
 </pre></div>
 
            </div>
