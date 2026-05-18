@@ -202,8 +202,8 @@ Set key as default
 Top up account
 ^^^^^^^^^^^^^^
 
-Go to the `https://faucet.shadownet.teztnets.com/ <https://faucet.ghostnet.teztnets.com/>` and paste your public key hash key file to the "Wallet address" field.  
-Press "Request 2001 tez" and wait for transaction to be completed.  
+Go to the `https://faucet.shadownet.teztnets.com/ <https://faucet.shadownet.teztnets.com/>` and paste your public key hash key file to the "Wallet address" field.
+Press "Request 2001 tez" and wait for transaction to be completed.
 
 Check that your balance is non-zero:
 

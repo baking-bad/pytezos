@@ -33,8 +33,8 @@ nodes = {
     'sandbox': ['http://127.0.0.1:8732/'],
     'sandboxnet': ['http://127.0.0.1:8732/'],
     'localhost': ['http://127.0.0.1:8732/'],
-    # NOTE: See https://docs.tatum.io/changelog/tezos-ghostnet-deprecation-migration-to-shadownet
-    # 'ghostnet': ['https://rpc.tzkt.io/shadownet'],
+    # NOTE: Ghostnet was deprecated and replaced by shadownet.
+    # See https://docs.tatum.io/changelog/tezos-ghostnet-deprecation-migration-to-shadownet
     'shadownet': ['https://rpc.tzkt.io/shadownet'],
 }
 keys = {
