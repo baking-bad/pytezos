@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 - Switch deprecated ghostnet to shadownet as default network.
 - Migrate dependency management from Poetry to uv. `pyproject.toml` now uses PEP 621 `[project]` and PEP 735 `[dependency-groups]`; build backend is hatchling; lockfile is `uv.lock`. The `notebook` dependency moved to a `jupyter` extra (installed in the `michelson-kernel` Docker image, not in `pytezos`). Dockerfiles consume `uv.lock` directly via bind mounts; the generated `requirements*.txt` files were removed.
 - **Breaking:** `pip install pytezos` no longer ships the Jupyter stack as a side effect. To use the `michelson-kernel` console script, install with the extra: `pip install pytezos[jupyter]`. Pre-3.18 the same effect happened transitively through `notebook` being a top-level runtime dependency.
+- Bump `notebook` constraint to `>=7,<8`. Notebook 6.x called `from distutils.version import LooseVersion`, which broke after Python 3.12 removed `distutils`; the `michelson-kernel` Docker image (Python 3.12) could not launch since that upgrade. Notebook 7 is built on `jupyter-server` and works on Python 3.12+. Removed the now-unrecognised `--no-mathjax` flag from the image's `jupyter-notebook` entrypoint.
 
 ## [3.17.0](https://github.com/baking-bad/pytezos/compare/3.16.1...3.17.0) - 2026-01-19
 

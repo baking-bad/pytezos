@@ -82,7 +82,7 @@ michelson-kernel = "michelson_kernel.cli:cli"
 jupyter = [
     "ipykernel>=6",
     "jupyter-client>=7",
-    "notebook>=6.5,<7",
+    "notebook>=7,<8",
 ]
 
 [dependency-groups]

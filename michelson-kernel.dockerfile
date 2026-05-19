@@ -41,7 +41,7 @@ RUN adduser -D pytezos
 USER pytezos
 ENV PATH="/app/.venv/bin:$PATH"
 WORKDIR /home/pytezos/
-ENTRYPOINT [ "/app/.venv/bin/jupyter-notebook", "--port=8888", "--ip=0.0.0.0", "--no-browser", "--no-mathjax" ]
+ENTRYPOINT [ "/app/.venv/bin/jupyter-notebook", "--port=8888", "--ip=0.0.0.0", "--no-browser" ]
 EXPOSE 8888
 
 COPY --chown=pytezos --from=compile-image /app /app
