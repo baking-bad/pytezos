@@ -9,8 +9,13 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: cache binder build on mybinder.org
-        uses: machine-learning-apps/repo2docker-action@master
-        with:
-          NO_PUSH: true
-          MYBINDERORG_TAG: ${{ github.event.ref }}
+      - name: Trigger mybinder.org cache prewarm
+        run: |
+          set +e
+          curl -L -H 'Accept: text/event-stream' \
+            --connect-timeout 20 --max-time 900 \
+            "https://mybinder.org/build/gh/${GITHUB_REPOSITORY}/${GITHUB_REF_NAME}"
+          rc=$?
+          # 0 = stream finished, 28 = --max-time hit while build still running.
+          # Both mean the build was accepted; anything else is a real failure.
+          if [ "$rc" -eq 0 ] || [ "$rc" -eq 28 ]; then exit 0; else exit "$rc"; fi
