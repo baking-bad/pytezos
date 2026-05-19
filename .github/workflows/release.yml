@@ -15,13 +15,11 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Install poetry
-        run: pipx install poetry
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
           python-version: "3.12"
+          enable-cache: true
 
       - name: Install binary dependencies
         run: OSTYPE=$OSTYPE make install-deps
@@ -78,11 +76,12 @@ jobs:
           tags: ${{ steps.meta-michelson-kernel.outputs.tags }}
           labels: ${{ steps.meta-michelson-kernel.outputs.labels }}
 
-      - name: Poetry publish
+      - name: Build and publish to PyPI
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
-          poetry config http-basic.pypi __token__ ${{secrets.PYPI_TOKEN}}
-          poetry build
-          poetry publish
+          uv build
+          uv publish
 
       # FIXME: Fails on prereleases; https://github.com/mindsers/changelog-reader-action/pull/39
       - name: Parse changelog

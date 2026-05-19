@@ -12,7 +12,7 @@ on:
       - 'src/**'
       - '*.dockerfile'
       - 'pyproject.toml'
-      - 'poetry.lock'
+      - 'uv.lock'
       - '.github/workflows/build.yml'
 
 jobs:

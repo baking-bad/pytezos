@@ -21,15 +21,11 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Install poetry
-        run: pipx install poetry
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
           python-version: "3.12"
-          # FIXME:
-          # cache: 'poetry'
+          enable-cache: true
 
       - name: Install binary dependencies
         run: OSTYPE=$OSTYPE make install-deps
@@ -38,7 +34,7 @@ jobs:
         run: make install
 
       - name: Make docs
-        run: poetry run make docs
+        run: make docs
 
       - name: Deploy to GH Pages
         if: github.ref == 'refs/heads/master'

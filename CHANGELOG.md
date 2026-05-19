@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 ### Changed
 
 - Switch deprecated ghostnet to shadownet as default network.
+- Migrate dependency management from Poetry to uv. `pyproject.toml` now uses PEP 621 `[project]` and PEP 735 `[dependency-groups]`; build backend is hatchling; lockfile is `uv.lock`. The `notebook` dependency moved to a `jupyter` extra (installed in the `michelson-kernel` Docker image, not in `pytezos`). Dockerfiles consume `uv.lock` directly via bind mounts; the generated `requirements*.txt` files were removed.
 
 ## [3.17.0](https://github.com/baking-bad/pytezos/compare/3.16.1...3.17.0) - 2026-01-19
 

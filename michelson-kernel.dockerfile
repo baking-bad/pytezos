@@ -1,5 +1,7 @@
+# syntax=docker/dockerfile:1.7
 FROM python:3.12-alpine3.22 AS compile-image
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.10.4 /uv /uvx /bin/
+
 RUN apk add --update --no-cache \
 	build-base \
 	libtool \
@@ -10,18 +12,24 @@ RUN apk add --update --no-cache \
 	gmp-dev \
 	libsodium-dev
 
-RUN python -m venv --without-pip --system-site-packages /opt/pytezos \
-    && mkdir -p /opt/pytezos/src/pytezos/ \
-    && touch /opt/pytezos/src/pytezos/__init__.py \
-    && mkdir -p /opt/pytezos/src/michelson_kernel/ \
-    && touch /opt/pytezos/src/michelson_kernel/__init__.py
-WORKDIR /opt/pytezos
-ENV PATH="/opt/pytezos/bin:$PATH"
-ENV PYTHON_PATH="/opt/pytezos/src:$PATH"
+ENV UV_COMPILE_BYTECODE=1 \
+	UV_LINK_MODE=copy \
+	UV_NO_DEV=1 \
+	UV_PYTHON_DOWNLOADS=0
 
-COPY pyproject.toml requirements.txt README.md /opt/pytezos/
+WORKDIR /app
 
-RUN uv pip install --prefix /opt/pytezos --no-cache-dir --disable-pip-version-check --no-deps -r /opt/pytezos/requirements.txt -e .
+# Install dependencies including the jupyter extra (cached layer)
+RUN --mount=type=cache,target=/root/.cache/uv \
+	--mount=type=bind,source=uv.lock,target=uv.lock \
+	--mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+	--mount=type=bind,source=README.md,target=README.md \
+	uv sync --locked --no-install-project --extra jupyter
+
+# Install the project itself
+COPY . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+	uv sync --locked --extra jupyter
 
 FROM python:3.12-alpine3.22 AS build-image
 RUN apk add --update --no-cache \
@@ -31,13 +39,11 @@ RUN apk add --update --no-cache \
 
 RUN adduser -D pytezos
 USER pytezos
-ENV PATH="/opt/pytezos/bin:$PATH"
-ENV PYTHONPATH="/home/pytezos:/home/pytezos/src:/opt/pytezos/src:/opt/pytezos/lib/python3.12/site-packages:$PYTHONPATH"
+ENV PATH="/app/.venv/bin:$PATH"
 WORKDIR /home/pytezos/
-ENTRYPOINT [ "/opt/pytezos/bin/jupyter-notebook", "--port=8888", "--ip=0.0.0.0" , "--no-browser", "--no-mathjax" ]
+ENTRYPOINT [ "/app/.venv/bin/jupyter-notebook", "--port=8888", "--ip=0.0.0.0", "--no-browser", "--no-mathjax" ]
 EXPOSE 8888
 
-COPY --chown=pytezos --from=compile-image /opt/pytezos /opt/pytezos
-COPY --chown=pytezos . /opt/pytezos
+COPY --chown=pytezos --from=compile-image /app /app
 
 RUN michelson-kernel install

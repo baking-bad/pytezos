@@ -1,22 +1,33 @@
-[tool.poetry]
+[project]
 name = "pytezos"
-version = "3.17.0"
+version = "3.18.0"
 description = "Python toolkit for Tezos"
-license = "MIT"
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
 authors = [
-    "Michael Zaikin <mz@baking-bad.org>",
-    "Lev Gorodetskii <pytezos@drsr.io>",
-    "Igor Sereda <sereda.igor.s@gmail.com>",
-    "Arthur Breitman",
-    "Roman Serikov",
+    { name = "Michael Zaikin", email = "mz@baking-bad.org" },
+    { name = "Lev Gorodetskii", email = "pytezos@drsr.io" },
+    { name = "Igor Sereda", email = "sereda.igor.s@gmail.com" },
+    { name = "Arthur Breitman" },
+    { name = "Roman Serikov" },
 ]
 maintainers = [
-    "Baking Bad team <hello@baking-bad.org>",
+    { name = "Baking Bad team", email = "hello@baking-bad.org" },
 ]
-readme = "README.md"
-repository = "https://github.com/baking-bad/pytezos"
-homepage = "https://pytezos.org"
-keywords = ['tezos', 'blockchain', 'sdk', 'michelson', 'repl', 'cryptocurrencies', 'smart-contracts', 'jupyter', 'ipython', 'docker', 'crypto']
+keywords = [
+    "tezos",
+    "blockchain",
+    "sdk",
+    "michelson",
+    "repl",
+    "cryptocurrencies",
+    "smart-contracts",
+    "jupyter",
+    "ipython",
+    "docker",
+    "crypto",
+]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
@@ -33,65 +44,76 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Application Frameworks",
     "Typing :: Typed",
 ]
-packages = [
-    { include = "pytezos", from = "src" },
-    { include = "michelson_kernel", from = "src" },
+dependencies = [
+    "attrs>=21.4.0",
+    "base58>=2.1.1",
+    "cattrs>=22.1.0",
+    "click>=8.1.3",
+    "coincurve>=20.0.0",
+    "cryptography>=42.0.4",
+    "deprecation>=2.1.0",
+    "docker>=6.0.0",
+    "fastecdsa>=2.2.3",
+    "jsonschema>=4.3.2",
+    "mnemonic>=0.21",
+    "netstruct>=1.1.2",
+    "ply>=3.11",
+    "py-ecc==7.0.1",
+    "pysodium>=0.7.10",
+    "python-dateutil>=2.8.2",
+    "requests>=2.28.2",
+    "simple-bson>=0.0.3",
+    "simplejson>=3.17.6",
+    "strict-rfc3339>=0.7",
+    "tabulate>=0.9.0",
+    "testcontainers>=3.7.0",
+    "tqdm>=4.62.3",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<3.14"
-attrs = ">=21.4.0"
-base58 = ">=2.1.1"
-cattrs = ">=22.1.0"
-click = ">=8.1.3"
-coincurve = ">=20.0.0"
-cryptography = ">=42.0.4"
-deprecation = ">=2.1.0"
-docker = ">=6.0.0"
-fastecdsa = ">=2.2.3"
-jsonschema = ">=4.3.2"
-mnemonic = ">=0.21"
-netstruct = ">=1.1.2"
-notebook = ">=6.5,<7"  # pinned
-ply = ">=3.11"
-py-ecc = "7.0.1"  # pinned
-pysodium = ">=0.7.10"
-python-dateutil = ">=2.8.2"
-requests = ">=2.28.2"
-simplejson = ">=3.17.6"
-strict-rfc3339 = ">=0.7"
-tabulate = ">=0.9.0"
-testcontainers = ">=3.7.0"
-tqdm = ">=4.62.3"
-simple-bson = ">=0.0.3"
+[project.urls]
+homepage = "https://pytezos.org"
+repository = "https://github.com/baking-bad/pytezos"
 
-[tool.poetry.group.dev.dependencies]
-black = "*"
-diff-cover = "*"
-isort = "*"
-mypy = "*"
-parameterized = "*"
-poetry-plugin-export = "^1.9.0"
-PyYAML = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
-ruff = "*"
-Sphinx = "*"
-sphinx-click = "*"
-sphinxcontrib-googleanalytics = "*"
-sphinx-rtd-theme = "*"
-sphinx-sitemap = "*"
-types-python-dateutil = "*"
-types-PyYAML = "*"
-types-requests = "*"
-types-setuptools = "*"
-types-simplejson = "*"
-types-tabulate = "*"
+[project.scripts]
+pytezos = "pytezos.cli.cli:cli"
+michelson-kernel = "michelson_kernel.cli:cli"
 
-[tool.poetry.scripts]
-pytezos = 'pytezos.cli.cli:cli'
-michelson-kernel = 'michelson_kernel.cli:cli'
+[project.optional-dependencies]
+jupyter = [
+    "notebook>=6.5,<7",
+]
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "diff-cover>=10.2.0",
+    "isort>=8.0.1",
+    "mypy>=2.1.0",
+    "parameterized>=0.9.0",
+    "pytest>=9.0.3",
+    "pytest-cov>=7.1.0",
+    "pytest-xdist>=3.8.0",
+    "pyyaml>=6.0.3",
+    "ruff>=0.15.13",
+    "sphinx>=8.1.3",
+    "sphinx-click>=6.2.0",
+    "sphinx-rtd-theme>=3.1.0",
+    "sphinx-sitemap>=2.9.0",
+    "sphinxcontrib-googleanalytics>=0.5",
+    "types-python-dateutil>=2.9.0.20260518",
+    "types-pyyaml>=6.0.12.20260518",
+    "types-requests>=2.33.0.20260518",
+    "types-setuptools>=82.0.0.20260518",
+    "types-simplejson>=3.20.0.20260518",
+    "types-tabulate>=0.10.0.20260508",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pytezos", "src/michelson_kernel"]
 
 [tool.isort]
 line_length = 120
@@ -127,8 +149,8 @@ lint.ignore = [
     "SIM108",
     "SIM114",
 ]
-target-version = "py310"
 lint.extend-select = ["B", "C", "RET", "SIM"]
+target-version = "py310"
 
 [tool.mypy]
 python_version = "3.10"
@@ -136,7 +158,3 @@ python_version = "3.10"
 [tool.ruff.format]
 quote-style = "single"
 indent-style = "space"
-
-[build-system]
-requires = ["poetry_core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"

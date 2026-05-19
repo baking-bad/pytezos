@@ -8,7 +8,7 @@ on:
       - 'src/**'
       - 'tests/**'
       - 'pyproject.toml'
-      - 'poetry.lock'
+      - 'uv.lock'
       - '.github/workflows/test.yml'
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
           # oldest
           - os: ubuntu-latest
             arch: amd64
-            python-version: '3.9'
+            python-version: '3.10'
 
           # FIXME: docker.errors.DockerException: Error while fetching server API version
           # - os: macos-latest
@@ -43,15 +43,11 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Install poetry
-        run: pipx install poetry
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
           python-version: ${{ matrix.python-version }}
-          # FIXME:
-          # cache: 'poetry'
+          enable-cache: true
 
       - name: Install binary dependencies
         run: OSTYPE=$OSTYPE make install-deps
