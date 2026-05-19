@@ -123,7 +123,7 @@ force_single_line = true
 
 [tool.black]
 line-length = 120
-target-version = ['py310', 'py311', 'py312', 'py313']
+target-version = ['py310']
 skip-string-normalization = true
 
 [tool.ruff]

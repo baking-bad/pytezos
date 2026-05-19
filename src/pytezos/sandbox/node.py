@@ -13,6 +13,7 @@ from typing import List
 from typing import Optional
 
 import requests.exceptions
+from docker.errors import DockerException  # type: ignore[import-untyped]
 from testcontainers.core.container import DockerContainer  # type: ignore[import-untyped]
 from testcontainers.core.docker_client import DockerClient  # type: ignore[import-untyped]
 
@@ -28,20 +29,22 @@ TEZOS_NODE_PORT = 8732
 
 
 def kill_existing_containers():
-    # Best-effort atexit hook: silently skip when the docker daemon is
-    # unreachable so the process doesn't print "Exception ignored in atexit
-    # callback" on shutdown in environments without docker.
-    with suppress(Exception):
+    try:
         docker = DockerClient()
-        running_containers: List[DockerContainer] = docker.client.containers.list(
-            filters={
-                'status': 'running',
-                'ancestor': DOCKER_IMAGE,
-            }
-        )
-        for container in running_containers:
-            with suppress(Exception):
-                container.stop(timeout=1)
+    except DockerException:
+        # No docker daemon reachable — nothing to clean up. Avoids the
+        # "Exception ignored in atexit callback" stderr noise on shutdown
+        # in environments without docker (e.g. the published pytezos image).
+        return
+    running_containers: List[DockerContainer] = docker.client.containers.list(
+        filters={
+            'status': 'running',
+            'ancestor': DOCKER_IMAGE,
+        }
+    )
+    for container in running_containers:
+        with suppress(Exception):
+            container.stop(timeout=1)
 
 
 atexit.register(kill_existing_containers)
