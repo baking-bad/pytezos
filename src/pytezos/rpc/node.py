@@ -1,5 +1,6 @@
 import json
 from pprint import pformat
+from time import sleep
 from typing import Any
 from typing import Dict
 from typing import List
@@ -12,9 +13,38 @@ from simplejson import JSONDecodeError
 
 from pytezos.logging import logger
 
+# Octez occasionally returns 500 with `kind: temporary` for endpoints that
+# touch the prevalidator while a block is being baked (mempool.pending_operations
+# at prevalidator.ml:1918, etc.). Retry such responses a few times with a small
+# backoff — `temporary` is octez's own signal that the error is transient.
+TRANSIENT_RETRY_ATTEMPTS = 6
+TRANSIENT_RETRY_INITIAL_DELAY = 0.25
+TRANSIENT_RETRY_MAX_DELAY = 2.0
+
 
 def _urljoin(*args: str) -> str:
     return "/".join(map(lambda x: str(x).strip('/'), args))
+
+
+_TRANSIENT_TEXT_MARKERS = ('prevalidator.ml',)  # mempool assertions during concurrent baking
+
+
+def _is_transient_response(res: requests.Response) -> bool:
+    """Check whether a non-2xx response is a transient octez infrastructure
+    error (mempool/prevalidator hiccups, etc.). Protocol-level errors
+    (id starting with `proto.`) are NOT retried even if octez marks them
+    `kind: temporary` — those are domain failures like `michelson_v1.*`."""
+    if res.headers.get('content-type') == 'application/json':
+        try:
+            body = res.json()
+        except (ValueError, JSONDecodeError):
+            body = None
+        if isinstance(body, list):
+            if any(isinstance(err, dict) and err.get('id', '').startswith('proto.') for err in body):
+                return False
+            if any(isinstance(err, dict) and err.get('kind') == 'temporary' for err in body):
+                return True
+    return any(marker in res.text for marker in _TRANSIENT_TEXT_MARKERS)
 
 
 def _gen_error_variants(error_id: str) -> List[str]:
@@ -100,13 +130,22 @@ class RpcNode:
         :returns: node response
         """
         logger.debug('>>>>> %s %s\n%s', method, path, json.dumps(kwargs, indent=4))
-        res = requests.request(
-            method=method,
-            url=_urljoin(self.uri[0], path),
-            headers={'content-type': 'application/json', 'user-agent': 'PyTezos', **self.headers},
-            timeout=kwargs.pop('timeout', None) or 60,
-            **kwargs,
-        )
+        timeout = kwargs.pop('timeout', None) or 60
+        delay = TRANSIENT_RETRY_INITIAL_DELAY
+        for attempt in range(TRANSIENT_RETRY_ATTEMPTS):
+            res = requests.request(
+                method=method,
+                url=_urljoin(self.uri[0], path),
+                headers={'content-type': 'application/json', 'user-agent': 'PyTezos', **self.headers},
+                timeout=timeout,
+                **kwargs,
+            )
+            if res.status_code >= 500 and _is_transient_response(res) and attempt < TRANSIENT_RETRY_ATTEMPTS - 1:
+                logger.debug('transient %s on %s %s, retrying in %.2fs', res.status_code, method, path, delay)
+                sleep(delay)
+                delay = min(delay * 2, TRANSIENT_RETRY_MAX_DELAY)
+                continue
+            break
         if res.status_code == 401:
             logger.debug('<<<<< %s\n%s', res.status_code, res.text)
             raise RpcError(f'Unauthorized: {path}')

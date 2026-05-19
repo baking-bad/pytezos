@@ -186,7 +186,11 @@ class SandboxedNodeAutoBakeTestCase(SandboxedNodeTestCase):
     def autobake(time_between_blocks: int, node_url: str, exit_event: Event, min_fee=0):
         logging.info("Baker thread started")
         client = PyTezosClient().using(shell=node_url)
-        ptr = 0
+        # Wait one block interval before the first bake. Baking the moment the
+        # thread starts races with the protocol activation: the prevalidator can
+        # still be processing the activation op and will return 500 with a
+        # `prevalidator.ml` assertion when bake_block queries the mempool.
+        ptr = 1
         while not exit_event.is_set():
             if ptr % time_between_blocks == 0:
                 key = get_next_baker_key(client)

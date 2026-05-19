@@ -6,6 +6,7 @@
 ##  TAG=latest          Tag for the `image` command
 TAG=latest
 
+UNAME_S := $(shell uname -s)
 ##
 
 help:              ## Show this help (default)
@@ -15,12 +16,12 @@ all:               ## Run a whole CI pipeline: lint, run tests, build docs
 	make install lint test docs
 
 install-deps:      ## Install binary dependencies
-ifneq (,$(findstring linux-gnu,$(OSTYPE)))
+ifeq ($(UNAME_S),Linux)
 	sudo apt install libsodium-dev libgmp-dev pkg-config
-else ifneq (,$(findstring darwin,$(OSTYPE)))
+else ifeq ($(UNAME_S),Darwin)
 	brew install libsodium gmp pkg-config
 else
-	echo "Unsupported platform $(OSTYPE)"
+	echo "Unsupported platform $(UNAME_S)"
 	exit 1
 endif
 
@@ -38,7 +39,7 @@ test-ci:
 	uv run pytest --junitxml="unit_test_results.xml" -sv tests/unit_tests
 	uv run pytest --junitxml="contract_test_results.xml" -sv tests/contract_tests
 	uv run pytest --junitxml="integration_test_results.xml" -sv tests/integration_tests
-ifneq (,$(findstring linux-gnu,$(OSTYPE)))
+ifeq ($(UNAME_S),Linux)
 	uv run pytest --junitxml="sandbox_test_results.xml" -xv tests/sandbox_tests
 endif
 
