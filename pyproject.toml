@@ -80,6 +80,8 @@ michelson-kernel = "michelson_kernel.cli:cli"
 
 [project.optional-dependencies]
 jupyter = [
+    "ipykernel>=6",
+    "jupyter-client>=7",
     "notebook>=6.5,<7",
 ]
 

@@ -2018,6 +2018,8 @@ dependencies = [
 
 [package.optional-dependencies]
 jupyter = [
+    { name = "ipykernel" },
+    { name = "jupyter-client" },
     { name = "notebook" },
 ]
 
@@ -2059,7 +2061,9 @@ requires-dist = [
     { name = "deprecation", specifier = ">=2.1.0" },
     { name = "docker", specifier = ">=6.0.0" },
     { name = "fastecdsa", specifier = ">=2.2.3" },
+    { name = "ipykernel", marker = "extra == 'jupyter'", specifier = ">=6" },
     { name = "jsonschema", specifier = ">=4.3.2" },
+    { name = "jupyter-client", marker = "extra == 'jupyter'", specifier = ">=7" },
     { name = "mnemonic", specifier = ">=0.21" },
     { name = "netstruct", specifier = ">=1.1.2" },
     { name = "notebook", marker = "extra == 'jupyter'", specifier = ">=6.5,<7" },
