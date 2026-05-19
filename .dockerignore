@@ -4,9 +4,8 @@
 # Add build files
 !Makefile
 !pyproject.toml
-!poetry.lock
+!uv.lock
 !README.md
-!requirements**
 
 # Add code
 !src
