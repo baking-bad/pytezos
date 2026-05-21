@@ -13,6 +13,7 @@ from typing import List
 from typing import Optional
 
 import requests.exceptions
+from docker.errors import DockerException  # type: ignore[import-untyped]
 from testcontainers.core.container import DockerContainer  # type: ignore[import-untyped]
 from testcontainers.core.docker_client import DockerClient  # type: ignore[import-untyped]
 
@@ -28,7 +29,13 @@ TEZOS_NODE_PORT = 8732
 
 
 def kill_existing_containers():
-    docker = DockerClient()
+    try:
+        docker = DockerClient()
+    except DockerException:
+        # No docker daemon reachable — nothing to clean up. Avoids the
+        # "Exception ignored in atexit callback" stderr noise on shutdown
+        # in environments without docker (e.g. the published pytezos image).
+        return
     running_containers: List[DockerContainer] = docker.client.containers.list(
         filters={
             'status': 'running',
@@ -182,7 +189,11 @@ class SandboxedNodeAutoBakeTestCase(SandboxedNodeTestCase):
     def autobake(time_between_blocks: int, node_url: str, exit_event: Event, min_fee=0):
         logging.info("Baker thread started")
         client = PyTezosClient().using(shell=node_url)
-        ptr = 0
+        # Wait one block interval before the first bake. Baking the moment the
+        # thread starts races with the protocol activation: the prevalidator can
+        # still be processing the activation op and will return 500 with a
+        # `prevalidator.ml` assertion when bake_block queries the mempool.
+        ptr = 1
         while not exit_event.is_set():
             if ptr % time_between_blocks == 0:
                 key = get_next_baker_key(client)

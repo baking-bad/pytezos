@@ -27,6 +27,8 @@ class TestCallbackView:
         assert res[0]['balance'] == 42
 
     def test_onchain_view(self):
-        ci = pytezos.using('mainnet').contract('KT1F6Amndd62P8yySM5NkyF4b1Kz27Ft4QeT')
-        res = ci.get_price().run_view()
+        # 3Route v4 router — active DEX aggregator with a stable on-chain view.
+        # getToken(0) returns the XTZ pseudo-token entry, which won't change.
+        ci = pytezos.using('mainnet').contract('KT1V5XKmeypanMS9pR65REpqmVejWBZURuuT')
+        res = ci.getToken(0).run_view()
         assert res
