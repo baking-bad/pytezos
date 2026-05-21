@@ -42,6 +42,19 @@ class ContractData(ContextMixin):
             raise KeyError(item)
         return ContractData(self.context, res, path=f'{self.path}/{item}')
 
+    def __iter__(self):
+        index = 0
+        index_err = 0
+        while True:
+            try:
+                yield self.__getitem__(index)
+                index += 1
+            except (IndexError, KeyError):
+                index += 1
+                index_err += 1
+                if index_err > 20:
+                    break
+
     def __call__(self, try_unpack=False):
         """Get Michelson value as a Python object
 
