@@ -1,7 +1,10 @@
 import pytest
 
+from pytezos.crypto.encoding import base58_encode
 from pytezos.michelson.forge import forge_address
+from pytezos.michelson.forge import forge_public_key
 from pytezos.michelson.forge import unforge_address
+from pytezos.michelson.forge import unforge_public_key
 
 
 class TestForgeAddress:
@@ -23,3 +26,20 @@ class TestForgeAddress:
         forged = forge_address(address, tz_only=True)
         assert forged.hex() == '0442eb77f76946e67e2eeefc47ed6a56b61e5cdbad'
         assert unforge_address(forged) == address
+
+
+class TestForgePublicKey:
+    # GAP-1: tz5 / ML-DSA-44 reveals embed an `mdpk` public key, which is forged
+    # by forge_public_key (NOT forge_address). These currently stop at BLpk (tag
+    # \x03) and raise — RED until the forge_public_key/unforge_public_key fix
+    # (add `mdpk` -> tag \x04) lands.
+    def test_forge_unforge_tz5_mdpk_round_trip(self):
+        # synthetic ML-DSA-44 public key: exactly 1312 bytes of mdpk payload
+        payload = bytes(range(256)) * 5 + bytes(32)
+        assert len(payload) == 1312
+        mdpk = base58_encode(payload, b'mdpk').decode()
+
+        forged = forge_public_key(mdpk)
+        assert forged[:1] == b'\x04'  # tz5 / ML-DSA-44 tag
+        assert forged == b'\x04' + payload
+        assert unforge_public_key(forged) == mdpk

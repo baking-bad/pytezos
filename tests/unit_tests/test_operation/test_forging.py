@@ -6,6 +6,8 @@ from unittest import TestCase
 from parameterized import parameterized  # type: ignore
 
 from pytezos import pytezos
+from pytezos.crypto.encoding import base58_encode
+from pytezos.operation.forge import forge_reveal
 from pytezos.operation.group import OperationGroup
 
 
@@ -31,3 +33,21 @@ class TestOperationForging(TestCase):
         )
         res = group.hash()
         self.assertEqual(opg_hash, res)
+
+    def test_forge_reveal_with_tz5_account(self):
+        # GAP-1: a tz5 reveal embeds an ML-DSA-44 (mdpk) public key, so
+        # forge_reveal -> forge_public_key must handle it. RED until the
+        # forge_public_key fix (mdpk -> tag \x04) lands.
+        payload = bytes(range(256)) * 5 + bytes(32)
+        content = {
+            'kind': 'reveal',
+            'source': 'tz5T7uDWfmUDvYw2kr6wfbe2ATYhRvKfLoFE',
+            'fee': '0',
+            'counter': '1',
+            'gas_limit': '0',
+            'storage_limit': '0',
+            'public_key': base58_encode(payload, b'mdpk').decode(),
+        }
+        forged = forge_reveal(content)
+        self.assertIsInstance(forged, bytes)
+        self.assertIn(b'\x04' + payload, forged)  # tz5 pubkey, tag \x04
