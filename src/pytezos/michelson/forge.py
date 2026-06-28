@@ -248,6 +248,8 @@ def forge_public_key(value: str) -> bytes:
         return b'\x02' + res
     elif prefix == 'BLpk':
         return b'\x03' + res
+    elif prefix == 'mdpk':
+        return b'\x04' + res
 
     raise ValueError(f'Unrecognized key type: #{prefix}')
 
@@ -263,6 +265,7 @@ def unforge_public_key(data: bytes) -> str:
         b'\x01': b'sppk',
         b'\x02': b'p2pk',
         b'\x03': b'BLpk',
+        b'\x04': b'mdpk',
     }
     return base58_encode(data[1:], key_prefix[data[:1]]).decode()
 
