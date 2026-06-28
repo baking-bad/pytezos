@@ -29,10 +29,8 @@ class TestForgeAddress:
 
 
 class TestForgePublicKey:
-    # GAP-1: tz5 / ML-DSA-44 reveals embed an `mdpk` public key, which is forged
-    # by forge_public_key (NOT forge_address). These currently stop at BLpk (tag
-    # \x03) and raise — RED until the forge_public_key/unforge_public_key fix
-    # (add `mdpk` -> tag \x04) lands.
+    # tz5 / ML-DSA-44 reveals embed an `mdpk` public key, forged by
+    # forge_public_key (tag \x04) — a path distinct from forge_address.
     def test_forge_unforge_tz5_mdpk_round_trip(self):
         # synthetic ML-DSA-44 public key: exactly 1312 bytes of mdpk payload
         payload = bytes(range(256)) * 5 + bytes(32)

@@ -35,9 +35,8 @@ class TestOperationForging(TestCase):
         self.assertEqual(opg_hash, res)
 
     def test_forge_reveal_with_tz5_account(self):
-        # GAP-1: a tz5 reveal embeds an ML-DSA-44 (mdpk) public key, so
-        # forge_reveal -> forge_public_key must handle it. RED until the
-        # forge_public_key fix (mdpk -> tag \x04) lands.
+        # a tz5 reveal embeds an ML-DSA-44 (mdpk) public key, so
+        # forge_reveal -> forge_public_key must tag it \x04.
         payload = bytes(range(256)) * 5 + bytes(32)
         content = {
             'kind': 'reveal',
