@@ -1,12 +1,20 @@
 # NOTE: Explaination: https://pytezos.baking-bad.org/tutorials/02.html#operation-group
 validation_passes = {
     'failing_noop': -1,
+    # Legacy consensus ops (pre-Oxford protocols), kept for back-compat
     'endorsement': 0,
     'endorsement_with_slot': 0,
+    # Modern consensus ops (Tenderbake rename, Oxford+): see docs/notes/attestation-mental-model.md
+    'preattestation': 0,
+    'attestation': 0,
+    'attestation_with_dal': 0,
+    'preattestations_aggregate': 0,
+    'attestations_aggregate': 0,
     'proposals': 1,
     'ballot': 1,
     'seed_nonce_revelation': 2,
     'double_endorsement_evidence': 2,
+    'double_consensus_operation_evidence': 2,
     'double_baking_evidence': 2,
     'activate_account': 2,
     'reveal': 3,
@@ -19,12 +27,20 @@ validation_passes = {
     'smart_rollup_execute_outbox_message': 3,
 }
 operation_tags = {
+    # Legacy consensus ops (pre-Oxford protocols), kept for back-compat
     'endorsement': 0,
     'endorsement_with_slot': 10,
+    # Modern consensus ops (Oxford+ / proto-025): see docs/notes/attestation-mental-model.md
+    'preattestation': 20,
+    'attestation': 21,
+    'attestation_with_dal': 23,
+    'preattestations_aggregate': 30,
+    'attestations_aggregate': 31,
     'proposals': 5,
     'ballot': 6,
     'seed_nonce_revelation': 1,
     'double_endorsement_evidence': 2,
+    'double_consensus_operation_evidence': 2,
     'double_baking_evidence': 3,
     'activate_account': 4,
     'failing_noop': 17,
