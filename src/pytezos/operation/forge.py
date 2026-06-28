@@ -5,6 +5,7 @@ from pytezos.michelson.forge import forge_address
 from pytezos.michelson.forge import forge_array
 from pytezos.michelson.forge import forge_base58
 from pytezos.michelson.forge import forge_bool
+from pytezos.michelson.forge import forge_int
 from pytezos.michelson.forge import forge_int16
 from pytezos.michelson.forge import forge_int32
 from pytezos.michelson.forge import forge_micheline
@@ -58,6 +59,12 @@ def forge_operation(content: Dict[str, Any]) -> bytes:
         'delegation': forge_delegation,
         'endorsement': forge_endorsement,
         'endorsement_with_slot': forge_endorsement_with_slot,
+        'preattestation': forge_consensus_operation,
+        'attestation': forge_consensus_operation,
+        'attestation_with_dal': forge_consensus_operation,
+        'preattestations_aggregate': forge_preattestations_aggregate,
+        'attestations_aggregate': forge_attestations_aggregate,
+        'double_consensus_operation_evidence': forge_double_consensus_operation_evidence,
         'register_global_constant': forge_register_global_constant,
         'transfer_ticket': forge_transfer_ticket,
         'smart_rollup_add_messages': forge_smart_rollup_add_messages,
@@ -180,6 +187,87 @@ def forge_endorsement_with_slot(content: Dict[str, Any]) -> bytes:
     res = forge_tag(operation_tags[content['kind']])
     res += forge_array(forge_inline_endorsement(content['endorsement']))
     res += forge_int16(content['slot'])
+    return res
+
+
+def forge_consensus_content(content: Dict[str, Any]) -> bytes:
+    """Forge the body shared by (pre)attestation ops: slot, level, round, block_payload_hash.
+
+    Appends the DAL bitset (signed Zarith, Data_encoding.z) when `dal_attestation` is present.
+    """
+    res = forge_int16(int(content['slot']))
+    res += forge_int32(int(content['level']))
+    res += forge_int32(int(content['round']))
+    res += forge_base58(content['block_payload_hash'])
+    if content.get('dal_attestation') is not None:
+        res += forge_int(int(content['dal_attestation']))
+    return res
+
+
+def _consensus_tag(content: Dict[str, Any]) -> int:
+    """Resolve the consensus operation tag, switching `attestation` to the DAL tag when needed."""
+    if content['kind'] == 'attestation' and content.get('dal_attestation') is not None:
+        return operation_tags['attestation_with_dal']
+    return operation_tags[content['kind']]
+
+
+def forge_consensus_operation(content: Dict[str, Any]) -> bytes:
+    """Forge a modern consensus operation: `attestation`, `preattestation` or `attestation_with_dal`."""
+    res = forge_tag(_consensus_tag(content))
+    res += forge_consensus_content(content)
+    return res
+
+
+def forge_inlined_consensus_operation(content: Dict[str, Any]) -> bytes:
+    """Forge an inlined consensus operation (used inside denunciations).
+
+    Layout: branch ‖ op-tag ‖ consensus_content ‖ [signature].
+    """
+    op = content['operations']
+    res = forge_base58(content['branch'])
+    res += forge_tag(_consensus_tag(op))
+    res += forge_consensus_content(op)
+    if content.get('signature'):
+        res += forge_base58(content['signature'])
+    return res
+
+
+def forge_double_consensus_operation_evidence(content: Dict[str, Any]) -> bytes:
+    res = forge_tag(operation_tags[content['kind']])
+    res += forge_int16(int(content['slot']))
+    res += forge_array(forge_inlined_consensus_operation(content['op1']))
+    res += forge_array(forge_inlined_consensus_operation(content['op2']))
+    return res
+
+
+def forge_consensus_aggregate_content(content: Dict[str, Any]) -> bytes:
+    """Forge the aggregate consensus content: level, round, block_payload_hash (no slot)."""
+    res = forge_int32(int(content['level']))
+    res += forge_int32(int(content['round']))
+    res += forge_base58(content['block_payload_hash'])
+    return res
+
+
+def forge_preattestations_aggregate(content: Dict[str, Any]) -> bytes:
+    res = forge_tag(operation_tags[content['kind']])
+    res += forge_consensus_aggregate_content(content['consensus_content'])
+    res += forge_array(b''.join(forge_int16(int(slot)) for slot in content['committee']))
+    return res
+
+
+def forge_attestations_aggregate(content: Dict[str, Any]) -> bytes:
+    res = forge_tag(operation_tags[content['kind']])
+    res += forge_consensus_aggregate_content(content['consensus_content'])
+
+    committee = b''
+    for member in content['committee']:
+        committee += forge_int16(int(member['slot']))
+        if member.get('dal_attestation') is not None:
+            committee += forge_bool(True)
+            committee += forge_int(int(member['dal_attestation']))
+        else:
+            committee += forge_bool(False)
+    res += forge_array(committee)
     return res
 
 

@@ -68,6 +68,95 @@ class ContentMixin:
         )
 
     @inline_doc
+    def attestation(
+        self,
+        slot: int,
+        level: int,
+        round: int,  # noqa: A002
+        block_payload_hash: str,
+        dal_attestation: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        """Attest a block (Tenderbake consensus, Oxford+ rename of `endorsement`).
+
+        :param slot: First (smallest) slot of the attester for this level
+        :param level: Attested level
+        :param round: Attested round
+        :param block_payload_hash: Hash of the attested block payload (vh...)
+        :param dal_attestation: Optional DAL attestation bitset (produces an `attestation_with_dal`)
+        :returns: dict or OperationGroup
+        """
+        content = {
+            'kind': 'attestation',
+            'slot': slot,
+            'level': level,
+            'round': round,
+            'block_payload_hash': block_payload_hash,
+        }
+        if dal_attestation is not None:
+            content['dal_attestation'] = dal_attestation
+        return self.operation(content)
+
+    @inline_doc
+    def preattestation(
+        self,
+        slot: int,
+        level: int,
+        round: int,  # noqa: A002
+        block_payload_hash: str,
+    ) -> Dict[str, Any]:
+        """Preattest a block (Tenderbake consensus, Oxford+ rename of `preendorsement`).
+
+        :param slot: First (smallest) slot of the attester for this level
+        :param level: Preattested level
+        :param round: Preattested round
+        :param block_payload_hash: Hash of the preattested block payload (vh...)
+        :returns: dict or OperationGroup
+        """
+        return self.operation(
+            {
+                'kind': 'preattestation',
+                'slot': slot,
+                'level': level,
+                'round': round,
+                'block_payload_hash': block_payload_hash,
+            }
+        )
+
+    @inline_doc
+    def double_consensus_operation_evidence(self, slot: int, op1: Dict[str, Any], op2: Dict[str, Any]):
+        """Provide evidence of a double (pre)attestation (Oxford+, replaces `double_endorsement_evidence`).
+
+        Inlined consensus operation format:
+
+        .. code-block:: python
+
+            {
+                "branch": $block_hash,
+                "operations": {
+                    "kind": "attestation",  # or "preattestation"
+                    "slot": integer,
+                    "level": integer,
+                    "round": integer,
+                    "block_payload_hash": $block_payload_hash
+                },
+                "signature"?: $Signature
+            }
+
+        :param slot: Slot of the denounced attester
+        :param op1: Inlined consensus operation
+        :param op2: Inlined consensus operation
+        :returns: dict or OperationGroup
+        """
+        return self.operation(
+            {
+                'kind': 'double_consensus_operation_evidence',
+                'slot': slot,
+                'op1': op1,
+                'op2': op2,
+            }
+        )
+
+    @inline_doc
     def seed_nonce_revelation(self, level: int, nonce: str):
         """Reveal the nonce committed operation in the previous cycle.
 
