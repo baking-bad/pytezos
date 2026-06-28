@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog], and this project adheres to [Semantic Versioning].
 
+## [3.19.0](https://github.com/baking-bad/pytezos/compare/3.18.0...3.19.0) - 2026-06-28
+
+### Added
+
+- Ushuaia protocol support (025).
+- tz5 / ML-DSA-44 account support: base58 prefixes (`tz5`, `mdpk`, `mdsk`, `mdesk`, `mdsig`), `is_pkh` recognition, and address forging/parsing (binary tag `\x04`). Note: signing with ML-DSA-44 is not yet implemented; only forging/parsing of tz5 addresses is supported.
+- Modern Tenderbake consensus operations: `attestation`, `preattestation`, `attestation_with_dal`, and the `attestations_aggregate` / `preattestations_aggregate` BLS aggregates, with DAL bitset forging.
+
+### Fixed
+
+- Repaired the Binder image build and stale documentation references.
+
+### Changed
+
+- Octez binaries updated to v25.0.
+
 ## [3.18.0](https://github.com/baking-bad/pytezos/compare/3.17.0...3.18.0) - 2026-05-21
 
 ### Changed
