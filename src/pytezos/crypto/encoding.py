@@ -17,6 +17,7 @@ base58_encodings = [
     (b'tz2', 36, tb([6, 161, 161]), 20, 'secp256k1 public key hash'),
     (b'tz3', 36, tb([6, 161, 164]), 20, 'p256 public key hash'),
     (b'tz4', 36, tb([6, 161, 166]), 20, 'BLS12-381 (MinPk) public key hash'),
+    (b'tz5', 36, tb([6, 161, 169]), 20, 'ML-DSA-44 public key hash'),
     (b'KT1', 36, tb([2, 90, 121]), 20, 'originated smart contract address'),
     (b'txr1', 37, tb([1, 128, 120, 31]), 20, 'tx_rollup_l2_address'),
     (b'sr1', 36, tb([6, 124, 117]), 20, 'originated smart rollup address'),
@@ -50,6 +51,10 @@ base58_encodings = [
     (b'BLpk', 76, tb([6, 149, 135, 204]), 48, 'bls12_381_min_pk public_key'),
     (b'BLsk', 54, tb([3, 150, 192, 40]), 32, 'bls12_381 secret_key'),
     (b'BLesk', 88, tb([2, 5, 30, 53, 25]), 56, 'bls12_381 encrypted_secret_key'),
+    (b'mdpk', 1802, tb([13, 7, 237, 67]), 1312, 'ML-DSA-44 public key'),
+    (b'mdsk', 5298, tb([9, 57, 116, 57]), 3872, 'ML-DSA-44 secret key'),
+    (b'mdesk', 5332, tb([5, 49, 133, 39, 172]), 3896, 'ML-DSA-44 encrypted secret key'),
+    (b'mdsig', 3316, tb([1, 156, 45, 210, 3]), 2420, 'ML-DSA-44 signature'),
 ]
 
 operation_tags = {
@@ -120,12 +125,12 @@ def _validate(v: Union[str, bytes], prefixes: list):
 
 
 def validate_pkh(v: Union[str, bytes]):
-    """Ensure parameter is a public key hash (starts with b'tz1', b'tz2', b'tz3', b'tz4')
+    """Ensure parameter is a public key hash (starts with b'tz1', b'tz2', b'tz3', b'tz4', b'tz5')
 
     :param v: string or bytes
     :raises ValueError: if parameter is not a public key hash
     """
-    return _validate(v, prefixes=[b'tz1', b'tz2', b'tz3', b'tz4'])
+    return _validate(v, prefixes=[b'tz1', b'tz2', b'tz3', b'tz4', b'tz5'])
 
 
 def validate_l2_pkh(v: Union[str, bytes]):

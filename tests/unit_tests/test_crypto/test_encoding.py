@@ -24,6 +24,7 @@ class TestEncoding:
             ('tz28YZoayJjVz2bRgGeVjxE8NonMiJ3r2Wdu', 'tz2'),
             ('tz3agP9LGe2cXmKQyYn6T68BHKjjktDbbSWX', 'tz3'),
             ('tz4F76GBmuLgXvUjLb2gfeBeM6fBf6EsuD1T', 'tz4'),
+            ('tz5T7uDWfmUDvYw2kr6wfbe2ATYhRvKfLoFE', 'tz5'),
             ('txr1YNMEtkj5Vkqsbdmt7xaxBTMRZjzS96UAi', 'txr1'),
             ('edpku976gpuAD2bXyx1XGraeKuCo1gUZ3LAJcHM12W1ecxZwoiu22R', 'edpk'),
             ('sppk7aMNM3xh14haqEyaxNjSt7hXanCDyoWtRcxF8wbtya859ak6yZT', 'sppk'),
@@ -63,6 +64,21 @@ class TestEncoding:
         assert re_encoded == expected
 
     @pytest.mark.parametrize(
+        ('prefix', 'payload_len'),
+        [
+            (b'mdpk', 1312),  # ML-DSA-44 public key
+            (b'mdsk', 3872),  # ML-DSA-44 secret key
+            (b'mdesk', 3896),  # ML-DSA-44 encrypted secret key
+            (b'mdsig', 2420),  # ML-DSA-44 signature
+        ],
+    )
+    def test_mldsa_prefix_round_trip(self, prefix: bytes, payload_len: int):
+        payload = bytes(range(256)) * (payload_len // 256) + bytes(range(payload_len % 256))
+        encoded = base58_encode(payload, prefix)
+        assert encoded.startswith(prefix)
+        assert base58_decode(encoded) == payload
+
+    @pytest.mark.parametrize(
         ('input_data', 'expected'),
         [
             ('test', b'test'),
@@ -81,6 +97,7 @@ class TestEncoding:
             ('tz28YZoayJjVz2bRgGeVjxE8NonMiJ3r2Wdu', True),
             ('tz3agP9LGe2cXmKQyYn6T68BHKjjktDbbSWX', True),
             ('tz4F76GBmuLgXvUjLb2gfeBeM6fBf6EsuD1T', True),
+            ('tz5T7uDWfmUDvYw2kr6wfbe2ATYhRvKfLoFE', True),
             ('txr1YNMEtkj5Vkqsbdmt7xaxBTMRZjzS96UAi', False),
             ('KT1ExvG3EjTrvDcAU7EqLNb77agPa5u6KvnY', False),
             ('qwerty', False),

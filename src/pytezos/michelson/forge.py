@@ -165,6 +165,8 @@ def forge_address(value: str, tz_only=False) -> bytes:
         res = b'\x00\x02' + address
     elif prefix == 'tz4':
         res = b'\x00\x03' + address
+    elif prefix == 'tz5':
+        res = b'\x00\x04' + address
     elif prefix == 'KT1':
         res = b'\x01' + address + b'\x00'
     elif prefix == 'txr1':
@@ -188,6 +190,7 @@ def unforge_address(data: bytes) -> str:
         b'\x00\x01': b'tz2',
         b'\x00\x02': b'tz3',
         b'\x00\x03': b'tz4',
+        b'\x00\x04': b'tz5',
     }
 
     for bin_prefix, tz_prefix in tz_prefixes.items():
