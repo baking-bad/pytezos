@@ -596,10 +596,10 @@
 </li>
       <li><a href="instructions.html#pytezos.michelson.instructions.boolean.AndInstruction">AndInstruction (class in pytezos.michelson.instructions.boolean)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code.html#pytezos.michelson.macros.PxrNode.annots">annots (pytezos.michelson.macros.PxrNode attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rpc_queries.html#pytezos.rpc.protocol.OperationListListQuery.anonymous">anonymous (pytezos.rpc.protocol.OperationListListQuery property)</a>
 </li>
       <li><a href="instructions.html#pytezos.michelson.instructions.control.ApplyInstruction">ApplyInstruction (class in pytezos.michelson.instructions.control)</a>
@@ -653,6 +653,12 @@
         <li><a href="types.html#pytezos.michelson.types.sapling.SaplingStateType.attach_context">(pytezos.michelson.types.sapling.SaplingStateType method)</a>
 </li>
         <li><a href="types.html#pytezos.michelson.types.sum.OrType.attach_context">(pytezos.michelson.types.sum.OrType method)</a>
+</li>
+      </ul></li>
+      <li><a href="high_level.html#pytezos.client.PyTezosClient.attestation">attestation (pytezos.client.PyTezosClient attribute)</a>
+
+      <ul>
+        <li><a href="operation_groups.html#pytezos.operation.group.OperationGroup.attestation">(pytezos.operation.group.OperationGroup attribute)</a>
 </li>
       </ul></li>
       <li><a href="operation_groups.html#pytezos.operation.group.OperationGroup.autofill">autofill (pytezos.operation.group.OperationGroup attribute)</a>
@@ -949,16 +955,22 @@
         <li><a href="operation_groups.html#pytezos.operation.group.OperationGroup.double_baking_evidence">(pytezos.operation.group.OperationGroup attribute)</a>
 </li>
       </ul></li>
+      <li><a href="high_level.html#pytezos.client.PyTezosClient.double_consensus_operation_evidence">double_consensus_operation_evidence (pytezos.client.PyTezosClient attribute)</a>
+
+      <ul>
+        <li><a href="operation_groups.html#pytezos.operation.group.OperationGroup.double_consensus_operation_evidence">(pytezos.operation.group.OperationGroup attribute)</a>
+</li>
+      </ul></li>
       <li><a href="high_level.html#pytezos.client.PyTezosClient.double_endorsement_evidence">double_endorsement_evidence (pytezos.client.PyTezosClient attribute)</a>
 
       <ul>
         <li><a href="operation_groups.html#pytezos.operation.group.OperationGroup.double_endorsement_evidence">(pytezos.operation.group.OperationGroup attribute)</a>
 </li>
       </ul></li>
-      <li><a href="instructions.html#pytezos.michelson.instructions.stack.DropInstruction">DropInstruction (class in pytezos.michelson.instructions.stack)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="instructions.html#pytezos.michelson.instructions.stack.DropInstruction">DropInstruction (class in pytezos.michelson.instructions.stack)</a>
+</li>
       <li><a href="instructions.html#pytezos.michelson.instructions.stack.DropnInstruction">DropnInstruction (class in pytezos.michelson.instructions.stack)</a>
 </li>
       <li><a href="instructions.html#pytezos.michelson.instructions.stack.DugInstruction">DugInstruction (class in pytezos.michelson.instructions.stack)</a>
@@ -1491,7 +1503,17 @@
 </li>
       <li><a href="operation_groups.html#pytezos.operation.forge.forge_activate_account">forge_activate_account() (in module pytezos.operation.forge)</a>
 </li>
+      <li><a href="operation_groups.html#pytezos.operation.forge.forge_attestations_aggregate">forge_attestations_aggregate() (in module pytezos.operation.forge)</a>
+</li>
+      <li><a href="operation_groups.html#pytezos.operation.forge.forge_consensus_aggregate_content">forge_consensus_aggregate_content() (in module pytezos.operation.forge)</a>
+</li>
+      <li><a href="operation_groups.html#pytezos.operation.forge.forge_consensus_content">forge_consensus_content() (in module pytezos.operation.forge)</a>
+</li>
+      <li><a href="operation_groups.html#pytezos.operation.forge.forge_consensus_operation">forge_consensus_operation() (in module pytezos.operation.forge)</a>
+</li>
       <li><a href="operation_groups.html#pytezos.operation.forge.forge_delegation">forge_delegation() (in module pytezos.operation.forge)</a>
+</li>
+      <li><a href="operation_groups.html#pytezos.operation.forge.forge_double_consensus_operation_evidence">forge_double_consensus_operation_evidence() (in module pytezos.operation.forge)</a>
 </li>
       <li><a href="operation_groups.html#pytezos.operation.forge.forge_endorsement">forge_endorsement() (in module pytezos.operation.forge)</a>
 </li>
@@ -1503,11 +1525,15 @@
 </li>
       <li><a href="operation_groups.html#pytezos.operation.forge.forge_inline_endorsement">forge_inline_endorsement() (in module pytezos.operation.forge)</a>
 </li>
+      <li><a href="operation_groups.html#pytezos.operation.forge.forge_inlined_consensus_operation">forge_inlined_consensus_operation() (in module pytezos.operation.forge)</a>
+</li>
       <li><a href="operation_groups.html#pytezos.operation.forge.forge_operation">forge_operation() (in module pytezos.operation.forge)</a>
 </li>
       <li><a href="operation_groups.html#pytezos.operation.forge.forge_operation_group">forge_operation_group() (in module pytezos.operation.forge)</a>
 </li>
       <li><a href="operation_groups.html#pytezos.operation.forge.forge_origination">forge_origination() (in module pytezos.operation.forge)</a>
+</li>
+      <li><a href="operation_groups.html#pytezos.operation.forge.forge_preattestations_aggregate">forge_preattestations_aggregate() (in module pytezos.operation.forge)</a>
 </li>
       <li><a href="operation_groups.html#pytezos.operation.forge.forge_register_global_constant">forge_register_global_constant() (in module pytezos.operation.forge)</a>
 </li>
@@ -2722,6 +2748,12 @@
 </li>
       <li><a href="rpc_queries.html#pytezos.rpc.helpers.PreapplyOperationsQuery">PreapplyOperationsQuery (class in pytezos.rpc.helpers)</a>
 </li>
+      <li><a href="high_level.html#pytezos.client.PyTezosClient.preattestation">preattestation (pytezos.client.PyTezosClient attribute)</a>
+
+      <ul>
+        <li><a href="operation_groups.html#pytezos.operation.group.OperationGroup.preattestation">(pytezos.operation.group.OperationGroup attribute)</a>
+</li>
+      </ul></li>
       <li><a href="rpc_queries.html#pytezos.rpc.protocol.BlockQuery.predecessor">predecessor (pytezos.rpc.protocol.BlockQuery property)</a>
 </li>
       <li><a href="types.html#pytezos.michelson.types.domain.KeyType.prefix">prefix (pytezos.michelson.types.domain.KeyType property)</a>

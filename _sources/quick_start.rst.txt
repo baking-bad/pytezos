@@ -12,7 +12,7 @@ In this quick start guide, we'll go through the main concepts and inspect one of
 Requirements
 ------------
 
-Make sure you have Python 3.8+ installed and set as default in the system.
+Make sure you have Python 3.10+ installed and set as default in the system.
 
 You also need to install cryptographic packages before installing the library/building the project:
 
@@ -509,7 +509,7 @@ as it has BigMap entries, named entrypoints, and a non-trivial data scheme.
 
     Properties
     .key  # tz1Ne4yzDRQPd5HFz6sTaCYCNHwFubT2MWsB
-    .shell  # https://mainnet-tezos.giganode.io/ (mainnet)
+    .shell  # https://rpc.tzkt.io/mainnet (mainnet)
     .address  # KT1REEb5VxWRjcHm5GzDMwErMmNFftsE5Gpf
     .block_id  # head
     .storage  # access storage data at block `block_id`
@@ -584,7 +584,7 @@ In order to see type definition, just remove the trailing brackets:
 
     Properties
     .key  # tz1Ne4yzDRQPd5HFz6sTaCYCNHwFubT2MWsB
-    .shell  # https://mainnet-tezos.giganode.io/ (mainnet)
+    .shell  # https://rpc.tzkt.io/mainnet (mainnet)
     .address  # KT1REEb5VxWRjcHm5GzDMwErMmNFftsE5Gpf
     .block_id  # head
     .path  # /ledger
@@ -638,7 +638,7 @@ We can do the same using special entrypoint ``balance_of``. Let's give a look at
 
     Properties
     .key  # tz1Ne4yzDRQPd5HFz6sTaCYCNHwFubT2MWsB
-    .shell  # https://mainnet-tezos.giganode.io/ (mainnet)
+    .shell  # https://rpc.tzkt.io/mainnet (mainnet)
     .address  # KT1REEb5VxWRjcHm5GzDMwErMmNFftsE5Gpf
     .block_id  # head
     .entrypoint  # balance_of

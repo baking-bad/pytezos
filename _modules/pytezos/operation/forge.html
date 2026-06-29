@@ -90,6 +90,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_array</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_base58</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_bool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_int</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_int16</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_int32</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.forge</span><span class="w"> </span><span class="kn">import</span> <span class="n">forge_micheline</span>
@@ -154,6 +155,12 @@
         <span class="s1">&#39;delegation&#39;</span><span class="p">:</span> <span class="n">forge_delegation</span><span class="p">,</span>
         <span class="s1">&#39;endorsement&#39;</span><span class="p">:</span> <span class="n">forge_endorsement</span><span class="p">,</span>
         <span class="s1">&#39;endorsement_with_slot&#39;</span><span class="p">:</span> <span class="n">forge_endorsement_with_slot</span><span class="p">,</span>
+        <span class="s1">&#39;preattestation&#39;</span><span class="p">:</span> <span class="n">forge_consensus_operation</span><span class="p">,</span>
+        <span class="s1">&#39;attestation&#39;</span><span class="p">:</span> <span class="n">forge_consensus_operation</span><span class="p">,</span>
+        <span class="s1">&#39;attestation_with_dal&#39;</span><span class="p">:</span> <span class="n">forge_consensus_operation</span><span class="p">,</span>
+        <span class="s1">&#39;preattestations_aggregate&#39;</span><span class="p">:</span> <span class="n">forge_preattestations_aggregate</span><span class="p">,</span>
+        <span class="s1">&#39;attestations_aggregate&#39;</span><span class="p">:</span> <span class="n">forge_attestations_aggregate</span><span class="p">,</span>
+        <span class="s1">&#39;double_consensus_operation_evidence&#39;</span><span class="p">:</span> <span class="n">forge_double_consensus_operation_evidence</span><span class="p">,</span>
         <span class="s1">&#39;register_global_constant&#39;</span><span class="p">:</span> <span class="n">forge_register_global_constant</span><span class="p">,</span>
         <span class="s1">&#39;transfer_ticket&#39;</span><span class="p">:</span> <span class="n">forge_transfer_ticket</span><span class="p">,</span>
         <span class="s1">&#39;smart_rollup_add_messages&#39;</span><span class="p">:</span> <span class="n">forge_smart_rollup_add_messages</span><span class="p">,</span>
@@ -303,6 +310,108 @@
     <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_array</span><span class="p">(</span><span class="n">forge_inline_endorsement</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;endorsement&#39;</span><span class="p">]))</span>
     <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_int16</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;slot&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="forge_consensus_content">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_consensus_content">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_consensus_content</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Forge the body shared by (pre)attestation ops: slot, level, round, block_payload_hash.</span>
+
+<span class="sd">    Appends the DAL bitset (signed Zarith, Data_encoding.z) when `dal_attestation` is present.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">forge_int16</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;slot&#39;</span><span class="p">]))</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_int32</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]))</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_int32</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;round&#39;</span><span class="p">]))</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_base58</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;block_payload_hash&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">content</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dal_attestation&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_int</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;dal_attestation&#39;</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_consensus_tag</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve the consensus operation tag, switching `attestation` to the DAL tag when needed.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;attestation&#39;</span> <span class="ow">and</span> <span class="n">content</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dal_attestation&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">operation_tags</span><span class="p">[</span><span class="s1">&#39;attestation_with_dal&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]]</span>
+
+
+<div class="viewcode-block" id="forge_consensus_operation">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_consensus_operation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_consensus_operation</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Forge a modern consensus operation: `attestation`, `preattestation` or `attestation_with_dal`.&quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">_consensus_tag</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_consensus_content</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="forge_inlined_consensus_operation">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_inlined_consensus_operation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_inlined_consensus_operation</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Forge an inlined consensus operation (used inside denunciations).</span>
+
+<span class="sd">    Layout: branch ‖ op-tag ‖ consensus_content ‖ [signature].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">content</span><span class="p">[</span><span class="s1">&#39;operations&#39;</span><span class="p">]</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">forge_base58</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;branch&#39;</span><span class="p">])</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">_consensus_tag</span><span class="p">(</span><span class="n">op</span><span class="p">))</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_consensus_content</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">content</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;signature&#39;</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_base58</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;signature&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="forge_double_consensus_operation_evidence">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_double_consensus_operation_evidence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_double_consensus_operation_evidence</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_int16</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;slot&#39;</span><span class="p">]))</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_array</span><span class="p">(</span><span class="n">forge_inlined_consensus_operation</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;op1&#39;</span><span class="p">]))</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_array</span><span class="p">(</span><span class="n">forge_inlined_consensus_operation</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;op2&#39;</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="forge_consensus_aggregate_content">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_consensus_aggregate_content">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_consensus_aggregate_content</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Forge the aggregate consensus content: level, round, block_payload_hash (no slot).&quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">forge_int32</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]))</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_int32</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;round&#39;</span><span class="p">]))</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_base58</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;block_payload_hash&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="forge_preattestations_aggregate">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_preattestations_aggregate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_preattestations_aggregate</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_consensus_aggregate_content</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;consensus_content&#39;</span><span class="p">])</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_array</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">forge_int16</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">slot</span><span class="p">))</span> <span class="k">for</span> <span class="n">slot</span> <span class="ow">in</span> <span class="n">content</span><span class="p">[</span><span class="s1">&#39;committee&#39;</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="forge_attestations_aggregate">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_attestations_aggregate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">forge_attestations_aggregate</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">forge_tag</span><span class="p">(</span><span class="n">operation_tags</span><span class="p">[</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]])</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_consensus_aggregate_content</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;consensus_content&#39;</span><span class="p">])</span>
+
+    <span class="n">committee</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">content</span><span class="p">[</span><span class="s1">&#39;committee&#39;</span><span class="p">]:</span>
+        <span class="n">committee</span> <span class="o">+=</span> <span class="n">forge_int16</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">member</span><span class="p">[</span><span class="s1">&#39;slot&#39;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">member</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dal_attestation&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">committee</span> <span class="o">+=</span> <span class="n">forge_bool</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">committee</span> <span class="o">+=</span> <span class="n">forge_int</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">member</span><span class="p">[</span><span class="s1">&#39;dal_attestation&#39;</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">committee</span> <span class="o">+=</span> <span class="n">forge_bool</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">forge_array</span><span class="p">(</span><span class="n">committee</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
 
 
