@@ -38,7 +38,7 @@ The recommended way is to use WSL and then follow the instructions for Linux,
 but if you feel lucky you can try to install natively:
 
 
-#. Install MinGW from `https://osdn.net/projects/mingw/ <https://osdn.net/projects/mingw/>`_
+#. Install MinGW from `https://sourceforge.net/projects/mingw/ <https://sourceforge.net/projects/mingw/>`_
 #. Make sure ``C:\MinGW\bin`` is added to your ``PATH``
 #. Download the latest libsodium-X.Y.Z-msvc.zip from `https://download.libsodium.org/libsodium/releases/ <https://download.libsodium.org/libsodium/releases/>`_.
 #. Extract the Win64/Release/v143/dynamic/libsodium.dll from the zip file
