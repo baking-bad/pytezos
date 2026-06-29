@@ -165,6 +165,8 @@ def forge_address(value: str, tz_only=False) -> bytes:
         res = b'\x00\x02' + address
     elif prefix == 'tz4':
         res = b'\x00\x03' + address
+    elif prefix == 'tz5':
+        res = b'\x00\x04' + address
     elif prefix == 'KT1':
         res = b'\x01' + address + b'\x00'
     elif prefix == 'txr1':
@@ -188,6 +190,7 @@ def unforge_address(data: bytes) -> str:
         b'\x00\x01': b'tz2',
         b'\x00\x02': b'tz3',
         b'\x00\x03': b'tz4',
+        b'\x00\x04': b'tz5',
     }
 
     for bin_prefix, tz_prefix in tz_prefixes.items():
@@ -245,6 +248,8 @@ def forge_public_key(value: str) -> bytes:
         return b'\x02' + res
     elif prefix == 'BLpk':
         return b'\x03' + res
+    elif prefix == 'mdpk':
+        return b'\x04' + res
 
     raise ValueError(f'Unrecognized key type: #{prefix}')
 
@@ -260,6 +265,7 @@ def unforge_public_key(data: bytes) -> str:
         b'\x01': b'sppk',
         b'\x02': b'p2pk',
         b'\x03': b'BLpk',
+        b'\x04': b'mdpk',
     }
     return base58_encode(data[1:], key_prefix[data[:1]]).decode()
 
