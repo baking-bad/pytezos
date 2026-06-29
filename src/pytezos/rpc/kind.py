@@ -4,7 +4,7 @@ validation_passes = {
     # Legacy consensus ops (pre-Oxford protocols), kept for back-compat
     'endorsement': 0,
     'endorsement_with_slot': 0,
-    # Modern consensus ops (Tenderbake rename, Oxford+): see docs/notes/attestation-mental-model.md
+    # Modern consensus ops (Tenderbake rename, Oxford+)
     'preattestation': 0,
     'attestation': 0,
     'attestation_with_dal': 0,
@@ -30,7 +30,7 @@ operation_tags = {
     # Legacy consensus ops (pre-Oxford protocols), kept for back-compat
     'endorsement': 0,
     'endorsement_with_slot': 10,
-    # Modern consensus ops (Oxford+ / proto-025): see docs/notes/attestation-mental-model.md
+    # Modern consensus ops (Oxford+ / proto-025)
     'preattestation': 20,
     'attestation': 21,
     'attestation_with_dal': 23,

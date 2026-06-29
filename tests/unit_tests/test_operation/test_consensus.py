@@ -24,7 +24,7 @@ def _aggregate_body(level: int, round_: int) -> bytes:
 
 
 class TestConsensusForging(TestCase):
-    """Round-trip checks against the proto-025 byte layout (docs/notes/attestation-mental-model.md)."""
+    """Round-trip checks against the proto-025 byte layout."""
 
     def test_forge_attestation(self) -> None:
         content = {'kind': 'attestation', 'slot': 1, 'level': 2000000, 'round': 0, 'block_payload_hash': BPH}
