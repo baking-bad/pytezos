@@ -15,6 +15,10 @@ jobs:
   test:
     name: Test
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
     strategy:
       matrix:
         include:
@@ -64,5 +68,7 @@ jobs:
       - name: Publish results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
+        # Publishing results must never fail the job (e.g. GitHub API 429 throttling).
+        continue-on-error: true
         with:
           junit_files: "*.xml"
