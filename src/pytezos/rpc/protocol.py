@@ -50,6 +50,9 @@ class BlocksQuery(RpcQuery, path='/chains/{}/blocks'):
     def _get_block(self, block_id) -> 'BlockQuery':
         return super().__getitem__(block_id)
 
+    def __len__(self):
+        return self._get_block('head').level()
+
     def __getitem__(self, block_id):
         """Construct block query or get a block range.
 
