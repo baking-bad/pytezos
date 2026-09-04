@@ -11,6 +11,7 @@ from pytezos.crypto.encoding import is_public_key
 from pytezos.crypto.key import Key
 from pytezos.crypto.key import is_installed
 from pytezos.jupyter import InlineDocstring
+from pytezos.operation.fees import FeeThresholds
 from pytezos.rpc import RpcMultiNode
 from pytezos.rpc import RpcNode
 from pytezos.rpc import ShellQuery
@@ -131,6 +132,7 @@ class ContextMixin(metaclass=InlineDocstring):
         ipfs_gateway: Optional[str] = None,
         balance: Optional[int] = None,
         view_results: Optional[Dict[str, Any]] = None,
+        fee_thresholds: Optional[Union[FeeThresholds, str]] = None,
     ) -> ExecutionContext:
         if isinstance(shell, str):
             if shell.endswith('.pool'):
@@ -176,4 +178,5 @@ class ContextMixin(metaclass=InlineDocstring):
             ipfs_gateway=ipfs_gateway or self.context.ipfs_gateway,
             balance=balance or self.context.balance,
             view_results=view_results,
+            fee_thresholds=fee_thresholds or self.context.fee_thresholds,
         )
