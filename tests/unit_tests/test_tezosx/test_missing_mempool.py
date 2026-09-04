@@ -37,3 +37,29 @@ class TestMissingMempool(TestCase):
             client = pytezos.using(shell=STUB_URL, key=alice_key)
             operations = client.shell.wait_operations([opg_hash], ttl=2, min_confirmations=1)
         self.assertEqual([included], operations)
+
+    def test_wait_operations_scans_skipped_blocks(self):
+        """With 1s blocks the head advances 2+ levels between polls; the op sits in a block never seen as head."""
+        opg_hash = 'ooStubInjectedOperationHash'
+        included = {'hash': opg_hash, 'contents': [{'kind': 'transaction'}]}
+        b1, b2, b3 = 'BLstub1', 'BLstub2', 'BLstub3'
+        polls = iter([b1, b1, b3, b3, b3])  # head is b1 at injection, then jumps straight to b3
+        routes = {
+            '/chains/main/blocks/head/hash': lambda *_: (200, next(polls)),
+        }
+        for level, (block, predecessor) in enumerate([(b1, 'BLstub0'), (b2, b1), (b3, b2)], start=1):
+            routes[f'/chains/main/blocks/{block}/hash'] = block
+            routes[f'/chains/main/blocks/{block}/header'] = {
+                'hash': block,
+                'level': level,
+                'predecessor': predecessor,
+                'timestamp': '2026-09-04T03:44:53Z',
+            }
+            routes[f'/chains/main/blocks/{block}/context/constants'] = {'minimal_block_delay': '1'}
+            routes[f'/chains/main/blocks/{block}/operation_hashes'] = [[], [], [], [opg_hash] if block == b2 else []]
+        routes[f'/chains/main/blocks/{b2}/operations/3/0'] = included
+        with SequencerStub(extra_routes=routes) as node:
+            client = pytezos.using(shell=STUB_URL, key=alice_key)
+            operations = client.shell.wait_operations([opg_hash], ttl=3, min_confirmations=1, current_block_hash=b1)
+        self.assertEqual([included], operations)
+        self.assertEqual(1, node.count(f'/blocks/{b2}/operation_hashes'), 'the skipped block must be scanned once')

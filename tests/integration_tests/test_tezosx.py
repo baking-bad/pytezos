@@ -45,7 +45,10 @@ class TestTezosXPreviewnet(TestCase):
     def test_transfer_round_trip(self):
         """Send 1 mutez to self and wait for inclusion without any mempool access."""
         client = pytezos.using(shell=PREVIEWNET_RPC, key=SECRET_KEY, fee_thresholds='node')
-        opg = client.transaction(destination=client.key.public_key_hash(), amount=1).send(min_confirmations=1)
+        pkh = client.key.public_key_hash()
+        if client.shell.contracts[pkh].manager_key() is None:
+            client.reveal().send(min_confirmations=1)
+        opg = client.transaction(destination=pkh, amount=1).send(min_confirmations=1)
         self.assertIsNotNone(opg.opg_hash)
         included = client.shell.blocks[-30:].find_operation(opg.opg_hash)
         self.assertEqual('applied', included['contents'][0]['metadata']['operation_result']['status'])
