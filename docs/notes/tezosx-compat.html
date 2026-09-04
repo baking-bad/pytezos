@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>pytezos × Tezos X: три допущения mainnet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;900&family=Golos+Text:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+ --bg:#0c0c0c; --ink:#f2f2ef; --dim:#8a8a86; --faint:#5c5c58;
+ --line:#262624; --line2:#1a1a18;
+ --accent:#ff6a00;
+ --t-h1:68px; --t-idx:120px; --t-h2:30px; --t-body:20px; --t-mono:14px;
+ --s1:10px; --s2:20px; --s3:30px; --s4:40px; --s5:60px; --s6:76px;
+ --mono:'IBM Plex Mono',monospace; --sans:'Golos Text',sans-serif; --black:'Geologica',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;font-size:var(--t-body);
+ background-image:linear-gradient(var(--line2) 1px,transparent 1px),linear-gradient(90deg,var(--line2) 1px,transparent 1px);
+ background-size:42px 42px;background-position:-1px -1px}
+.wrap{max-width:1300px;margin:0 auto;padding:0 var(--s4);background:var(--bg);box-shadow:0 0 0 1px var(--line)}
+header{padding:var(--s6) 0 var(--s4);border-bottom:2px solid var(--ink);display:grid;grid-template-columns:1fr auto;align-items:end;gap:var(--s3)}
+.kick{font-family:var(--mono);font-size:var(--t-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 24px}
+.kick::before{content:"// ";color:var(--faint)}
+h1{font-family:var(--black);font-weight:900;font-size:var(--t-h1);line-height:.96;margin:0;letter-spacing:-.02em;text-transform:uppercase}
+.idx{font-family:var(--black);font-weight:900;font-size:var(--t-idx);color:var(--accent);line-height:.74;letter-spacing:-.04em}
+.lede{grid-column:1/-1;color:var(--dim);max-width:900px;margin:var(--s2) 0 0;font-size:var(--t-body)}
+.lede b{color:var(--ink);font-weight:600}
+.scope{grid-column:1/-1;font-family:var(--mono);font-size:var(--t-mono);color:var(--faint);margin:0;line-height:1.8}
+.scope b{color:var(--dim);font-weight:500}
+section{padding:var(--s4) 0;border-bottom:1px solid var(--line)}
+.row{display:grid;grid-template-columns:190px 1fr;gap:34px}
+.sl{font-family:var(--mono);font-size:var(--t-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}.sl::before{content:"§ ";color:var(--accent)}
+h2{font-size:var(--t-h2);margin:0 0 5px;text-transform:uppercase;letter-spacing:-.01em;font-weight:700}
+.h2sub{font-family:var(--mono);font-size:var(--t-mono);color:var(--faint);margin:0 0 26px}
+p{max-width:940px;margin:0 0 18px}
+p code,li code,td code{font-family:var(--mono);font-size:16px;color:var(--ink);background:var(--line2);padding:2px 6px}
+pre{font-family:var(--mono);font-size:15px;line-height:1.55;background:var(--line2);border:1px solid var(--line);padding:16px 20px;margin:6px 0 24px;white-space:pre-wrap;word-break:break-word}
+pre .c{color:var(--faint)} pre .a{color:var(--accent)}
+ul{max-width:940px;padding-left:22px;margin:0 0 18px}li{margin:0 0 8px}
+strong{font-weight:600}
+.panel{border:1px solid var(--line);position:relative;margin:6px 0 24px}
+.panel::after{content:"";position:absolute;top:14px;right:15px;width:38px;height:7px;background:repeating-linear-gradient(90deg,var(--line) 0 4px,transparent 4px 8px)}
+.pbar{font-family:var(--mono);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding:14px 22px;border-bottom:1px solid var(--line)}.pbar b{color:var(--ink)}
+.step{display:grid;grid-template-columns:62px 1fr;gap:20px;padding:20px 22px;border-top:1px solid var(--line2)}.step:first-of-type{border-top:none}
+.n{font-family:var(--black);font-weight:900;font-size:32px;line-height:1}.n.a{color:var(--accent)}.n.b{color:var(--ink)}
+.sh{margin:0;font-weight:600;font-size:19px;display:flex;align-items:center;flex-wrap:wrap}
+.sh .b{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-left:14px;padding:3px 10px}.sh .b.a{background:var(--accent);color:#000;font-weight:600}.sh .b.b{border:1px solid var(--ink)}
+.sd{color:var(--dim);margin:6px 0 0;font-size:17px;max-width:none}.sd code{font-family:var(--mono);font-size:15px;color:var(--ink);background:var(--line2);padding:2px 6px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);margin-top:0;border-top:2px solid var(--ink)}
+.f{padding:20px 22px 20px 0;border-right:1px solid var(--line)}.f:last-child{border:none}.facts .f{padding-left:22px}
+.fk{font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:0 0 10px}
+.fv{font-family:var(--black);font-weight:900;font-size:26px;margin:0;line-height:1.05}.fv small{font-family:var(--sans);font-weight:400;font-size:15px;color:var(--dim);display:block;margin-top:6px;letter-spacing:0}
+table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:17px;margin:6px 0 24px}
+.tiers th:nth-child(1){width:11%}.tiers th:nth-child(2){width:27%}.tiers th:nth-child(3){width:24%}.tiers th:nth-child(4){width:14%}
+.probe th:nth-child(1){width:34%}
+th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--ink)}
+td:not(:first-child){border-left:1px solid var(--line2);color:var(--dim)}
+td:first-child{color:var(--ink)}tr:last-child td{border-bottom:none}
+td .hot{color:var(--accent);font-weight:600}
+td.mono,th.mono{font-family:var(--mono);font-size:15px;word-break:break-word}
+figure{margin:6px 0 24px;border:1px solid var(--line);padding:18px 22px 10px}
+figcaption{font-family:var(--mono);font-size:14px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin:0 0 12px}
+figcaption b{color:var(--ink)}
+svg text{font-family:var(--sans);font-size:16px;fill:var(--ink)}
+svg .m{font-family:var(--mono);font-size:14px;fill:var(--dim)}
+svg .d{fill:var(--dim)} svg .hot{fill:var(--accent)} svg .hott{fill:var(--accent);font-weight:600}
+footer{padding:var(--s4) 0 var(--s5);color:var(--faint);font-family:var(--mono);font-size:14px;line-height:1.7}footer .s{color:var(--dim)}
+@media(max-width:680px){:root{--t-h1:44px}header{grid-template-columns:1fr}.idx{display:none}.row{grid-template-columns:1fr}.facts{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+
+<header>
+ <div><p class="kick">pytezos × Tezos X · worktree tezosx-compat · 2026-09-04</p><h1>Три допущения mainnet, которые&nbsp;ломал секвенсер</h1></div>
+ <div class="idx">3</div>
+ <p class="lede">Tezos X Michelson L2 отличается от L1-ноды для клиента ровно тремя вещами: <b>нет mempool</b>, <b>свой fee-фильтр</b>, <b>блок раз в секунду</b>. pytezos держал все три как молчаливые допущения. Теперь каждое вынесено в явную точку кода и покрыто тестами на трёх ярусах, включая локальный секвенсер в Docker. Патчи из <code>tezosx_nac.py</code> в etherlink-bridge становятся не нужны.</p>
+ <p class="scope"><b>Кому:</b> мейнтейнеру pytezos перед ревью ветки <code>worktree-tezosx-compat</code> (не запушена). <b>Не про:</b> tz5/ML-DSA, NAC-семантику <code>%call_evm</code>, индексацию моста. <b>Гэп 4</b> (typed ticket_balance) не делался.</p>
+</header>
+
+<section><div class="row">
+ <div class="sl">исходная точка</div>
+ <div>
+  <h2>Мост работал только через process-global monkeypatch pytezos</h2>
+  <p class="h2sub">etherlink-bridge · scripts/helpers/tezosx_nac.py · docs/notes/etherlink-bridge-requirements.md</p>
+  <p>Ветка <code>feat/tezosx-cli-nac-withdrawals</code> в etherlink-bridge гоняет вывод через Michelson L2 на pytezos 3.18, но перед каждым вызовом подменяет на уровне классов два метода и три константы модуля <code>fees</code>. Файл сам называет себя «TEMPORARY — the pytezos patches Tezos X needs». Патчи глобальные на процесс, поэтому в одном интерпретаторе нельзя держать клиент к L1 и клиент к L2, а любой релиз pytezos может их молча сломать. Вопрос был не «как обойти», а <strong>что именно в pytezos не так и как это проверять без ручных прогонов на previewnet</strong>.</p>
+ </div>
+</div></section>
+
+<section><div class="row">
+ <div class="sl">1 · что за нода</div>
+ <div>
+  <h2>Секвенсер — это Tezos RPC минус mempool плюс свой прайс-лист</h2>
+  <p class="h2sub">измерено 2026-09-04 · curl к michelson.previewnet.tezosx.nomadic-labs.com и к локальному sandbox</p>
+  <p>Michelson L2 — это Tezlink-рантайм внутри <code>octez-evm-node</code>, одиночный секвенсер с очередью транзакций вместо mempool. Он отдаёт привычное дерево <code>/chains/main/blocks/…</code>, симуляцию и инъекцию, но маршруты mempool в его директории просто не зарегистрированы: это не баг деплоя, а архитектура, upstream-фикса не будет. Fee-фильтр у него свой, и он <strong>дрейфует</strong>: в мае previewnet брал 10 nanotez за газ, сегодня 45.</p>
+  <table class="probe">
+   <thead><tr><th>маршрут / параметр</th><th>L1 (mainnet-нода)</th><th>previewnet</th><th>локальный sandbox</th></tr></thead>
+   <tbody>
+    <tr><td class="mono">/chains/main/mempool/pending_operations</td><td>200</td><td><span class="hot">404</span></td><td><span class="hot">404</span></td></tr>
+    <tr><td class="mono">/chains/main/mempool/filter</td><td>200, дефолты протокола</td><td>200</td><td>200, те же значения</td></tr>
+    <tr><td class="mono">minimal_nanotez_per_gas_unit</td><td>100</td><td><span class="hot">45</span> (в мае было 10)</td><td>45</td></tr>
+    <tr><td class="mono">minimal_nanotez_per_byte</td><td>1000</td><td><span class="hot">4000</span></td><td>4000</td></tr>
+    <tr><td class="mono">minimal_block_delay</td><td>8 с</td><td><span class="hot">1 с</span></td><td>1 с (настраивается)</td></tr>
+    <tr><td class="mono">/injection/operation, run_operation, preapply</td><td>200</td><td>200</td><td>200</td></tr>
+    <tr><td class="mono">/monitor/heads/main</td><td>stream</td><td>stream</td><td>stream</td></tr>
+    <tr><td class="mono">chain_id · протокол в заголовке</td><td>NetXdQprcVkpaWU</td><td>NetXY2oPPzkxUW1 · PsUshuai</td><td>NetXY2oPPzkxUW1 · PtTALLiN в заголовке, ошибки с id <code>proto.025-PsUshuai.*</code></td></tr>
+   </tbody>
+  </table>
+  <p>Оранжевые ячейки — ровно те три факта, на которые pytezos не был рассчитан. Всё остальное, чем пользуется мост (тикеты, forge, run_view, smart-rollup-операции), работает с публичного API без изменений.</p>
+ </div>
+</div></section>
+
+<section><div class="row">
+ <div class="sl">2 · mempool</div>
+ <div>
+  <h2>Отсутствующий mempool ломал отправку в двух местах; лечится одним типизированным 404</h2>
+  <p class="h2sub">rpc/node.py · context/impl.py::get_counter_offset · rpc/shell.py::wait_operations</p>
+  <p>При каждом <code>send()</code> pytezos спрашивал <code>pending_operations</code>, чтобы посчитать свои же неподтверждённые операции и сдвинуть counter; при ожидании включения он опрашивал тот же маршрут, но только ради строки в логе «operation is still in mempool». Оба вызова получали 404, который <code>RpcNode</code> превращал в безликий <code>RpcError('Not found: …')</code>, неотличимый от ошибки применения операции. Поэтому мост и затыкал их лямбдами на уровне классов.</p>
+  <p>Изменение минимальное: 404 теперь поднимается как <code>RpcNotFoundError</code> (подкласс <code>RpcError</code>, старые <code>except</code> продолжают работать), а два вызывающих места ловят именно его. <code>get_counter_offset</code> возвращает 0, потому что без mempool у ноды и нет незавершённых операций отправителя; <code>wait_operations</code> перестаёт трогать mempool и следит за включением только по блокам, что он и так делал. Ничего не меняется для L1: там 404 на этот маршрут не бывает.</p>
+ </div>
+</div></section>
+
+<section><div class="row">
+ <div class="sl">3 · комиссии</div>
+ <div>
+  <h2>Комиссии: три константы модуля стали объектом, который можно взять с ноды</h2>
+  <p class="h2sub">operation/fees.py::FeeThresholds · client.using(fee_thresholds=…)</p>
+  <p><code>calculate_fee</code> складывал <code>MINIMAL_FEES + MINIMAL_MUTEZ_PER_BYTE·size + rate·gas</code> из констант модуля, и переопределить снаружи можно было только per-gas ставку. На previewnet байт стоит в четыре раза дороже, чем зашито, поэтому reveal и мелкие транзакции под-квотировались и отбивались с <code>insufficient_fees</code>. Мост правил константы модуля через <code>requests.get(…/mempool/filter)</code> перед созданием клиента.</p>
+  <p>Теперь пороги — frozen dataclass <code>FeeThresholds</code> с mainnet-дефолтами и конструктором из ответа фильтра (per-byte округляется вверх до целого mutez, чтобы никогда не под-квотировать). Он живёт в <code>ExecutionContext</code>, копируется при <code>_spawn_context</code> и читается один раз на клиент:</p>
+<pre>client = pytezos.using(shell=TEZOSX_RPC, key=key, <span class="a">fee_thresholds='node'</span>)   <span class="c"># один GET /mempool/filter на клиент</span>
+client = pytezos.using(shell=…, fee_thresholds=FeeThresholds(minimal_mutez_per_byte=4))  <span class="c"># или явно</span></pre>
+  <p>Опция сознательно opt-in, а не автоматика: лишний RPC на каждом mainnet-клиенте ради сетей с нестандартным фильтром не оправдан, и старые тесты, мокающие RPC, не должны видеть новый вызов. Это единственное место, где нужен твой выбор — см. последний раздел.</p>
+ </div>
+</div></section>
+
+<section><div class="row">
+ <div class="sl">4 · ожидание</div>
+ <div>
+  <h2>«wait сдаётся раньше времени» — на самом деле pytezos перепрыгивал блоки</h2>
+  <p class="h2sub">rpc/shell.py::wait_blocks · воспроизведено 6/6 на sandbox, после фикса 6/6 подтверждений за 1,1 с</p>
+  <p>Мост и заметки описывали симптом как «<code>wait_operations</code> бросает <code>StopIteration</code>, хотя операция проходит», и списывали это на mempool и на окно в 5 блоков. Живой прогон на sandbox с логами показал другое: операция попадает в <strong>следующий же</strong> блок, а pytezos её не видит, потому что <code>wait_blocks</code> опрашивает только хэш головы. Между двумя опросами он спит <code>time_between_blocks + 1</code> секунды; при блоке в 1 с голова за это время уходит на два–три уровня, и функция отдаёт наружу только новую голову, а промежуточные блоки не сканирует никогда. На mainnet с 8-секундными блоками обработка занимает доли секунды, и пропуск не случается.</p>
+  <figure>
+   <figcaption>механизм · уровни sandbox из живого лога, инъекция на уровне <b>228</b></figcaption>
+   <svg viewBox="0 0 1000 300" width="100%" role="img" aria-label="Пять блоков 228–232; опросы головы на 228 и 231; операция включена в 229, который до фикса не сканировался">
+    <line x1="40" y1="120" x2="960" y2="120" stroke="#262624" stroke-width="1.5"/>
+    <g>
+     <rect x="60" y="92" width="120" height="56" fill="#0c0c0c" stroke="#8a8a86" stroke-width="1.5"/><text x="120" y="127" text-anchor="middle">228</text>
+     <rect x="240" y="92" width="120" height="56" fill="#ff6a00"/><text x="300" y="127" text-anchor="middle" fill="#000" font-weight="600">229</text>
+     <rect x="420" y="92" width="120" height="56" fill="#0c0c0c" stroke="#5c5c58" stroke-width="1.5" stroke-dasharray="4 4"/><text x="480" y="127" text-anchor="middle" class="d">230</text>
+     <rect x="600" y="92" width="120" height="56" fill="#0c0c0c" stroke="#8a8a86" stroke-width="1.5"/><text x="660" y="127" text-anchor="middle">231</text>
+     <rect x="780" y="92" width="120" height="56" fill="#0c0c0c" stroke="#5c5c58" stroke-width="1.5" stroke-dasharray="4 4"/><text x="840" y="127" text-anchor="middle" class="d">232</text>
+    </g>
+    <line x1="120" y1="88" x2="120" y2="52" stroke="#8a8a86" stroke-width="1.5"/><text x="120" y="42" text-anchor="middle" class="m">опрос 1 · head = 228</text>
+    <line x1="660" y1="88" x2="660" y2="52" stroke="#8a8a86" stroke-width="1.5"/><text x="660" y="42" text-anchor="middle" class="m">опрос 2 · head = 231</text>
+    <line x1="140" y1="66" x2="640" y2="66" stroke="#5c5c58" stroke-width="1.5" stroke-dasharray="2 4"/><text x="390" y="20" text-anchor="middle" class="m">sleep 2 с = time_between_blocks + 1</text>
+    <line x1="300" y1="152" x2="300" y2="186" stroke="#ff6a00" stroke-width="1.5"/><text x="300" y="206" text-anchor="middle" class="hott">операция включена здесь</text>
+    <text x="60" y="250" class="m">до:</text><text x="130" y="250">сканировано 228, 231 → «0 of 1 included», StopIteration через 4 с</text>
+    <text x="60" y="282" class="m">после:</text><text x="130" y="282">новая голова 231 → predecessor 230 → predecessor 229 → отдать 229, 230, 231 по порядку</text>
+   </svg>
+  </figure>
+  <p>Фикс — восемь строк в <code>wait_blocks</code>: увидев новую голову, спуститься по <code>predecessor</code> до последнего виденного блока и отдать пропущенные уровни по порядку. Юнит-тест воспроизводит скачок головы на два уровня и падает без фикса; на живом sandbox <code>wait_blocks</code>, стартовавший с <code>head~3</code>, отдал уровни 440–445 подряд. Окно в 5 блоков трогать не пришлось.</p>
+ </div>
+</div></section>
+
+<section><div class="row">
+ <div class="sl">5 · проверка</div>
+ <div>
+  <h2>Три яруса тестов, и каждый ловит то, чего не ловят два других</h2>
+  <p class="h2sub">tests/unit_tests/test_tezosx · tests/integration_tests/test_tezosx.py · scripts/tezosx_sandbox.py</p>
+  <table class="tiers">
+   <thead><tr><th>ярус</th><th>что это</th><th>что доказывает</th><th>цена</th><th>как запустить</th></tr></thead>
+   <tbody>
+    <tr><td><strong>Стаб</strong></td><td><code>SequencerStub</code> подменяет <code>requests.request</code> и отвечает как секвенсер: 404 на mempool, фильтр previewnet, echo для <code>run_operation</code></td><td>Логика фолбэков и расчёт комиссии; сценарий пропуска блоков детерминированно</td><td>10 тестов, 1,3 с, без сети и Docker; в CI по умолчанию</td><td class="mono">uv run pytest tests/unit_tests/test_tezosx</td></tr>
+    <tr><td><strong>Локальный sandbox</strong></td><td><code>octez-evm-node run sandbox</code> в Docker, тот же бинарь v0.65 (коммит 0ee84d6b), что отвечает на previewnet, с Michelson-рантаймом</td><td>Реальный кернел применяет операции: reveal + перевод + ожидание включения end-to-end, с деньгами на любом tz1 через <code>--fund</code></td><td>Первый запуск ~1 мин на подготовку, старт ~2,5 мин (ждём уровень 140); не в CI</td><td class="mono">uv run scripts/tezosx_sandbox.py run<br>TEZOSX_RPC_URL=http://localhost:8545/tezlink TEZOSX_SECRET_KEY=… uv run pytest tests/integration_tests/test_tezosx.py</td></tr>
+    <tr><td><strong>Previewnet</strong></td><td>Публичный секвенсер, read-only без ключа</td><td>Что деплой не разошёлся с нашими допущениями: 404 всё ещё 404, фильтр читается, counter offset = 0</td><td>4 теста, 4 с, сеть; write-тест пропускается без ключа</td><td class="mono">uv run pytest tests/integration_tests/test_tezosx.py</td></tr>
+   </tbody>
+  </table>
+  <p>Ярус previewnet не может быть основным: tz-фаусет там «not configured on this deployment», работает только EVM-ветка, так что tz1 фондится либо депозитом с shadownet L1 через мост, либо переводом с уже профинансированного аккаунта. Локальный sandbox снимает и это, и зависимость от чужих операций в блоках.</p>
+ </div>
+</div></section>
+
+<section><div class="row">
+ <div class="sl">6 · sandbox</div>
+ <div>
+  <h2>Локальный секвенсер поднимается тем же бинарём, что previewnet, после трёх обходов</h2>
+  <p class="h2sub">scripts/tezosx_sandbox.py · образ tezos/tezos:octez-evm-node-v0.65_0ee84d6b_20260824173257</p>
+  <p>Режим <code>run sandbox</code> документирован одной строкой в <code>--help</code>: «sequencer-like mode … no rollup node connection». Ни в x.tezos.com, ни в etherlink/docs нет how-to для Michelson-рантайма. Прямой запуск с <code>--network previewnet</code> умирает; каждый следующий шаг ниже — ответ на конкретную ошибку, снятую с логов контейнера.</p>
+  <div class="panel">
+   <div class="pbar">FLOW · <b>prepare → run</b> · три причины, по которым стоковый образ не стартует</div>
+   <div class="step"><div class="n a">1</div><div>
+     <p class="sh">Скачать дерево preimages параллельно<span class="b a">prepare</span></p>
+     <p class="sd">Кернел previewnet — installer на 13 КБ, который раскрывает 2211 content-addressed страниц с relay. Нода тянет их по одной, ~1,4/с: полчаса молчания в логах при 1,5% CPU. Скрипт находит все reveal-хэши в installer (5 корней: кернел и четыре значения конфига) и обходит деревья 32 потоками, ~1 мин; нода получает их через <code>--preimages-dir</code>.</p></div></div>
+   <div class="step"><div class="n a">2</div><div>
+     <p class="sh">Передать кернел через <code>--kernel</code>, а не через <code>--network</code><span class="b a">prepare</span></p>
+     <p class="sd">С <code>--network previewnet</code> нода после установки кернела сверяет rollup-адрес с ожидаемым для сети; у sandbox он нулевой (<code>sr163Lv22…</code>) → «Smart rollup address is inconsistent». Installer лежит в репо tezos по тому же коммиту, скрипт скачивает его с GitLab.</p></div></div>
+   <div class="step"><div class="n a">3</div><div>
+     <p class="sh">Подменить ключ секвенсера внутри installer<span class="b a">prepare</span></p>
+     <p class="sd">Installer прописывает <code>/evm/world_state/sequencer</code> = p2pk previewnet как reveal-инструкцию, и после первого блока нода требует signer для чужого ключа. Значение — отдельный preimage; скрипт кладёт страницу со своим p2pk и меняет 33-байтный хэш в wasm (длина та же, смещения не едут), а <code>run</code> подписывает блоки этим ключом через <code>--sequencer-key unencrypted:p2sk…</code>.</p></div></div>
+   <div class="step"><div class="n b">4</div><div>
+     <p class="sh">Запустить и дождаться уровня 140<span class="b b">run</span></p>
+     <p class="sd">pytezos ветвит операции на <code>head~(120−ttl)</code> = <code>head~115</code>, и на молодой цепочке этого блока нет. RPC — <code>http://localhost:8545/tezlink</code>; на previewnet префикс <code>/tezlink</code> снимает реверс-прокси, поэтому там его нет.</p></div></div>
+   <div class="facts">
+    <div class="f"><p class="fk">preimages</p><p class="fv">2211<small>5 reveal-корней, ~1 мин вместо ~30</small></p></div>
+    <div class="f"><p class="fk">старт до уровня 140</p><p class="fv">146 с<small>измерено скриптом, блок = 1 с</small></p></div>
+    <div class="f"><p class="fk">write-тест</p><p class="fv">5 / 5<small>reveal + перевод, min_confirmations=1</small></p></div>
+   </div>
+  </div>
+ </div>
+</div></section>
+
+<section><div class="row">
+ <div class="sl">7 · тебе решать</div>
+ <div>
+  <h2>Что осталось за тобой: форма API, гэп 4 и мерж</h2>
+  <p class="h2sub">ветка worktree-tezosx-compat: 0d60ff32 · f2a4a852 · f630b2bd</p>
+  <ul>
+   <li><strong>Форма опции комиссий.</strong> Сейчас <code>using(fee_thresholds='node' | FeeThresholds(...))</code>. Альтернативы: авточтение фильтра на первом <code>fill()</code> (один лишний GET на клиент, зато «просто работает») или отдельный метод вроде <code>client.with_node_fees()</code>. Реализация от этого не зависит, только сигнатура.</li>
+   <li><strong>Гэп 4 не делался:</strong> типизированные <code>ticket_balance</code> (POST) и <code>all_ticket_balances</code> (GET) в дереве <code>ShellQuery</code>. Мост сейчас ходит в приватный <code>RpcQuery._post</code>; работает, но хрупко.</li>
+   <li><strong>Молодые цепочки.</strong> <code>head~115</code> на sandbox моложе 115 блоков даёт 404; это старое ограничение pytezos (обычный docker-sandbox обходит его флагом sandboxed → ttl 120). Скрипт просто ждёт; можно сделать клэмп по уровню головы, если захочется тестировать быстрее.</li>
+   <li><strong>После мержа:</strong> релиз, затем в etherlink-bridge удалить <code>patch_pytezos_for_tezosx</code> и <code>_wait_included</code> — их заменяют <code>fee_thresholds='node'</code> и штатный <code>client.wait</code>.</li>
+   <li><strong>Sandbox сейчас запущен</strong> (контейнер <code>tezosx-sandbox</code>, порт 8545); остановить: <code>uv run scripts/tezosx_sandbox.py stop</code>.</li>
+  </ul>
+ </div>
+</div></section>
+
+<footer>
+ <span class="s">RE-VERIFY:</span> значения фильтра previewnet дрейфуют (per-gas 10 → 45 nanotez за май–сентябрь) — тест читает их с ноды, но числа в таблице §1 точечные · образ v0.65 привязан к коммиту 0ee84d6b: при апгрейде previewnet сверить <code>/version</code> и обновить IMAGE/COMMIT в скрипте · формат installer (reveal-инструкции «hash, затем путь») наблюдён на этом installer, не по спецификации.<br>
+ <span class="s">SRC:</span> curl/пробы к previewnet и sandbox 2026-09-04 · tezos/tezos@0ee84d6b: etherlink/bin_node/main.ml, lib_dev/evm_ro_context.ml, lib_dev/evm_context.ml, lib_dev/tezlink/tezlink_directory.ml · tezos-x-bridge-knowledge/2026-05-07-pytezos-tezlink-rpc-gaps.md · docs/notes/etherlink-bridge-requirements.md · логи контейнера tezosx-sandbox · pytezos worktree tezosx-compat, коммиты 0d60ff32, f2a4a852, f630b2bd · проверено 2026-09-04
+</footer>
+
+</div></body></html>
