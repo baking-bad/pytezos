@@ -21,6 +21,10 @@ reserved_entrypoints = {
     'set_delegate': b'\x03',
     'remove_delegate': b'\x04',
     'deposit': b'\x05',
+    'stake': b'\x06',
+    'unstake': b'\x07',
+    'finalize_unstake': b'\x08',
+    'set_delegate_parameters': b'\x09',
 }
 
 
@@ -32,6 +36,8 @@ def has_parameters(content: Dict[str, Any]) -> bool:
 
 def forge_entrypoint(entrypoint) -> bytes:
     """Encode Michelson contract entrypoint into the byte form.
+
+    Reserved entrypoints are encoded as a single tag byte, any other name as `\\xff` + length-prefixed string.
 
     :param entrypoint: string
     """

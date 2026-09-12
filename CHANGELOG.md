@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 ### Fixed
 
 - `ipfs_gateway` passed to `using()` is now inherited by contracts and spawned objects; previously it was silently reset to the default.
+- Local forging of transactions whose entrypoint is `stake`, `unstake`, `finalize_unstake` or `set_delegate_parameters` (the staking pseudo-entrypoints introduced in Oxford, or a contract entrypoint of the same name) now emits the protocol's one-byte tags (`0x06`–`0x09`) instead of a named entrypoint, matching `helpers/forge/operations` and the bytes hardware wallets expect. Previously `OperationGroup.forge(validate=True)` failed with "Local forge result differs from remote one" for these operations, `sign()` produced non-canonical bytes, and `hash()` was wrong for such operations.
 
 ## [3.19.0](https://github.com/baking-bad/pytezos/compare/3.18.0...3.19.0) - 2026-06-28
 
