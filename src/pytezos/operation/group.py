@@ -273,7 +273,6 @@ class OperationGroup(ContextMixin, ContentMixin):
         fee_acc = 0
         extra_size = 32 + 64  # size of serialized branch and signature + safe reserve
         num_contents = len(opg_with_metadata['contents'])
-        counter_offset = self.context.get_counter_offset()
         opg.contents.clear()
 
         for content in opg_with_metadata['contents']:
@@ -294,9 +293,8 @@ class OperationGroup(ContextMixin, ContentMixin):
                     if content['kind'] in ['origination', 'transaction']:
                         storage_limit_new += burn_reserve
 
-                current_counter = int(content['counter'])
+                # Counter stays as filled: the mempool admits one manager op per source per block, use `bulk()` for several
                 content.update(
-                    counter=str(current_counter + counter_offset),
                     gas_limit=str(gas_limit_new),
                     storage_limit=str(storage_limit_new),
                     fee='0',

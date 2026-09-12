@@ -1,4 +1,5 @@
 import json
+from http import HTTPStatus
 from pprint import pformat
 from time import sleep
 from typing import Any
@@ -61,8 +62,10 @@ class RpcError(Exception):
     __handlers__ = {}  # type: ignore
 
     @classmethod
-    def __init_subclass__(cls, error_id: Union[str, List[str]]) -> None:
+    def __init_subclass__(cls, error_id: Union[str, List[str], None] = None) -> None:
         super().__init_subclass__()
+        if error_id is None:
+            return
         if isinstance(error_id, list):
             for eid in error_id:
                 cls.__handlers__[eid] = cls
@@ -92,13 +95,23 @@ class RpcError(Exception):
             except JSONDecodeError:
                 # sometimes rpc returns invalid json
                 return RpcError(res.text)
-            assert isinstance(errors, list)
+            if not isinstance(errors, list):
+                # Proxies and rate limiters answer with a JSON object, not an Octez error trace
+                return RpcError(errors)
             return cls.from_errors(errors)
         else:
             return RpcError(res.text)
 
     def __str__(self) -> str:
         return pformat(self.args)
+
+
+class RpcNotFoundError(RpcError):
+    """The node answered 404: the route is not served by this node (e.g. no mempool on a Tezos X sequencer)."""
+
+
+class RpcForbiddenError(RpcError):
+    """The node answered 401/403: the route exists but this provider does not expose it."""
 
 
 class RpcNode:
@@ -146,12 +159,12 @@ class RpcNode:
                 delay = min(delay * 2, TRANSIENT_RETRY_MAX_DELAY)
                 continue
             break
-        if res.status_code == 401:
+        if res.status_code in (401, 403):
             logger.debug('<<<<< %s\n%s', res.status_code, res.text)
-            raise RpcError(f'Unauthorized: {path}')
+            raise RpcForbiddenError(f'{HTTPStatus(res.status_code).phrase}: {path}')
         if res.status_code == 404:
             logger.debug('<<<<< %s\n%s', res.status_code, res.text)
-            raise RpcError(f'Not found: {path}')
+            raise RpcNotFoundError(f'Not found: {path}')
         if res.status_code != 200:
             logger.debug('<<<<< %s\n%s', res.status_code, pformat(res.text, indent=4))
             raise RpcError.from_response(res)
