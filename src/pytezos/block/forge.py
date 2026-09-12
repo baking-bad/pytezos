@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import Any
 from typing import Dict
 from typing import List
@@ -5,6 +6,29 @@ from typing import List
 from pytezos.michelson.forge import forge_array
 from pytezos.michelson.forge import forge_base58
 from pytezos.michelson.forge import optimize_timestamp
+
+
+class PerBlockVote(str, Enum):
+    """Per-block vote value (liquidity baking, adaptive issuance)"""
+
+    ON = 'on'
+    OFF = 'off'
+    PASS = 'pass'
+
+    def __str__(self) -> str:
+        return self.value
+
+    @property
+    def tag(self) -> int:
+        """Two-bit case tag of the vote in the compact `per_block_votes` encoding"""
+        return per_block_vote_tags[self]
+
+
+per_block_vote_tags = {
+    PerBlockVote.ON: 0,
+    PerBlockVote.OFF: 1,
+    PerBlockVote.PASS: 2,
+}
 
 
 def bump_fitness(fitness: List[str]) -> List[str]:
@@ -42,6 +66,24 @@ def forge_content(content: Dict[str, Any]) -> bytes:
     return res
 
 
+def forge_per_block_votes(protocol_data: Dict[str, Any]) -> bytes:
+    """Forge the per-block votes byte of a block header.
+
+    Ithaca headers carry a boolean ``liquidity_baking_escape_vote``; later protocols carry
+    ``liquidity_baking_toggle_vote`` (on/off/pass) and, in Oxford..Seoul only, ``adaptive_issuance_vote``
+    packed into the same byte.
+
+    :param protocol_data: block header protocol data (JSON)
+    :raises ValueError: on a vote value other than on/off/pass
+    """
+    if 'liquidity_baking_toggle_vote' not in protocol_data:
+        return b'\xff' if protocol_data['liquidity_baking_escape_vote'] else b'\x00'
+    tag = PerBlockVote(protocol_data['liquidity_baking_toggle_vote']).tag
+    if protocol_data.get('adaptive_issuance_vote') is not None:
+        tag |= PerBlockVote(protocol_data['adaptive_issuance_vote']).tag << 2
+    return forge_int_fixed(tag, 1)
+
+
 def forge_protocol_data(protocol_data: Dict[str, Any]) -> bytes:
     res = b''
     if protocol_data.get('content'):
@@ -55,10 +97,7 @@ def forge_protocol_data(protocol_data: Dict[str, Any]) -> bytes:
             res += forge_base58(protocol_data['seed_nonce_hash'])
         else:
             res += b'\x00'
-        if protocol_data.get('liquidity_baking_toggle_vote'):
-            res += b'\x01' if protocol_data['liquidity_baking_toggle_vote'] else b'\x00'
-        else:
-            res += b'\xff' if protocol_data['liquidity_baking_escape_vote'] else b'\x00'
+        res += forge_per_block_votes(protocol_data)
 
     return res
 
