@@ -143,6 +143,7 @@ $ make all
 ## Quick start
 
 Read [quick start guide](https://pytezos.org/quick_start.html)  
+Contract metadata behind `ipfs://` links is fetched through a public gateway; pick another with `pytezos.using(ipfs_gateway=...)` ([details](https://pytezos.org/quick_start.html#contract-metadata))  
 Learn how to [enable Jupyter with Michelson](./src/michelson_kernel/README.md)
 
 ## API reference
