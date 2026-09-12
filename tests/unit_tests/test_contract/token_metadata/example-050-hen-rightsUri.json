@@ -1,0 +1,54 @@
+{
+  "name": "MC Trout Fingers",
+  "description": "Recorded live using Elektron Model Cycles (FM) and Model Samples. Arranged and mixed in REAPER, with final mastering through Masterdesk Pro. Minted For Tezcon 2025 Seattle",
+  "tags": [
+    "electronica",
+    "synthesizer",
+    "ambient",
+    "chill",
+    "fm",
+    "thursteia"
+  ],
+  "symbol": "OBJKT",
+  "artifactUri": "ipfs://QmazYcsMzdt8RH7GNGLrCMLQGeKxtCAefnxAEBTPaKeoqB",
+  "displayUri": "ipfs://QmZ3ZuECpa8mcDuS2WfbND7pNhLt2yShCDVKx3iN2b8esY",
+  "thumbnailUri": "ipfs://QmNor3jGGwxMYHZb9NXr2eJbZ3QH4EycZ1vhqVCreok75y",
+  "creators": [
+    "tz2GP2o3kMJ8Q22FdjBo6QeheqUTAyEkHBo4"
+  ],
+  "formats": [
+    {
+      "fileSize": 69120690,
+      "fileName": "MC Trout Fingers.wav",
+      "mimeType": "audio/wav",
+      "uri": "ipfs://QmazYcsMzdt8RH7GNGLrCMLQGeKxtCAefnxAEBTPaKeoqB"
+    },
+    {
+      "mimeType": "image/png",
+      "fileSize": 35640,
+      "fileName": "cover_MC Trout Fingers.png",
+      "dimensions": {
+        "value": "618x382",
+        "unit": "px"
+      },
+      "uri": "ipfs://QmZ3ZuECpa8mcDuS2WfbND7pNhLt2yShCDVKx3iN2b8esY"
+    },
+    {
+      "mimeType": "image/png",
+      "fileSize": 21578,
+      "fileName": "thumbnail_MC Trout Fingers.png",
+      "dimensions": {
+        "value": "350x216",
+        "unit": "px"
+      },
+      "uri": "ipfs://QmNor3jGGwxMYHZb9NXr2eJbZ3QH4EycZ1vhqVCreok75y"
+    }
+  ],
+  "decimals": 0,
+  "isBooleanAmount": false,
+  "shouldPreferSymbol": false,
+  "rights": "custom",
+  "date": "2025-06-26T15:28:00.774Z",
+  "mintingTool": "https://teia.art/mint",
+  "rightsUri": "ipfs://QmYvuWf4cHsUoUmFAyPKYaUYgTMWoopZBJ6o6DH1W1qP7o"
+}

@@ -1,0 +1,79 @@
+{
+  "decimals": 0,
+  "shouldPreferSymbol": false,
+  "isBooleanAmount": false,
+  "symbol": "ITEM",
+  "name": "I seek disaster. ",
+  "description": "The second letter I wish I did not send.",
+  "creators": [
+    "tz2XNGTHVzY4PhKJTA1W5L9ritCrkdmLPQth"
+  ],
+  "type": "image/jpeg",
+  "tags": [
+    "Poetry",
+    "sea horses",
+    "alone"
+  ],
+  "language": "en",
+  "rights": "none",
+  "rightUri": "ipfs://QmNW3M7k1us4EX5QUo7MNDtapFLhHUjaLRbThshVqZzxos",
+  "artifactUri": "ipfs://Qmdwyt9cqdFGg8Yh4Ut7A3QNdRKMpFXP64e9CjQ1t6eFuW",
+  "displayUri": "ipfs://QmeUQkAXzyTLtbMRQru6HpGHmQn1cJNYeaSPvhCqnBfzPP",
+  "thumbnailUri": "ipfs://QmY7npznSASiN61trocXBbYe43iRKKicx2ZtZgQZNJRjtA",
+  "pinUri": "ipfs://Qmb55M6wFiAB6yU5PcBqc5GAj7nbioRY1GTh9aYn5wT4sQ",
+  "formats": [
+    {
+      "uri": "ipfs://Qmdwyt9cqdFGg8Yh4Ut7A3QNdRKMpFXP64e9CjQ1t6eFuW",
+      "mimeType": "image/jpeg",
+      "fileSize": 6689807,
+      "fileName": "original_65D7B8D4-3E66-45E4-B072-6AFCE9B56FA6.jpeg",
+      "dimensions": {
+        "value": "3918x2984",
+        "unit": "px"
+      }
+    },
+    {
+      "uri": "ipfs://QmaVERPMq2sk2XbCr4tGSnKC8KU9udDfK2vgh4huJEHRGx",
+      "mimeType": "image/jpeg",
+      "fileSize": 78896,
+      "fileName": "preview_image_480w.jpg",
+      "dimensions": {
+        "value": "480x366",
+        "unit": "px"
+      }
+    },
+    {
+      "uri": "ipfs://Qmb71sy1uL9sammJf6UviAQtbzPMyjC11ny4VGgn1iy56X",
+      "mimeType": "image/jpeg",
+      "fileSize": 485092,
+      "fileName": "preview_image_960w.jpg",
+      "dimensions": {
+        "value": "960x731",
+        "unit": "px"
+      }
+    },
+    {
+      "uri": "ipfs://QmXDinvhT2JUXX7Lj8yYhvCAqZvRR7p2cXWAU8yKnAoTuH",
+      "mimeType": "image/jpeg",
+      "fileSize": 440034,
+      "fileName": "preview_image_1024w.jpg",
+      "dimensions": {
+        "value": "1024x780",
+        "unit": "px"
+      }
+    },
+    {
+      "uri": "ipfs://QmeUQkAXzyTLtbMRQru6HpGHmQn1cJNYeaSPvhCqnBfzPP",
+      "mimeType": "image/jpeg",
+      "fileSize": 2106116,
+      "fileName": "preview_image_2048w.jpg",
+      "dimensions": {
+        "value": "2048x1560",
+        "unit": "px"
+      }
+    }
+  ],
+  "accessibility": {
+    "hazards": []
+  }
+}

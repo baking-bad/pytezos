@@ -1,0 +1,81 @@
+{
+  "artifactUri": "ipfs://QmRzMEUfnjnrFPWB7J9kaWLQM7PHbKdxibZMcEVoepYF55/shinoda_ac65478642254180f0b8948aaae7eb5821ef8361e096a80c39be881e_462_112570.mp3",
+  "attributes": [
+    {
+      "name": "Background",
+      "value": "Blue Rays"
+    },
+    {
+      "name": "Face",
+      "value": "Vampire"
+    },
+    {
+      "name": "Foreground",
+      "value": "Blank"
+    },
+    {
+      "name": "Head",
+      "value": "Aqua Shaggy"
+    },
+    {
+      "name": "Drums Track",
+      "value": "Drums #11"
+    },
+    {
+      "name": "Melody Track",
+      "value": "Melody #2"
+    },
+    {
+      "name": "Music Track",
+      "value": "Music #5"
+    },
+    {
+      "name": "Percussion Track",
+      "value": "Percussion  #7"
+    }
+  ],
+  "decimals": 0,
+  "description": "ZIGGURATS is the first generative NFT mixtape. It is a collection of 5000 unique audio + visual NFTs on the Tezos chain, generated from new art and music by Mike Shinoda. Visually and musically, no two items are the same, but some are more rare. The initial price of each NFT will be 15 Tezos (XTZ).\n\nIn ancient Mesopotamia, the Ziggurat was a tall, layered, structure. It was believed that the Gods lived in the temple at the top. Great care, effort, and creativity went into the creation of its complex structure. Likewise, this project is built upon layers of effort and devotion, some elements many years in the making.",
+  "displayUri": "ipfs://QmfJ85aaYJCGMmPHKfuBCbCeViCnao8M8oWDipEs2X9nBK/462.png",
+  "externalUri": "https://ziggurats.xyz/",
+  "formats": [
+    {
+      "dataRate": {
+        "unit": "kbps",
+        "value": 64
+      },
+      "duration": "00:06:45",
+      "mimeType": "audio/mpeg",
+      "uri": "ipfs://QmRzMEUfnjnrFPWB7J9kaWLQM7PHbKdxibZMcEVoepYF55/shinoda_ac65478642254180f0b8948aaae7eb5821ef8361e096a80c39be881e_462_112570.mp3"
+    },
+    {
+      "dimensions": {
+        "unit": "px",
+        "value": "1080x1080"
+      },
+      "mimeType": "image/png",
+      "uri": "ipfs://QmfJ85aaYJCGMmPHKfuBCbCeViCnao8M8oWDipEs2X9nBK/462.png"
+    },
+    {
+      "dimensions": {
+        "unit": "px",
+        "value": "350x350"
+      },
+      "mimeType": "image/png",
+      "uri": "ipfs://Qmdt367K8V2GxKaGk6SrQCzqWqaaQMGK6jrLwz45xA4NAd/462.png"
+    }
+  ],
+  "id": 462,
+  "isBooleanAmount": true,
+  "name": "ZIGGURATS #462",
+  "rightsUri": "https://www.mikeshinoda.com/NFTTerms",
+  "royalties": {
+    "decimals": 2,
+    "shares": {
+      "tz1SLgrDBpFWjGCnCwyNpCpQC1v8v2N8M2Ks": "5"
+    }
+  },
+  "shouldPreferSymbol": false,
+  "symbol": "ZIGGS",
+  "thumbnailUri": "ipfs://Qmdt367K8V2GxKaGk6SrQCzqWqaaQMGK6jrLwz45xA4NAd/462.png"
+}
