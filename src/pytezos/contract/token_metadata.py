@@ -7,9 +7,11 @@ from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Type
 
 import requests
 from attr import dataclass
+from cattr.gen import make_dict_structure_fn
 from jsonschema import validate as jsonschema_validate  # type: ignore
 
 from pytezos.context.impl import ExecutionContext
@@ -59,7 +61,11 @@ class Format:
 
 @dataclass(kw_only=True)
 class ContractTokenMetadata(ContextMixin):
-    """TZIP-21 token metadata"""
+    """TZIP-21 token metadata
+
+    Unknown top-level keys are accepted (as in the TZIP-21 schema) and kept in ``raw`` only.
+    A legacy string ``rightUri`` is read into ``rightsUri``; the spec spelling wins when both are present.
+    """
 
     name: Optional[str] = None
     symbol: Optional[str] = None
@@ -87,13 +93,13 @@ class ContractTokenMetadata(ContextMixin):
     blockLevel: Optional[int] = None
     type: Optional[str] = None
     genres: Optional[List[str]] = None
-    language: Optional[List[str]] = None
+    language: Optional[str] = None
     identifier: Optional[str] = None
     rights: Optional[str] = None
     rightsUri: Optional[str] = None
     externalUri: Optional[str] = None
     isTransferable: Optional[bool] = None
-    shouldPreferSymbol: Optional[str] = None
+    shouldPreferSymbol: Optional[bool] = None
     attributes: Optional[List[Attribute]] = None
     assets: Optional[List['ContractTokenMetadata']] = None
 
@@ -112,7 +118,10 @@ class ContractTokenMetadata(ContextMixin):
         token_metadata_json: Dict[str, Any],
         context: Optional[ExecutionContext] = None,
     ) -> 'ContractTokenMetadata':
-        """Convert token metadata from JSON object"""
+        """Convert token metadata from JSON object
+
+        A legacy string ``rightUri`` is read into ``rightsUri``; ``raw`` keeps the document as given.
+        """
 
         for key, value in token_metadata_json.items():
             if isinstance(value, bytes):
@@ -145,3 +154,15 @@ class ContractTokenMetadata(ContextMixin):
         with open(path) as f:
             token_metadata_json = json.load(f)
             return cls.from_json(token_metadata_json, context)
+
+
+_structure_token_metadata = make_dict_structure_fn(ContractTokenMetadata, converter)
+
+
+def structure_token_metadata(obj: Dict[str, Any], cls: Type[ContractTokenMetadata]) -> ContractTokenMetadata:
+    if isinstance(obj.get('rightUri'), str):
+        obj = {**obj, 'rightsUri': obj.get('rightsUri', obj['rightUri'])}
+    return _structure_token_metadata(obj, cls)
+
+
+converter.register_structure_hook(ContractTokenMetadata, structure_token_metadata)
