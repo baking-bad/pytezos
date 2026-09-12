@@ -19,7 +19,7 @@ from pytezos.operation import MAX_OPERATIONS_TTL
 from pytezos.rpc.errors import RpcError
 from pytezos.rpc.shell import ShellQuery
 
-DEFAULT_IPFS_GATEWAY = 'https://ipfs.io/ipfs'
+DEFAULT_IPFS_GATEWAY = 'https://ipfs.filebase.io/ipfs'
 
 
 class ExecutionContext(AbstractContext):

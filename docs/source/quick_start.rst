@@ -122,6 +122,8 @@ We are interested in ``using`` method, which is responsible for setting up manag
     :param shell: one of 'mainnet', '***net', or RPC node uri, or instance of :class:`pytezos.rpc.shell.ShellQuery`
     :param key: base58 encoded key, path to the faucet file, faucet file itself, alias from tezos-client, or `Key`
     :param mode: whether to use `readable` or `optimized` encoding for parameters/storage/other
+    :param ipfs_gateway: HTTP gateway used to resolve ``ipfs://`` metadata links,
+        e.g. ``https://gateway.pinata.cloud/ipfs`` (default ``https://ipfs.filebase.io/ipfs``)
     :returns: A copy of current object with changes applied
 
 Note, that by default ``pytezos`` is initialized with the latest testnet and a predefined private key for demo purpose,
@@ -624,6 +626,27 @@ The approach described in the previous section also works for lazy storage, here
    11000000
 
 Pretty cool, hah?
+
+Contract metadata
+-----------------
+
+If a contract publishes TZIP-016 metadata (and TZIP-021 token metadata), PyTezos resolves and parses it for you:
+
+.. code-block:: python
+
+   >>> usds.metadata.name
+   'Stably USD'
+   >>> usds.token_metadata[0].symbol
+   'USDS'
+
+Metadata stored under an ``ipfs://`` link is fetched through a public HTTP gateway.
+Pass another one to ``using`` if the default is slow or unreachable from your network:
+
+.. code-block:: python
+
+   >>> pytezos.using('mainnet', ipfs_gateway='https://gateway.pinata.cloud/ipfs').contract('KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW').metadata
+
+A gateway that is unreachable, refuses the request or serves something other than JSON raises ``requests.RequestException`` naming the gateway and the content hash.
 
 View method
 -------------

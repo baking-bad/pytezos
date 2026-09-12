@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog], and this project adheres to [Semantic Versioning].
 
+## [Unreleased](https://github.com/baking-bad/pytezos/compare/3.19.0...master)
+
+### Changed
+
+- Default IPFS gateway is now `https://ipfs.filebase.io/ipfs`: the `ipfs.io` path gateway retires on 2026-09-21. Metadata fetch failures raise `requests.RequestException` naming the gateway and the content hash and pointing at `pytezos.using(ipfs_gateway=...)`, instead of a bare `JSONDecodeError`.
+
+### Fixed
+
+- `ipfs_gateway` passed to `using()` is now inherited by contracts and spawned objects; previously it was silently reset to the default.
+
 ## [3.19.0](https://github.com/baking-bad/pytezos/compare/3.18.0...3.19.0) - 2026-06-28
 
 ### Added

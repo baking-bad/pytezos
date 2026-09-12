@@ -129,6 +129,8 @@ class PyTezosClient(ContextMixin, ContentMixin):
         :param shell: one of 'mainnet', '***net', or RPC node uri, or instance of :class:`pytezos.rpc.shell.ShellQuery`
         :param key: base58 encoded key, path to the faucet file, faucet file itself, alias from tezos-client, or `Key`
         :param mode: whether to use `readable` or `optimized` encoding for parameters/storage/other
+        :param ipfs_gateway: HTTP gateway used to resolve ``ipfs://`` metadata links,
+            e.g. ``https://gateway.pinata.cloud/ipfs`` (default ``https://ipfs.filebase.io/ipfs``)
         :returns: A copy of current object with changes applied
         """
         return PyTezosClient(

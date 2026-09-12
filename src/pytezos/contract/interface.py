@@ -155,6 +155,7 @@ class ContractInterface(ContextMixin):
             shell=context.shell if context else None,
             key=context.key if context else None,
             script={'code': code_expr},
+            ipfs_gateway=context.ipfs_gateway if context else None,
             global_constants=context.global_constants if context else None,
         )
         return cls(context)
@@ -245,7 +246,8 @@ class ContractInterface(ContextMixin):
         :param key: base58 encoded key, path to the faucet file, alias from tezos-client, or instance of `Key`
         :param block_id: block height / hash / offset to use, default is `head`
         :param mode: whether to use `readable` or `optimized` encoding for parameters/storage/other
-        :param ipfs_gateway: override IPFS gateway URI
+        :param ipfs_gateway: HTTP gateway used to resolve ``ipfs://`` metadata links,
+            e.g. ``https://gateway.pinata.cloud/ipfs`` (default ``https://ipfs.filebase.io/ipfs``)
         :rtype: ContractInterface
         """
         has_address = self.context.address is not None

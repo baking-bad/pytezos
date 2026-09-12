@@ -9,13 +9,14 @@ from typing import List
 from typing import Optional
 from typing import Union
 
-import requests
 from attr import dataclass
 from jsonschema import validate as jsonschema_validate  # type: ignore
 
 from pytezos.context.impl import ExecutionContext
 from pytezos.context.mixin import ContextMixin
 from pytezos.contract import converter
+from pytezos.contract import fetch_ipfs_json
+from pytezos.contract import fetch_json
 from pytezos.contract.view import ContractView
 
 
@@ -179,13 +180,13 @@ class ContractMetadata(ContextMixin):
     def from_ipfs(cls, multihash: str, context: Optional[ExecutionContext] = None) -> 'ContractMetadata':
         """Fetch metadata from IPFS network by multihash"""
         context = context or ExecutionContext()
-        metadata_json = requests.get(f'{context.ipfs_gateway}/{multihash}', timeout=60).json()
+        metadata_json = fetch_ipfs_json(multihash, context.ipfs_gateway)
         return cls.from_json(metadata_json, context)
 
     @classmethod
     def from_url(cls, url: str, context: Optional[ExecutionContext] = None) -> 'ContractMetadata':
         """Fetch metadata from HTTP(S) URL"""
-        metadata_json = requests.get(url, timeout=60).json()
+        metadata_json = fetch_json(url)
         return cls.from_json(metadata_json, context)
 
     @classmethod
