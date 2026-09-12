@@ -514,6 +514,8 @@ as it has BigMap entries, named entrypoints, and a non-trivial data scheme.
     .block_id  # head
     .storage  # access storage data at block `block_id`
     .parameter  # root entrypoint
+    .entrypoint  # entrypoints by name
+    .view  # views by name
 
     Entrypoints
     .accept_ownership()
@@ -550,6 +552,20 @@ as it has BigMap entries, named entrypoints, and a non-trivial data scheme.
     .to_micheline()
     .to_michelson()
     .using()
+
+Every entrypoint is also reachable under the ``entrypoint`` namespace, and every on-chain view under ``view``.
+This is the collision-safe form: a contract may name an entrypoint or a view ``storage``, ``metadata``,
+``token_metadata``, or have both an entrypoint and a view called ``balance_of``. An entrypoint wins over a view
+of the same name, and both lose to an existing ``ContractInterface`` attribute: the losing member is not bound as
+a top-level shortcut and appears in the listing as ``.entrypoint.<name>()`` / ``.view.<name>()`` instead.
+
+.. code-block:: python
+
+   >>> usds.entrypoint.transfer  # same object as usds.transfer
+   >>> usds.entrypoint['transfer']  # item access also works for names that are not Python identifiers
+
+For an FA2.1 token with both a ``%balance_of`` entrypoint and a ``balance_of`` view, ``.balance_of`` is the
+entrypoint and the view is called as ``.view.balance_of(...).onchain_view()``.
 
 You can access contract storage at any block level, just pass block id into the ``using`` method:
 

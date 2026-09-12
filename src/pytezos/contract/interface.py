@@ -1,5 +1,6 @@
 import json
 import logging
+import warnings
 from decimal import Decimal
 from functools import cached_property
 from functools import lru_cache
@@ -8,9 +9,12 @@ from os.path import expanduser
 from typing import Any
 from typing import Callable
 from typing import Dict
+from typing import Generic
+from typing import Iterator
 from typing import List
 from typing import Optional
 from typing import Type
+from typing import TypeVar
 from typing import Union
 from typing import cast
 from urllib.parse import urlparse
@@ -51,10 +55,64 @@ class ContractTokenMetadataProxy:
         return self._fn(item)
 
 
+T = TypeVar('T', ContractEntrypoint, ContractView)
+
+
+class ContractProxyNamespace(Generic[T]):
+    """Entrypoint or view proxies by name: `contract.entrypoint.<name>` / `contract.view.<name>`
+
+    Holds every proxy of the contract, including those whose names collide with `ContractInterface` attributes
+    (e.g. `storage`, `metadata`, `token_metadata`) or with each other (an entrypoint and a view sharing a name).
+    Names that are not Python identifiers are reachable via item access: `contract.entrypoint['foo.bar']`.
+    """
+
+    def __init__(self, title: str, proxies: Dict[str, T]) -> None:
+        self._title = title
+        self._proxies: Dict[str, T] = proxies
+
+    def __repr__(self) -> str:
+        res = [
+            super().__repr__(),
+            f'\n{self._title.capitalize()}s',
+            *(f'.{name}()' for name in self._proxies),
+        ]
+        return '\n'.join(res)
+
+    def __getattr__(self, name: str) -> T:
+        if name.startswith('_'):
+            raise AttributeError(name)
+        try:
+            return self._proxies[name]
+        except KeyError:
+            raise AttributeError(f'unknown {self._title} `{name}`, available: {list(self._proxies)}') from None
+
+    def __getitem__(self, name: str) -> T:
+        return self._proxies[name]
+
+    def __contains__(self, name: object) -> bool:
+        return name in self._proxies
+
+    def __iter__(self) -> Iterator[str]:
+        return iter(self._proxies)
+
+    def __len__(self) -> int:
+        return len(self._proxies)
+
+    def __dir__(self) -> List[str]:
+        return [*super().__dir__(), *self._proxies]
+
+
 class ContractInterface(ContextMixin):
-    """Proxy class for interacting with a contract."""
+    """Proxy class for interacting with a contract.
+
+    Entrypoints and views are exposed as `.<name>()` shortcuts when the name is free, and always as
+    `.entrypoint.<name>()` / `.view.<name>()`. An entrypoint wins over a view of the same name, and both lose
+    to an existing interface attribute such as `storage`, `metadata` or `token_metadata`.
+    """
 
     program: MichelsonProgram
+    entrypoint: ContractProxyNamespace[ContractEntrypoint]  #: every entrypoint proxy by name
+    view: ContractProxyNamespace[ContractView]  #: every on-chain view proxy by name
 
     def __init__(self, context: ExecutionContext) -> None:
         super().__init__(context=context)
@@ -63,14 +121,13 @@ class ContractInterface(ContextMixin):
         self.entrypoints = self.program.parameter.list_entrypoints()
         self.views = {view.name: view for view in self.program.views}  # type: Dict[str, Type[ViewSection]]
 
+        entrypoints: Dict[str, ContractEntrypoint] = {}
         for entrypoint, ty in self.entrypoints.items():
-            if entrypoint == 'token_metadata':
-                continue
             attr = ContractEntrypoint(context=context, entrypoint=entrypoint)
             attr.__doc__ = generate_pydoc(ty, entrypoint)
-            assert not hasattr(self, entrypoint), f'Entrypoint name collision {entrypoint}'
-            setattr(self, entrypoint, attr)
+            entrypoints[entrypoint] = attr
 
+        views: Dict[str, ContractView] = {}
         for view_name, view_ty in self.views.items():
             view_attr = ContractView(
                 context=context,
@@ -80,25 +137,48 @@ class ContractInterface(ContextMixin):
                 code=view_ty.args[3].as_micheline_expr(),  # type: ignore
             )
             view_attr.__doc__ = view_ty.generate_pydoc()  # type: ignore
-            assert not hasattr(self, view_name), f'View name collision {view_name}'
-            setattr(self, view_name, view_attr)
+            views[view_name] = view_attr
+
+        self.entrypoint = ContractProxyNamespace('entrypoint', entrypoints)
+        self.view = ContractProxyNamespace('view', views)
+
+        for name, attr in entrypoints.items():
+            self._bind_shortcut('entrypoint', name, attr)
+        for name, view_attr in views.items():
+            self._bind_shortcut('view', name, view_attr)
+
+    def _bind_shortcut(self, title: str, name: str, proxy: Union[ContractEntrypoint, ContractView]) -> None:
+        if name in vars(self) or hasattr(type(self), name):
+            if name != 'token_metadata':  # legacy TZIP-12 entrypoint: `.token_metadata` is the TZIP-21 proxy by design
+                warnings.warn(f'`.{name}` is reserved, use `.{title}.{name}` instead', stacklevel=3)
+        else:
+            setattr(self, name, proxy)
+
+    def _list_namespace(self, namespace: ContractProxyNamespace) -> Iterator[str]:
+        for name in namespace:
+            if vars(self).get(name) is namespace[name]:
+                yield f'.{name}()'
+            else:
+                yield f'.{namespace._title}.{name}()'
 
     def __repr__(self) -> str:
         res = [
             super().__repr__(),
             '.storage\t# access storage data at block `block_id`',
             '.parameter\t# root entrypoint',
+            '.entrypoint\t# entrypoints by name',
+            '.view\t\t# views by name',
             '\nEntrypoints',
-            *list(map(lambda x: f'.{x}()', self.entrypoints)),
+            *self._list_namespace(self.entrypoint),
             '\nViews',
-            *list(map(lambda x: f'.{x}()', self.views)),
+            *self._list_namespace(self.view),
             '\nHelpers',
             get_class_docstring(self.__class__, attr_filter=lambda x: x not in self.entrypoints),
         ]
         return '\n'.join(res)
 
     def __getattr__(self, item: str) -> ContractEntrypoint:
-        raise AttributeError(f'unexpected entrypoint {item}')
+        raise AttributeError(f'unexpected entrypoint {item}, use `.entrypoint.<name>` / `.view.<name>`')
 
     @staticmethod
     def from_url(url: str, context: Optional[ExecutionContext] = None) -> 'ContractInterface':
@@ -431,9 +511,7 @@ class ContractInterface(ContextMixin):
 
     @property
     def parameter(self) -> ContractEntrypoint:
-        root_name = self.program.parameter.root_name
-        assert root_name in self.entrypoints, 'root entrypoint is undefined'
-        return getattr(self, root_name)
+        return self.entrypoint[self.program.parameter.root_name]
 
     @property  # type: ignore
     @deprecated(deprecated_in='3.0.0', removed_in='4.0.0', details='access `ContractInterface` directly')
