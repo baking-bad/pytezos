@@ -173,7 +173,7 @@ class ContextMixin(metaclass=InlineDocstring):
             block_id=block_id,
             script=script or self.context.script,
             mode=mode or self.context.mode,
-            ipfs_gateway=ipfs_gateway,
+            ipfs_gateway=ipfs_gateway or self.context.ipfs_gateway,
             balance=balance or self.context.balance,
             view_results=view_results,
         )
