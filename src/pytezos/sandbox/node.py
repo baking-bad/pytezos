@@ -1,5 +1,6 @@
 import atexit
 import logging
+import os
 import unittest
 from concurrent.futures import FIRST_EXCEPTION
 from concurrent.futures import Future
@@ -9,6 +10,7 @@ from contextlib import suppress
 from pprint import pprint
 from threading import Event
 from time import sleep
+from typing import Any
 from typing import List
 from typing import Optional
 
@@ -16,6 +18,8 @@ import requests.exceptions
 from docker.errors import DockerException  # type: ignore[import-untyped]
 from testcontainers.core.container import DockerContainer  # type: ignore[import-untyped]
 from testcontainers.core.docker_client import DockerClient  # type: ignore[import-untyped]
+from testcontainers.core.labels import LABEL_SESSION_ID  # type: ignore[import-untyped]
+from testcontainers.core.labels import SESSION_ID  # type: ignore[import-untyped]
 
 from pytezos.client import PyTezosClient
 from pytezos.operation.group import OperationGroup
@@ -47,7 +51,17 @@ def kill_existing_containers():
             container.stop(timeout=1)
 
 
-atexit.register(kill_existing_containers)
+_started_here: List['SandboxedNodeContainer'] = []
+
+
+def kill_own_containers():
+    """Stop the nodes this process started, leaving any other sandbox node alone."""
+    for container in list(_started_here):
+        with suppress(Exception):
+            container.stop(force=True, delete_volume=True)
+
+
+atexit.register(kill_own_containers)
 
 
 def worker_callback(f):
@@ -82,17 +96,66 @@ def get_next_baker_key(client: PyTezosClient) -> str:
     return next(k for k, v in sandbox_addresses.items() if v == delegate)
 
 
+SANDBOX_PORT_ENV = 'PYTEZOS_SANDBOX_PORT'
+
+
+def sandbox_port() -> int:
+    """Host port for the sandboxed node: $PYTEZOS_SANDBOX_PORT, or 8732."""
+    value = os.environ.get(SANDBOX_PORT_ENV)
+    if value is None:
+        return TEZOS_NODE_PORT
+    try:
+        return int(value)
+    except ValueError:
+        raise ValueError(f'{SANDBOX_PORT_ENV} must be a port number, got {value!r}') from None
+
+
+class SandboxPortConflict(RuntimeError):
+    """Another container already publishes the host port the sandboxed node needs."""
+
+
+def publishes_host_port(container: Any, port: int) -> bool:
+    """Whether a running container maps any of its ports to host `port`."""
+    for bindings in (container.ports or {}).values():
+        for binding in bindings or []:
+            if str(binding.get('HostPort')) == str(port):
+                return True
+    return False
+
+
+def ensure_port_free(docker: Any, port: int) -> None:
+    """Raise if another container publishes `port`; remove a stale node of our own that does."""
+    for container in docker.containers.list(filters={'status': 'running'}):
+        if not publishes_host_port(container, port):
+            continue
+        if container.labels.get(LABEL_SESSION_ID) == SESSION_ID:
+            container.remove(force=True, v=True)
+            continue
+        raise SandboxPortConflict(
+            f'host port {port} is taken by container {container.name} ({container.short_id}); '
+            f'stop it or set {SANDBOX_PORT_ENV} to a free port'
+        )
+
+
 class SandboxedNodeContainer(DockerContainer):
     def __init__(self, image=DOCKER_IMAGE, port=TEZOS_NODE_PORT):
         super().__init__(image)
         self.with_bind_ports(TEZOS_NODE_PORT, port)
+        self.port = port
         self.url = f'http://localhost:{port}'
         self.client = PyTezosClient().using(shell=self.url)
 
     def start(self):
+        ensure_port_free(self.get_docker_client().client, self.port)
         super().start()
         if self.get_wrapped_container() is None:
             raise RuntimeError('Failed to create a container')
+        _started_here.append(self)
+
+    def stop(self, *args, **kwargs):
+        with suppress(ValueError):
+            _started_here.remove(self)
+        return super().stop(*args, **kwargs)
 
     def wait_for_connection(self, max_attempts=MAX_ATTEMPTS, attempt_delay=ATTEMPT_DELAY) -> bool:
         attempts = max_attempts
@@ -121,8 +184,8 @@ class SandboxedNodeTestCase(unittest.TestCase):
     IMAGE: str = DOCKER_IMAGE
     "Docker image to use"
 
-    PORT: int = TEZOS_NODE_PORT
-    "Port to expose to host machine"
+    PORT: int = sandbox_port()
+    "Host port to expose the node on; defaults to $PYTEZOS_SANDBOX_PORT or 8732"
 
     PROTOCOL: str = LATEST
     "Hash of protocol to activate"
@@ -132,8 +195,11 @@ class SandboxedNodeTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        """Spin up sandboxed node container and activate protocol."""
-        kill_existing_containers()
+        """Spin up sandboxed node container and activate protocol.
+
+        Only nodes started by this process are stopped beforehand; other sandboxes on the machine are left alone.
+        """
+        kill_own_containers()
         cls.node_container = SandboxedNodeContainer(image=cls.IMAGE, port=cls.PORT)
         cls.node_container.start()
 
