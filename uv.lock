@@ -2143,7 +2143,7 @@ requires-dist = [
     { name = "simplejson", specifier = ">=3.17.6" },
     { name = "strict-rfc3339", specifier = ">=0.7" },
     { name = "tabulate", specifier = ">=0.9.0" },
-    { name = "testcontainers", specifier = ">=3.7.0" },
+    { name = "testcontainers", specifier = ">=4.0.0" },
     { name = "tqdm", specifier = ">=4.62.3" },
 ]
 provides-extras = ["jupyter"]
