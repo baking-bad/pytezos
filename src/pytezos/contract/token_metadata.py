@@ -8,13 +8,14 @@ from typing import Dict
 from typing import List
 from typing import Optional
 
-import requests
 from attr import dataclass
 from jsonschema import validate as jsonschema_validate  # type: ignore
 
 from pytezos.context.impl import ExecutionContext
 from pytezos.context.mixin import ContextMixin
 from pytezos.contract import converter
+from pytezos.contract import fetch_ipfs_json
+from pytezos.contract import fetch_json
 
 with open(join(dirname(__file__), 'token_metadata-schema.json')) as file:
     token_metadata_schema = json.load(file)
@@ -130,13 +131,13 @@ class ContractTokenMetadata(ContextMixin):
     def from_ipfs(cls, multihash: str, context: Optional[ExecutionContext] = None) -> 'ContractTokenMetadata':
         """Fetch token metadata from IPFS network by multihash"""
         context = context or ExecutionContext()
-        token_metadata_json = requests.get(f'{context.ipfs_gateway}/{multihash}', timeout=60).json()
+        token_metadata_json = fetch_ipfs_json(multihash, context.ipfs_gateway)
         return cls.from_json(token_metadata_json, context)
 
     @classmethod
     def from_url(cls, url: str, context: Optional[ExecutionContext] = None) -> 'ContractTokenMetadata':
         """Fetch token metadata from HTTP(S) URL"""
-        token_metadata_json = requests.get(url, timeout=60).json()
+        token_metadata_json = fetch_json(url)
         return cls.from_json(token_metadata_json, context)
 
     @classmethod
