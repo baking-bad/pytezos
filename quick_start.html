@@ -62,6 +62,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#call-an-entrypoint">Call an entrypoint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#access-storage">Access storage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#bigmap-lookup">BigMap lookup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contract-metadata">Contract metadata</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#view-method">View method</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#get-contract-balance">Get Contract Balance</a></li>
 </ul>
@@ -205,6 +206,8 @@ We are interested in <code class="docutils literal notranslate"><span class="pre
 <span class="go"> :param shell: one of &#39;mainnet&#39;, &#39;***net&#39;, or RPC node uri, or instance of :class:`pytezos.rpc.shell.ShellQuery`</span>
 <span class="go"> :param key: base58 encoded key, path to the faucet file, faucet file itself, alias from tezos-client, or `Key`</span>
 <span class="go"> :param mode: whether to use `readable` or `optimized` encoding for parameters/storage/other</span>
+<span class="go"> :param ipfs_gateway: HTTP gateway used to resolve ``ipfs://`` metadata links,</span>
+<span class="go">     e.g. ``https://gateway.pinata.cloud/ipfs`` (default ``https://ipfs.filebase.io/ipfs``)</span>
 <span class="go"> :returns: A copy of current object with changes applied</span>
 </pre></div>
 </div>
@@ -668,6 +671,22 @@ In order to see type definition, just remove the trailing brackets:</p>
 </pre></div>
 </div>
 <p>Pretty cool, hah?</p>
+</section>
+<section id="contract-metadata">
+<h2>Contract metadata<a class="headerlink" href="#contract-metadata" title="Link to this heading"></a></h2>
+<p>If a contract publishes TZIP-016 metadata (and TZIP-021 token metadata), PyTezos resolves and parses it for you:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;Stably USD&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">token_metadata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">symbol</span>
+<span class="go">&#39;USDS&#39;</span>
+</pre></div>
+</div>
+<p>Metadata stored under an <code class="docutils literal notranslate"><span class="pre">ipfs://</span></code> link is fetched through a public HTTP gateway.
+Pass another one to <code class="docutils literal notranslate"><span class="pre">using</span></code> if the default is slow or unreachable from your network:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pytezos</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="s1">&#39;mainnet&#39;</span><span class="p">,</span> <span class="n">ipfs_gateway</span><span class="o">=</span><span class="s1">&#39;https://gateway.pinata.cloud/ipfs&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">&#39;KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">metadata</span>
+</pre></div>
+</div>
+<p>A gateway that is unreachable, refuses the request or serves something other than JSON raises <code class="docutils literal notranslate"><span class="pre">requests.RequestException</span></code> naming the gateway and the content hash.</p>
 </section>
 <section id="view-method">
 <h2>View method<a class="headerlink" href="#view-method" title="Link to this heading"></a></h2>

@@ -239,6 +239,8 @@
 <span class="sd">        :param shell: one of &#39;mainnet&#39;, &#39;***net&#39;, or RPC node uri, or instance of :class:`pytezos.rpc.shell.ShellQuery`</span>
 <span class="sd">        :param key: base58 encoded key, path to the faucet file, faucet file itself, alias from tezos-client, or `Key`</span>
 <span class="sd">        :param mode: whether to use `readable` or `optimized` encoding for parameters/storage/other</span>
+<span class="sd">        :param ipfs_gateway: HTTP gateway used to resolve ``ipfs://`` metadata links,</span>
+<span class="sd">            e.g. ``https://gateway.pinata.cloud/ipfs`` (default ``https://ipfs.filebase.io/ipfs``)</span>
 <span class="sd">        :returns: A copy of current object with changes applied</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">PyTezosClient</span><span class="p">(</span>
