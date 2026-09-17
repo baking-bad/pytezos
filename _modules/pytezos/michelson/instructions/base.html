@@ -103,22 +103,22 @@
 <div class="viewcode-block" id="Wildcard.n">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.base.Wildcard.n">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">n</span><span class="p">(</span><span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Wildcard&#39;</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">n</span><span class="p">(</span><span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">'Wildcard'</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">Wildcard</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">)]</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;*&#39;</span></div>
+        <span class="k">return</span> <span class="s1">'*'</span></div>
 
 
 
 <div class="viewcode-block" id="format_stdout">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.base.format_stdout">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">format_stdout</span><span class="p">(</span><span class="n">prim</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">arg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">arg</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
-    <span class="n">pop</span> <span class="o">=</span> <span class="s2">&quot; : &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="n">inputs</span><span class="p">))</span> <span class="k">if</span> <span class="n">inputs</span> <span class="k">else</span> <span class="s1">&#39;_&#39;</span>
-    <span class="n">push</span> <span class="o">=</span> <span class="s2">&quot; : &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="n">outputs</span><span class="p">))</span> <span class="k">if</span> <span class="n">outputs</span> <span class="k">else</span> <span class="s1">&#39;_&#39;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prim</span><span class="si">}{</span><span class="n">arg</span><span class="si">}</span><span class="s1"> / </span><span class="si">{</span><span class="n">pop</span><span class="si">}</span><span class="s1"> =&gt; </span><span class="si">{</span><span class="n">push</span><span class="si">}</span><span class="s1">&#39;</span></div>
+    <span class="n">arg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">' </span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s1">'</span> <span class="k">if</span> <span class="n">arg</span> <span class="k">else</span> <span class="s1">''</span>
+    <span class="n">pop</span> <span class="o">=</span> <span class="s2">" : "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="n">inputs</span><span class="p">))</span> <span class="k">if</span> <span class="n">inputs</span> <span class="k">else</span> <span class="s1">'_'</span>
+    <span class="n">push</span> <span class="o">=</span> <span class="s2">" : "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">repr</span><span class="p">,</span> <span class="n">outputs</span><span class="p">))</span> <span class="k">if</span> <span class="n">outputs</span> <span class="k">else</span> <span class="s1">'_'</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">prim</span><span class="si">}{</span><span class="n">arg</span><span class="si">}</span><span class="s1"> / </span><span class="si">{</span><span class="n">pop</span><span class="si">}</span><span class="s1"> =&gt; </span><span class="si">{</span><span class="n">push</span><span class="si">}</span><span class="s1">'</span></div>
 
 
 
@@ -130,7 +130,7 @@
 <span class="p">):</span>
     <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">prim</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span>
     <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">prim</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>  <span class="c1"># type: ignore</span>
-    <span class="k">assert</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;unexpected types `</span><span class="si">{</span><span class="s2">&quot; * &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s1">`&#39;</span>  <span class="c1"># type: ignore</span>
+    <span class="k">assert</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'unexpected types `</span><span class="si">{</span><span class="s2">" * "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s1">`'</span>  <span class="c1"># type: ignore</span>
     <span class="k">return</span> <span class="n">mapping</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>  <span class="c1"># type: ignore</span></div>
 
 
@@ -138,7 +138,7 @@
 <div class="viewcode-block" id="MichelsonInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.base.MichelsonInstruction">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MichelsonInstruction</span><span class="p">(</span><span class="n">Micheline</span><span class="p">):</span>
-    <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonInstruction&#39;</span><span class="p">],</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s1">'MichelsonInstruction'</span><span class="p">],</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">field_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">var_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -148,8 +148,8 @@
 <div class="viewcode-block" id="MichelsonInstruction.match">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.base.MichelsonInstruction.match">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">match</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonInstruction&#39;</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonInstruction&#39;</span><span class="p">],</span> <span class="n">Micheline</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">expr</span><span class="p">))</span></div>
+    <span class="k">def</span><span class="w"> </span><span class="nf">match</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">'MichelsonInstruction'</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="s1">'MichelsonInstruction'</span><span class="p">],</span> <span class="n">Micheline</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">expr</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="MichelsonInstruction.create_type">
@@ -157,26 +157,26 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_type</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;Micheline&#39;</span><span class="p">]],</span>
+        <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s1">'Micheline'</span><span class="p">]],</span>
         <span class="n">annots</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonInstruction&#39;</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">'MichelsonInstruction'</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">annots</span><span class="p">:</span>
-            <span class="n">field_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">annots</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">)]</span>
-            <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">annots</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)]</span>
+            <span class="n">field_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">annots</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'%'</span><span class="p">)]</span>
+            <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">annots</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'@'</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">field_names</span><span class="p">,</span> <span class="n">var_names</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
         <span class="n">res</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span>
             <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
             <span class="p">(</span><span class="bp">cls</span><span class="p">,),</span>
             <span class="p">{</span>
-                <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span>
-                <span class="s1">&#39;field_names&#39;</span><span class="p">:</span> <span class="n">field_names</span><span class="p">,</span>
-                <span class="s1">&#39;var_names&#39;</span><span class="p">:</span> <span class="n">var_names</span><span class="p">,</span>
+                <span class="s1">'args'</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span>
+                <span class="s1">'field_names'</span><span class="p">:</span> <span class="n">field_names</span><span class="p">,</span>
+                <span class="s1">'var_names'</span><span class="p">:</span> <span class="n">var_names</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;MichelsonInstruction&#39;</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="s1">'MichelsonInstruction'</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MichelsonInstruction.as_micheline_expr">
@@ -185,11 +185,11 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">as_micheline_expr</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">annots</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">var_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">annots</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;@</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">var_names</span><span class="p">])</span>
+            <span class="n">annots</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s1">'@</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">var_names</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">field_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">annots</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;%</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">field_names</span><span class="p">])</span>
+            <span class="n">annots</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s1">'%</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">field_names</span><span class="p">])</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">arg</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">()</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">args</span><span class="p">]</span>
-        <span class="n">expr</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="p">,</span> <span class="s1">&#39;annots&#39;</span><span class="p">:</span> <span class="n">annots</span><span class="p">,</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">}</span>
+        <span class="n">expr</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'prim'</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="p">,</span> <span class="s1">'annots'</span><span class="p">:</span> <span class="n">annots</span><span class="p">,</span> <span class="s1">'args'</span><span class="p">:</span> <span class="n">args</span><span class="p">}</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">expr</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">}</span></div>
 
 

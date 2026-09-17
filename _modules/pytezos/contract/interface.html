@@ -131,7 +131,7 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ContractTokenMetadataProxy</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get TZIP-21 contract token metadata by token_id&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Get TZIP-21 contract token metadata by token_id"""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span> <span class="o">=</span> <span class="n">fn</span>
@@ -140,18 +140,18 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">ContractEntrypoint</span><span class="p">,</span> <span class="n">ContractView</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">'T'</span><span class="p">,</span> <span class="n">ContractEntrypoint</span><span class="p">,</span> <span class="n">ContractView</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ContractProxyNamespace">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractProxyNamespace">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ContractProxyNamespace</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Entrypoint or view proxies by name: `contract.entrypoint.&lt;name&gt;` / `contract.view.&lt;name&gt;`</span>
+<span class="w">    </span><span class="sd">"""Entrypoint or view proxies by name: `contract.entrypoint.&lt;name&gt;` / `contract.view.&lt;name&gt;`</span>
 
 <span class="sd">    Holds every proxy of the contract, including those whose names collide with `ContractInterface` attributes</span>
 <span class="sd">    (e.g. `storage`, `metadata`, `token_metadata`) or with each other (an entrypoint and a view sharing a name).</span>
-<span class="sd">    Names that are not Python identifiers are reachable via item access: `contract.entrypoint[&#39;foo.bar&#39;]`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Names that are not Python identifiers are reachable via item access: `contract.entrypoint['foo.bar']`.</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">proxies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_title</span> <span class="o">=</span> <span class="n">title</span>
@@ -160,18 +160,18 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">,</span>
-            <span class="o">*</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">()&#39;</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">),</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s1">s'</span><span class="p">,</span>
+            <span class="o">*</span><span class="p">(</span><span class="sa">f</span><span class="s1">'.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">()'</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'_'</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unknown </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="si">}</span><span class="s1"> `</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">`, available: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'unknown </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="si">}</span><span class="s1"> `</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">`, available: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
@@ -193,12 +193,12 @@
 <div class="viewcode-block" id="ContractInterface">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ContractInterface</span><span class="p">(</span><span class="n">ContextMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Proxy class for interacting with a contract.</span>
+<span class="w">    </span><span class="sd">"""Proxy class for interacting with a contract.</span>
 
 <span class="sd">    Entrypoints and views are exposed as `.&lt;name&gt;()` shortcuts when the name is free, and always as</span>
 <span class="sd">    `.entrypoint.&lt;name&gt;()` / `.view.&lt;name&gt;()`. An entrypoint wins over a view of the same name, and both lose</span>
 <span class="sd">    to an existing interface attribute such as `storage`, `metadata` or `token_metadata`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">program</span><span class="p">:</span> <span class="n">MichelsonProgram</span>
     <span class="n">entrypoint</span><span class="p">:</span> <span class="n">ContractProxyNamespace</span><span class="p">[</span><span class="n">ContractEntrypoint</span><span class="p">]</span>  <span class="c1">#: every entrypoint proxy by name</span>
@@ -229,73 +229,73 @@
             <span class="n">view_attr</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">view_ty</span><span class="o">.</span><span class="n">generate_pydoc</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
             <span class="n">views</span><span class="p">[</span><span class="n">view_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">view_attr</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span> <span class="o">=</span> <span class="n">ContractProxyNamespace</span><span class="p">(</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">,</span> <span class="n">entrypoints</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">ContractProxyNamespace</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="n">views</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span> <span class="o">=</span> <span class="n">ContractProxyNamespace</span><span class="p">(</span><span class="s1">'entrypoint'</span><span class="p">,</span> <span class="n">entrypoints</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">ContractProxyNamespace</span><span class="p">(</span><span class="s1">'view'</span><span class="p">,</span> <span class="n">views</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">entrypoints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_bind_shortcut</span><span class="p">(</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bind_shortcut</span><span class="p">(</span><span class="s1">'entrypoint'</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">view_attr</span> <span class="ow">in</span> <span class="n">views</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_bind_shortcut</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">view_attr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bind_shortcut</span><span class="p">(</span><span class="s1">'view'</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">view_attr</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_bind_shortcut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ContractEntrypoint</span><span class="p">,</span> <span class="n">ContractView</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">name</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;token_metadata&#39;</span><span class="p">:</span>  <span class="c1"># legacy TZIP-12 entrypoint: `.token_metadata` is the TZIP-21 proxy by design</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;`.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">` is reserved, use `.</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">` instead&#39;</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">'token_metadata'</span><span class="p">:</span>  <span class="c1"># legacy TZIP-12 entrypoint: `.token_metadata` is the TZIP-21 proxy by design</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">'`.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">` is reserved, use `.</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">` instead'</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">proxy</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_list_namespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="n">ContractProxyNamespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">namespace</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="n">namespace</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
-                <span class="k">yield</span> <span class="sa">f</span><span class="s1">&#39;.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">()&#39;</span>
+                <span class="k">yield</span> <span class="sa">f</span><span class="s1">'.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">()'</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="sa">f</span><span class="s1">&#39;.</span><span class="si">{</span><span class="n">namespace</span><span class="o">.</span><span class="n">_title</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">()&#39;</span>
+                <span class="k">yield</span> <span class="sa">f</span><span class="s1">'.</span><span class="si">{</span><span class="n">namespace</span><span class="o">.</span><span class="n">_title</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">()'</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="s1">&#39;.storage</span><span class="se">\t</span><span class="s1"># access storage data at block `block_id`&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;.parameter</span><span class="se">\t</span><span class="s1"># root entrypoint&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;.entrypoint</span><span class="se">\t</span><span class="s1"># entrypoints by name&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;.view</span><span class="se">\t\t</span><span class="s1"># views by name&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Entrypoints&#39;</span><span class="p">,</span>
+            <span class="s1">'.storage</span><span class="se">\t</span><span class="s1"># access storage data at block `block_id`'</span><span class="p">,</span>
+            <span class="s1">'.parameter</span><span class="se">\t</span><span class="s1"># root entrypoint'</span><span class="p">,</span>
+            <span class="s1">'.entrypoint</span><span class="se">\t</span><span class="s1"># entrypoints by name'</span><span class="p">,</span>
+            <span class="s1">'.view</span><span class="se">\t\t</span><span class="s1"># views by name'</span><span class="p">,</span>
+            <span class="s1">'</span><span class="se">\n</span><span class="s1">Entrypoints'</span><span class="p">,</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_namespace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span><span class="p">),</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Views&#39;</span><span class="p">,</span>
+            <span class="s1">'</span><span class="se">\n</span><span class="s1">Views'</span><span class="p">,</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_namespace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">),</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Helpers&#39;</span><span class="p">,</span>
+            <span class="s1">'</span><span class="se">\n</span><span class="s1">Helpers'</span><span class="p">,</span>
             <span class="n">get_class_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">attr_filter</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entrypoints</span><span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractEntrypoint</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unexpected entrypoint </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">, use `.entrypoint.&lt;name&gt;` / `.view.&lt;name&gt;`&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'unexpected entrypoint </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">, use `.entrypoint.&lt;name&gt;` / `.view.&lt;name&gt;`'</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ContractInterface.from_url">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.from_url">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_url</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExecutionContext</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractInterface&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create contract from michelson source code available via URL</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_url</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExecutionContext</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractInterface'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create contract from michelson source code available via URL</span>
 
 <span class="sd">        :param url: link to the Michelson file</span>
 <span class="sd">        :param context: optional execution context</span>
 <span class="sd">        :rtype: ContractInterface</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cannot fetch `</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">`&#39;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'cannot fetch `</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">`'</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_michelson</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ContractInterface.from_file">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.from_file">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_file</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExecutionContext</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractInterface&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create contract from michelson source code stored in a file.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_file</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExecutionContext</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractInterface'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create contract from michelson source code stored in a file.</span>
 
 <span class="sd">        :param path: Path to the `.tz` file</span>
 <span class="sd">        :param context: optional execution context</span>
 <span class="sd">        :rtype: ContractInterface</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_michelson</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">context</span><span class="p">)</span></div>
 
@@ -303,13 +303,13 @@
 <div class="viewcode-block" id="ContractInterface.from_michelson">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.from_michelson">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_michelson</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExecutionContext</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractInterface&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create contract from michelson source code.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_michelson</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExecutionContext</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractInterface'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create contract from michelson source code.</span>
 
 <span class="sd">        :param source: Michelson source code</span>
 <span class="sd">        :param context: optional execution context</span>
 <span class="sd">        :rtype: ContractInterface</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_micheline</span><span class="p">(</span><span class="n">michelson_to_micheline</span><span class="p">(</span><span class="n">source</span><span class="p">),</span> <span class="n">context</span><span class="p">)</span></div>
 
 
@@ -319,23 +319,23 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline</span><span class="p">(</span>
         <span class="n">expression</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
         <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExecutionContext</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractInterface&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create contract from micheline expression.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractInterface'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create contract from micheline expression.</span>
 
-<span class="sd">        :param expression: [{&#39;prim&#39;: &#39;parameter&#39;}, {&#39;prim&#39;: &#39;storage&#39;}, {&#39;prim&#39;: &#39;code&#39;}]</span>
+<span class="sd">        :param expression: [{'prim': 'parameter'}, {'prim': 'storage'}, {'prim': 'code'}]</span>
 <span class="sd">        :param context: optional execution context</span>
 <span class="sd">        :rtype: ContractInterface</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">code_expr</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">resolve_global_constants</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">code_expr</span> <span class="o">=</span> <span class="n">expression</span>
         <span class="n">program</span> <span class="o">=</span> <span class="n">MichelsonProgram</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">code_expr</span><span class="p">)</span>
-        <span class="bp">cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">ContractInterface</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="p">(</span><span class="n">ContractInterface</span><span class="p">,),</span> <span class="p">{</span><span class="s1">&#39;program&#39;</span><span class="p">:</span> <span class="n">program</span><span class="p">})</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">ContractInterface</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="p">(</span><span class="n">ContractInterface</span><span class="p">,),</span> <span class="p">{</span><span class="s1">'program'</span><span class="p">:</span> <span class="n">program</span><span class="p">})</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">ExecutionContext</span><span class="p">(</span>
             <span class="n">shell</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">shell</span> <span class="k">if</span> <span class="n">context</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">key</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">key</span> <span class="k">if</span> <span class="n">context</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">script</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="n">code_expr</span><span class="p">},</span>
+            <span class="n">script</span><span class="o">=</span><span class="p">{</span><span class="s1">'code'</span><span class="p">:</span> <span class="n">code_expr</span><span class="p">},</span>
             <span class="n">ipfs_gateway</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">ipfs_gateway</span> <span class="k">if</span> <span class="n">context</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">global_constants</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">global_constants</span> <span class="k">if</span> <span class="n">context</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
@@ -345,14 +345,14 @@
 <div class="viewcode-block" id="ContractInterface.from_context">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.from_context">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_context</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractInterface&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create contract from the previously loaded context data.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_context</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractInterface'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create contract from the previously loaded context data.</span>
 
 <span class="sd">        :param context: execution context</span>
 <span class="sd">        :return: ContractInterface</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">program</span> <span class="o">=</span> <span class="n">MichelsonProgram</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">with_code</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">ContractInterface</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="p">(</span><span class="n">ContractInterface</span><span class="p">,),</span> <span class="p">{</span><span class="s1">&#39;program&#39;</span><span class="p">:</span> <span class="n">program</span><span class="p">})</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">ContractInterface</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="p">(</span><span class="n">ContractInterface</span><span class="p">,),</span> <span class="p">{</span><span class="s1">'program'</span><span class="p">:</span> <span class="n">program</span><span class="p">})</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">context</span><span class="p">)</span></div>
 
 
@@ -360,16 +360,16 @@
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.create_from">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="nd">@deprecated</span><span class="p">(</span>
-        <span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span>
-        <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span>
-        <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use one of `from_file`, `from_michelson`, `from_micheline`, `from_url`&#39;</span><span class="p">,</span>
+        <span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.0'</span><span class="p">,</span>
+        <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span>
+        <span class="n">details</span><span class="o">=</span><span class="s1">'use one of `from_file`, `from_michelson`, `from_micheline`, `from_url`'</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_from</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create contract interface from its code.</span>
+<span class="w">        </span><span class="sd">"""Create contract interface from its code.</span>
 
 <span class="sd">        :param source: Michelson code, filename, or Micheline JSON</span>
 <span class="sd">        :rtype: ContractInterface</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="n">expanduser</span><span class="p">(</span><span class="n">source</span><span class="p">)):</span>
                 <span class="k">return</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
@@ -380,51 +380,51 @@
 <div class="viewcode-block" id="ContractInterface.to_micheline">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.to_micheline">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get contract script in Micheline JSON</span>
+<span class="w">        </span><span class="sd">"""Get contract script in Micheline JSON</span>
 
-<span class="sd">        :return:  [{&#39;prim&#39;: &#39;parameter&#39;}, {&#39;prim&#39;: &#39;storage&#39;}, {&#39;prim&#39;: &#39;code&#39;}]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        :return:  [{'prim': 'parameter'}, {'prim': 'storage'}, {'prim': 'code'}]</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ContractInterface.to_michelson">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.to_michelson">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_michelson</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get contract listing in formatted Michelson</span>
+<span class="w">        </span><span class="sd">"""Get contract listing in formatted Michelson</span>
 
 <span class="sd">        :return: string</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">micheline_to_michelson</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_micheline</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="ContractInterface.to_file">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.to_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write contract source to a .tz file</span>
+<span class="w">        </span><span class="sd">"""Write contract source to a .tz file</span>
 
 <span class="sd">        :param path: path to the file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="sd">        """</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">'w+'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_michelson</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="ContractInterface.big_map_get">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.big_map_get">[docs]</a>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use `.storage[path][to][big_map][key]()` instead&#39;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.0'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">'use `.storage[path][to][big_map][key]()` instead'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">big_map_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get BigMap entry as Python object by plain key and block height.</span>
+<span class="w">        </span><span class="sd">"""Get BigMap entry as Python object by plain key and block height.</span>
 
 <span class="sd">        :param path: JSON path to the key (or just key to access default BigMap location).</span>
 <span class="sd">            Use `/` to separate nodes and `::` to separate tuple args.</span>
-<span class="sd">            In any other case you&#39;d need to escape those symbols.</span>
+<span class="sd">            In any other case you'd need to escape those symbols.</span>
 <span class="sd">        :returns: object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;::&#39;</span><span class="p">)</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'::'</span><span class="p">)</span>
                 <span class="n">item</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">item</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">node</span><span class="p">()</span> <span class="k">if</span> <span class="n">node</span> <span class="k">else</span> <span class="kc">None</span></div>
@@ -439,19 +439,19 @@
         <span class="n">block_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ipfs_gateway</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractInterface&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change the block at which the current contract is inspected.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractInterface'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Change the block at which the current contract is inspected.</span>
 
 <span class="sd">        Also, if address is undefined you can specify RPC endpoint, and private key.</span>
 
-<span class="sd">        :param shell: one of &#39;mainnet&#39;, &#39;***net&#39;, or RPC node uri, or instance of :class:`pytezos.rpc.shell.ShellQuery`</span>
+<span class="sd">        :param shell: one of 'mainnet', '***net', or RPC node uri, or instance of :class:`pytezos.rpc.shell.ShellQuery`</span>
 <span class="sd">        :param key: base58 encoded key, path to the faucet file, alias from tezos-client, or instance of `Key`</span>
 <span class="sd">        :param block_id: block height / hash / offset to use, default is `head`</span>
 <span class="sd">        :param mode: whether to use `readable` or `optimized` encoding for parameters/storage/other</span>
 <span class="sd">        :param ipfs_gateway: HTTP gateway used to resolve ``ipfs://`` metadata links,</span>
 <span class="sd">            e.g. ``https://gateway.pinata.cloud/ipfs`` (default ``https://ipfs.filebase.io/ipfs``)</span>
 <span class="sd">        :rtype: ContractInterface</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">has_address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">address</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_spawn_context</span><span class="p">(</span>
@@ -475,21 +475,21 @@
             <span class="n">storage</span><span class="o">.</span><span class="n">attach_context</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">dummy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ContractData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">item</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;storage&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ContractData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">item</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"storage"</span><span class="p">)</span>
 
     <span class="nd">@storage</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">:</span> <span class="n">ContractData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Can</span><span class="se">\&#39;</span><span class="s1">t set storage of deployed contract&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'Can</span><span class="se">\'</span><span class="s1">t set storage of deployed contract'</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="o">=</span> <span class="n">storage</span>
 
 <div class="viewcode-block" id="ContractInterface.storage_from_file">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.storage_from_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">storage_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load contract storage from file</span>
+<span class="w">        </span><span class="sd">"""Load contract storage from file</span>
 
 <span class="sd">        :param path: path to .tz file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">expr</span> <span class="o">=</span> <span class="n">michelson_to_micheline</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">storage_from_micheline</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span></div>
@@ -498,49 +498,49 @@
 <div class="viewcode-block" id="ContractInterface.storage_from_micheline">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.storage_from_micheline">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">storage_from_micheline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load contract storage from Micheline expression</span>
+<span class="w">        </span><span class="sd">"""Load contract storage from Micheline expression</span>
 
 <span class="sd">        :param expression: Micheline expression</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
         <span class="n">storage</span><span class="o">.</span><span class="n">attach_context</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">storage</span> <span class="o">=</span> <span class="n">ContractData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">item</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;storage&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage</span> <span class="o">=</span> <span class="n">ContractData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">item</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"storage"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ContractInterface.storage_from_michelson">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.storage_from_michelson">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">storage_from_michelson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load contract storage from Michelson code</span>
+<span class="w">        </span><span class="sd">"""Load contract storage from Michelson code</span>
 
 <span class="sd">        :param source: Michelson code</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">expr</span> <span class="o">=</span> <span class="n">michelson_to_micheline</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">storage_from_micheline</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span></div>
 
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ContractMetadata</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get TZIP-016 contract metadata, if exists</span>
+<span class="w">        </span><span class="sd">"""Get TZIP-016 contract metadata, if exists</span>
 
 <span class="sd">        :rtype: ContractMetadata</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">metadata_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata_url</span>
         <span class="k">if</span> <span class="n">metadata_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Trying to fetch contract metadata from `</span><span class="si">%s</span><span class="s1">`&#39;</span><span class="p">,</span> <span class="n">metadata_url</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Trying to fetch contract metadata from `</span><span class="si">%s</span><span class="s1">`'</span><span class="p">,</span> <span class="n">metadata_url</span><span class="p">)</span>
         <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">metadata_url</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">,</span> <span class="s1">&#39;https&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'http'</span><span class="p">,</span> <span class="s1">'https'</span><span class="p">):</span>
             <span class="c1"># NOTE: KT1B34qXVRfQrScEaqjjt6cJ5G8LtVFZ7fSc</span>
             <span class="n">metadata</span> <span class="o">=</span> <span class="n">ContractMetadata</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="n">metadata_url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;ipfs&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">'ipfs'</span><span class="p">:</span>
             <span class="c1"># NOTE: KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW</span>
             <span class="n">metadata</span> <span class="o">=</span> <span class="n">ContractMetadata</span><span class="o">.</span><span class="n">from_ipfs</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">netloc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;tezos-storage&#39;</span><span class="p">:</span>
-            <span class="n">parts</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">'tezos-storage'</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="c1"># NOTE: KT1JBThDEqyqrEHimhxoUBCSnsKAqFcuHMkP</span>
                 <span class="n">storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span>
@@ -549,24 +549,24 @@
                 <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spawn_context</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">netloc</span><span class="p">)</span>
                 <span class="n">storage</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">storage</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Unknown metadata URL scheme&#39;</span><span class="p">)</span>
-            <span class="n">metadata_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">storage</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">'Unknown metadata URL scheme'</span><span class="p">)</span>
+            <span class="n">metadata_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">storage</span><span class="p">[</span><span class="s1">'metadata'</span><span class="p">][</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
             <span class="n">metadata</span> <span class="o">=</span> <span class="n">ContractMetadata</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">metadata_json</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;sha256&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">'sha256'</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Unknown metadata URL scheme&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">'Unknown metadata URL scheme'</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">metadata</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">token_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractTokenMetadataProxy</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get TZIP-021 contract token metadata proxy</span>
+<span class="w">        </span><span class="sd">"""Get TZIP-021 contract token metadata proxy</span>
 
 <span class="sd">        :rtype: ContractTokenMetadataProxy</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">ContractTokenMetadataProxy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_token_metadata</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 
     <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>  <span class="c1"># noqa: B019</span>
@@ -577,70 +577,70 @@
         <span class="k">return</span> <span class="n">token_metadata</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_token_metadata_from_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ContractTokenMetadata</span><span class="p">]:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Trying to fetch token </span><span class="si">%s</span><span class="s1"> metadata from storage&#39;</span><span class="p">,</span> <span class="n">token_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Trying to fetch token </span><span class="si">%s</span><span class="s1"> metadata from storage'</span><span class="p">,</span> <span class="n">token_id</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">token_metadata_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="s1">&#39;token_metadata&#39;</span><span class="p">][</span><span class="n">token_id</span><span class="p">][</span><span class="s1">&#39;token_info&#39;</span><span class="p">][</span><span class="s1">&#39;&#39;</span><span class="p">]()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="n">token_metadata_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="s1">'token_metadata'</span><span class="p">][</span><span class="n">token_id</span><span class="p">][</span><span class="s1">'token_info'</span><span class="p">][</span><span class="s1">''</span><span class="p">]()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
         <span class="c1"># FIXME: Dirty</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AssertionError</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Storage doesn</span><span class="se">\&#39;</span><span class="s1">t contain metadata URL for token </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">token_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Storage doesn</span><span class="se">\'</span><span class="s1">t contain metadata URL for token </span><span class="si">%s</span><span class="s1">'</span><span class="p">,</span> <span class="n">token_id</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Trying to fetch contract token metadata from `</span><span class="si">%s</span><span class="s1">`&#39;</span><span class="p">,</span> <span class="n">token_metadata_url</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Trying to fetch contract token metadata from `</span><span class="si">%s</span><span class="s1">`'</span><span class="p">,</span> <span class="n">token_metadata_url</span><span class="p">)</span>
         <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">token_metadata_url</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">,</span> <span class="s1">&#39;https&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'http'</span><span class="p">,</span> <span class="s1">'https'</span><span class="p">):</span>
             <span class="n">token_metadata</span> <span class="o">=</span> <span class="n">ContractTokenMetadata</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="n">token_metadata_url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;ipfs&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">'ipfs'</span><span class="p">:</span>
             <span class="n">token_metadata</span> <span class="o">=</span> <span class="n">ContractTokenMetadata</span><span class="o">.</span><span class="n">from_ipfs</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">netloc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;tezos-storage&#39;</span><span class="p">:</span>
-            <span class="n">parts</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">'tezos-storage'</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span>
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spawn_context</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">netloc</span><span class="p">)</span>
                 <span class="n">storage</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">storage</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Unknown metadata URL scheme&#39;</span><span class="p">)</span>
-            <span class="n">token_metadata_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">storage</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">'Unknown metadata URL scheme'</span><span class="p">)</span>
+            <span class="n">token_metadata_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">storage</span><span class="p">[</span><span class="s1">'metadata'</span><span class="p">][</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
             <span class="n">token_metadata</span> <span class="o">=</span> <span class="n">ContractTokenMetadata</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">token_metadata_json</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">&#39;sha256&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="o">==</span> <span class="s1">'sha256'</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Unknown metadata URL scheme&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">'Unknown metadata URL scheme'</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">token_metadata</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_token_metadata_from_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ContractTokenMetadata</span><span class="p">]:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Trying to fetch token </span><span class="si">%s</span><span class="s1"> metadata from off-chain view&#39;</span><span class="p">,</span> <span class="n">token_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Trying to fetch token </span><span class="si">%s</span><span class="s1"> metadata from off-chain view'</span><span class="p">,</span> <span class="n">token_id</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">token_metadata_json</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">ContractMetadata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span><span class="o">.</span><span class="n">tokenMetadata</span><span class="p">(</span><span class="n">token_id</span><span class="p">)</span><span class="o">.</span><span class="n">storage_view</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">ContractTokenMetadata</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">token_metadata_json</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;There</span><span class="se">\&#39;</span><span class="s1">s no off-chain view named `token_metadata`&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'There</span><span class="se">\'</span><span class="s1">s no off-chain view named `token_metadata`'</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="n">MichelsonRuntimeError</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Off-chain view has no token metadata for token_id </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">token_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Off-chain view has no token metadata for token_id </span><span class="si">%s</span><span class="s1">'</span><span class="p">,</span> <span class="n">token_id</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">metadata_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">field_name</span> <span class="o">==</span> <span class="s1">&#39;metadata&#39;</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">BigMapType</span><span class="p">))</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">field_name</span> <span class="o">==</span> <span class="s1">'metadata'</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">BigMapType</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">metadata_url</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span>
+                <span class="n">metadata_url</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">''</span><span class="p">]</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata_url</span><span class="p">,</span> <span class="n">BytesType</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">metadata_url</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Empty string key is not found in metadata big map&#39;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Empty string key is not found in metadata big map'</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Metadata big map not found&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Metadata big map not found'</span><span class="p">)</span>
         <span class="c1"># FIXME: Dirty</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AssertionError</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Failed to get metadata URI&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Failed to get metadata URI'</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
@@ -648,53 +648,53 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">root_name</span><span class="p">]</span>
 
     <span class="nd">@property</span>  <span class="c1"># type: ignore</span>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;access `ContractInterface` directly&#39;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">contract</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractInterface&#39;</span><span class="p">:</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.0'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">'access `ContractInterface` directly'</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">contract</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractInterface'</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>  <span class="c1"># type: ignore</span>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use `to_michelson()` instead&#39;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.0'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">'use `to_michelson()` instead'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_michelson</span><span class="p">()</span>
 
     <span class="nd">@property</span>  <span class="c1"># type: ignore</span>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use `to_micheline()` instead&#39;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.0'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">'use `to_micheline()` instead'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_micheline</span><span class="p">()</span>
 
     <span class="nd">@property</span>  <span class="c1"># type: ignore</span>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use `default()` instead&#39;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.0'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">'use `default()` instead'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractEntrypoint</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter</span>
 
 <div class="viewcode-block" id="ContractInterface.operation_result">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.operation_result">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">operation_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation_group</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ContractCallResult</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get operation parameters, and resulting storage as Python objects.</span>
+<span class="w">        </span><span class="sd">"""Get operation parameters, and resulting storage as Python objects.</span>
 <span class="sd">        Can locate operation inside operation groups with multiple contents and/or internal operations.</span>
 
-<span class="sd">        :param operation_group: {&#39;branch&#39;, &#39;protocol&#39;, &#39;contents&#39;, &#39;signature&#39;}</span>
+<span class="sd">        :param operation_group: {'branch', 'protocol', 'contents', 'signature'}</span>
 <span class="sd">        :rtype: ContractCallResult</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">ContractCallResult</span><span class="o">.</span><span class="n">from_run_operation</span><span class="p">(</span><span class="n">operation_group</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ContractInterface.script">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.script">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_storage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate script for contract origination.</span>
+<span class="w">        </span><span class="sd">"""Generate script for contract origination.</span>
 
 <span class="sd">        :param initial_storage: Python object, leave None to generate default (attach shell/key for smart fill)</span>
 <span class="sd">        :param mode: whether to use `readable` or `optimized` (or `legacy_optimized`) encoding for initial storage</span>
-<span class="sd">        :return: {&quot;code&quot;: $Micheline, &quot;storage&quot;: $Micheline}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        :return: {"code": $Micheline, "storage": $Micheline}</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">initial_storage</span><span class="p">:</span>
             <span class="n">storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">from_python_object</span><span class="p">(</span><span class="n">initial_storage</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">dummy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">(),</span>
-            <span class="s1">&#39;storage&#39;</span><span class="p">:</span> <span class="n">storage</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="s1">'code'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">(),</span>
+            <span class="s1">'storage'</span><span class="p">:</span> <span class="n">storage</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
         <span class="p">}</span></div>
 
 
@@ -707,14 +707,14 @@
         <span class="n">balance</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">delegate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an origination operation</span>
+<span class="w">        </span><span class="sd">"""Create an origination operation</span>
 
 <span class="sd">        :param initial_storage: Python object, leave None to generate default</span>
 <span class="sd">        :param mode: whether to use `readable` or `optimized` (or `legacy_optimized`) encoding for initial storage</span>
 <span class="sd">        :param balance: initial balance</span>
 <span class="sd">        :param delegate: initial delegator</span>
 <span class="sd">        :rtype: OperationGroup</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">OperationGroup</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_spawn_context</span><span class="p">())</span><span class="o">.</span><span class="n">origination</span><span class="p">(</span>
             <span class="n">script</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="n">initial_storage</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">),</span>
             <span class="n">balance</span><span class="o">=</span><span class="n">balance</span><span class="p">,</span>
@@ -724,7 +724,7 @@
 
 
 
-<span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use `ContractInterface` instead&#39;</span><span class="p">)</span>
+<span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.0'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">'use `ContractInterface` instead'</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Contract</span><span class="p">(</span><span class="n">ContractInterface</span><span class="p">):</span>
     <span class="k">pass</span>
 </pre></div>

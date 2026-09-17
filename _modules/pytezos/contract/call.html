@@ -114,7 +114,7 @@
 <div class="viewcode-block" id="ContractCall">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ContractCall</span><span class="p">(</span><span class="n">ContextMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Proxy class encapsulating a contract call: contract type scheme, contract address, parameters, and amount&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Proxy class encapsulating a contract call: contract type scheme, contract address, parameters, and amount"""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
@@ -124,22 +124,22 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="sa">f</span><span class="s1">&#39;.amount</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Parameters&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'.amount</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+            <span class="s1">'</span><span class="se">\n</span><span class="s1">Parameters'</span><span class="p">,</span>
             <span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">),</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Helpers&#39;</span><span class="p">,</span>
+            <span class="s1">'</span><span class="se">\n</span><span class="s1">Helpers'</span><span class="p">,</span>
             <span class="n">get_class_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ContractCall.with_amount">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.with_amount">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">with_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractCall&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set amount of funds to send with transaction to the contract.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_amount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">'ContractCall'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Set amount of funds to send with transaction to the contract.</span>
 
 <span class="sd">        :param amount: amount in microtez (int) or tez (Decimal)</span>
 <span class="sd">        :rtype: ContractCall</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">ContractCall</span><span class="p">(</span>
             <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span>
             <span class="n">parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
@@ -150,17 +150,17 @@
 <div class="viewcode-block" id="ContractCall.as_transaction">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.as_transaction">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">as_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get operation content.</span>
+<span class="w">        </span><span class="sd">"""Get operation content.</span>
 
 <span class="sd">        :rtype: OperationGroup</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">OperationGroup</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_spawn_context</span><span class="p">())</span><span class="o">.</span><span class="n">transaction</span><span class="p">(</span>
             <span class="n">destination</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
 
 
     <span class="nd">@property</span>  <span class="c1"># type: ignore</span>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use `as_transaction()` instead&#39;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.0'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">'use `as_transaction()` instead'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">operation_group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_transaction</span><span class="p">()</span><span class="o">.</span><span class="n">fill</span><span class="p">()</span>
 
@@ -172,15 +172,15 @@
         <span class="n">burn_reserve</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_BURN_RESERVE</span><span class="p">,</span>
         <span class="n">min_confirmations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">ttl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperationGroup&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fill, sign, and broadcast the transaction</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'OperationGroup'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Fill, sign, and broadcast the transaction</span>
 
 <span class="sd">        :param gas_reserve: Add a safe reserve for dynamically calculated gas limit (default is 100).</span>
 <span class="sd">        :param burn_reserve: Add a safe reserve for dynamically calculated storage limit (default is 100).</span>
 <span class="sd">        :param min_confirmations: number of block injections to wait for before returning (default is 0, i.e. async mode)</span>
 <span class="sd">        :param ttl: Number of blocks to wait in the mempool before removal (default is 5 for public network, 60 for sandbox)</span>
 <span class="sd">        :return: OperationGroup with hash filled</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_transaction</span><span class="p">()</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
             <span class="n">gas_reserve</span><span class="o">=</span><span class="n">gas_reserve</span><span class="p">,</span>
             <span class="n">burn_reserve</span><span class="o">=</span><span class="n">burn_reserve</span><span class="p">,</span>
@@ -198,8 +198,8 @@
         <span class="n">gas_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">storage_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">minimal_nanotez_per_gas_unit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;OperationGroup&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'OperationGroup'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Send operation without simulation or pre-validation</span>
 
 <span class="sd">        :param ttl: Number of blocks to wait in the mempool before removal (default is 5 for public network, 60 for sandbox)</span>
@@ -208,7 +208,7 @@
 <span class="sd">        :param storage_limit: Set storage_limit value</span>
 <span class="sd">        :param minimal_nanotez_per_gas_unit: Override minimal_nanotez_per_gas_unit constant</span>
 <span class="sd">        :rtype: OperationGroup</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_transaction</span><span class="p">()</span><span class="o">.</span><span class="n">send_async</span><span class="p">(</span>
             <span class="n">ttl</span><span class="o">=</span><span class="n">ttl</span><span class="p">,</span>
             <span class="n">counter</span><span class="o">=</span><span class="n">counter</span><span class="p">,</span>
@@ -220,9 +220,9 @@
 
 <div class="viewcode-block" id="ContractCall.inject">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.inject">[docs]</a>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.2.2&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use `send()` instead&#39;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.2.2'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">'use `send()` instead'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">inject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">preapply</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_result</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_blocks_wait</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send operation to blockchain.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Send operation to blockchain."""</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">as_transaction</span><span class="p">()</span>
             <span class="o">.</span><span class="n">autofill</span><span class="p">()</span>
@@ -239,12 +239,12 @@
 <div class="viewcode-block" id="ContractCall.cmdline">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.cmdline">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">cmdline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate command line for tezos-client.&quot;&quot;&quot;</span>
-        <span class="n">arg</span> <span class="o">=</span> <span class="n">micheline_to_michelson</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Generate command line for tezos-client."""</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="n">micheline_to_michelson</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'value'</span><span class="p">],</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">()</span>
         <span class="n">amount</span> <span class="o">=</span> <span class="n">format_tez</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="p">)</span>
-        <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;transfer </span><span class="si">{</span><span class="n">amount</span><span class="si">}</span><span class="s1"> from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s1"> --entrypoint </span><span class="se">\&#39;</span><span class="si">{</span><span class="n">entrypoint</span><span class="si">}</span><span class="se">\&#39;</span><span class="s1"> --arg </span><span class="se">\&#39;</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="se">\&#39;</span><span class="s1">&#39;</span></div>
+        <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'entrypoint'</span><span class="p">]</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">'transfer </span><span class="si">{</span><span class="n">amount</span><span class="si">}</span><span class="s1"> from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s1"> --entrypoint </span><span class="se">\'</span><span class="si">{</span><span class="n">entrypoint</span><span class="si">}</span><span class="se">\'</span><span class="s1"> --arg </span><span class="se">\'</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="se">\'</span><span class="s1">'</span></div>
 
 
 <div class="viewcode-block" id="ContractCall.interpret">
@@ -262,7 +262,7 @@
         <span class="n">self_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">view_results</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractCallResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run code in the builtin REPL (WARNING! Not recommended for critical tasks).</span>
+<span class="w">        </span><span class="sd">"""Run code in the builtin REPL (WARNING! Not recommended for critical tasks).</span>
 
 <span class="sd">        :param storage: initial storage as Python object, leave None if you want to generate a dummy one</span>
 <span class="sd">        :param source: patch SOURCE</span>
@@ -273,9 +273,9 @@
 <span class="sd">        :param level: patch LEVEL</span>
 <span class="sd">        :param now: patch NOW</span>
 <span class="sd">        :param self_address: patch SELF/SELF_ADDRESS</span>
-<span class="sd">        :param view_results: patch VIEW calls (keys must be string &quot;address%view&quot;, values =&gt; Python objects)</span>
+<span class="sd">        :param view_results: patch VIEW calls (keys must be string "address%view", values =&gt; Python objects)</span>
 <span class="sd">        :rtype: pytezos.contract.result.ContractCallResult</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">storage_ty</span> <span class="o">=</span> <span class="n">StorageSection</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">storage_expr</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">initial_storage</span> <span class="o">=</span> <span class="n">storage_ty</span><span class="o">.</span><span class="n">dummy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">lazy_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -283,10 +283,10 @@
             <span class="n">initial_storage</span> <span class="o">=</span> <span class="n">storage_ty</span><span class="o">.</span><span class="n">from_python_object</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">lazy_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">script</span>
         <span class="n">operations</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">Interpreter</span><span class="o">.</span><span class="n">run_code</span><span class="p">(</span>
-            <span class="n">parameter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span>
-            <span class="n">entrypoint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">],</span>
+            <span class="n">parameter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'value'</span><span class="p">],</span>
+            <span class="n">entrypoint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'entrypoint'</span><span class="p">],</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">initial_storage</span><span class="p">,</span>
-            <span class="n">script</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">script</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">],</span>
+            <span class="n">script</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">script</span><span class="p">[</span><span class="s1">'code'</span><span class="p">],</span>
             <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
             <span class="n">sender</span><span class="o">=</span><span class="n">sender</span> <span class="ow">or</span> <span class="n">source</span><span class="p">,</span>
             <span class="n">amount</span><span class="o">=</span><span class="n">amount</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
@@ -298,12 +298,12 @@
             <span class="n">view_results</span><span class="o">=</span><span class="n">view_results</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">error</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;operations&#39;</span><span class="p">:</span> <span class="n">operations</span><span class="p">,</span>
-            <span class="s1">&#39;storage&#39;</span><span class="p">:</span> <span class="n">storage</span><span class="p">,</span>
-            <span class="s1">&#39;lazy_storage_diff&#39;</span><span class="p">:</span> <span class="n">lazy_diff</span><span class="p">,</span>
+            <span class="s1">'operations'</span><span class="p">:</span> <span class="n">operations</span><span class="p">,</span>
+            <span class="s1">'storage'</span><span class="p">:</span> <span class="n">storage</span><span class="p">,</span>
+            <span class="s1">'lazy_storage_diff'</span><span class="p">:</span> <span class="n">lazy_diff</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">ContractCallResult</span><span class="o">.</span><span class="n">from_run_code</span><span class="p">(</span>
             <span class="n">res</span><span class="p">,</span>
@@ -324,7 +324,7 @@
         <span class="n">chain_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractCallResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute using RPC interpreter.</span>
+<span class="w">        </span><span class="sd">"""Execute using RPC interpreter.</span>
 
 <span class="sd">        :param storage: initial storage as Python object, leave None if you want to generate a dummy one</span>
 <span class="sd">        :param source: patch SOURCE</span>
@@ -334,7 +334,7 @@
 <span class="sd">        :param chain_id: patch CHAIN_ID</span>
 <span class="sd">        :param gas_limit: restrict max consumed gas</span>
 <span class="sd">        :rtype: ContractCallResult</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">storage_ty</span> <span class="o">=</span> <span class="n">StorageSection</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">storage_expr</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">initial_storage</span> <span class="o">=</span> <span class="n">storage_ty</span><span class="o">.</span><span class="n">dummy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">lazy_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -344,8 +344,8 @@
         <span class="n">query</span> <span class="o">=</span> <span class="n">skip_nones</span><span class="p">(</span>
             <span class="n">script</span><span class="o">=</span><span class="n">script</span><span class="p">,</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">initial_storage</span><span class="p">,</span>
-            <span class="n">entrypoint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">],</span>
-            <span class="nb">input</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span>
+            <span class="n">entrypoint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'entrypoint'</span><span class="p">],</span>
+            <span class="nb">input</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'value'</span><span class="p">],</span>
             <span class="n">amount</span><span class="o">=</span><span class="n">format_mutez</span><span class="p">(</span><span class="n">amount</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="p">),</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">get_chain_id</span><span class="p">(),</span>
             <span class="n">source</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
@@ -360,10 +360,10 @@
 <div class="viewcode-block" id="ContractCall.run_operation">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.run_operation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractCallResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Simulate operation using real context.</span>
+<span class="w">        </span><span class="sd">"""Simulate operation using real context.</span>
 
 <span class="sd">        :rtype: ContractCallResult</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">opg_with_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_transaction</span><span class="p">()</span><span class="o">.</span><span class="n">fill</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
         <span class="n">results</span> <span class="o">=</span> <span class="n">ContractCallResult</span><span class="o">.</span><span class="n">from_run_operation</span><span class="p">(</span><span class="n">opg_with_metadata</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
@@ -372,9 +372,9 @@
 
 <div class="viewcode-block" id="ContractCall.result">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.result">[docs]</a>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;use either `run_code` or `run_operation`&#39;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.0'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">'use either `run_code` or `run_operation`'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractCallResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Simulate operation and parse the result.</span>
+<span class="w">        </span><span class="sd">"""Simulate operation and parse the result.</span>
 
 <span class="sd">        :param storage: Python object only. If storage is specified, `run_code` is called instead of `run_operation`.</span>
 <span class="sd">        :param source: Can be specified for unit testing purposes</span>
@@ -382,7 +382,7 @@
 <span class="sd">        see https://tezos.gitlab.io/whitedoc/michelson.html#operations-on-contracts for the difference</span>
 <span class="sd">        :param gas_limit: Specify gas limit (default is gas hard limit)</span>
 <span class="sd">        :rtype: ContractCallResult</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">storage</span> <span class="ow">or</span> <span class="n">source</span> <span class="ow">or</span> <span class="n">sender</span> <span class="ow">or</span> <span class="n">gas_limit</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_code</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_operation</span><span class="p">()</span></div>
@@ -391,12 +391,12 @@
 <div class="viewcode-block" id="ContractCall.callback_view">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.callback_view">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">callback_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get return value of an on-chain callback method.</span>
+<span class="w">        </span><span class="sd">"""Get return value of an on-chain callback method.</span>
 
 <span class="sd">        :param storage: initial storage as Python object,</span>
 <span class="sd">                        if None then the current one will be taken (if context attached), otherwise empty (dummy)</span>
 <span class="sd">        :returns: Decoded parameters of a callback</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">storage</span><span class="p">:</span>
             <span class="n">storage_ty</span> <span class="o">=</span> <span class="n">StorageSection</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">storage_expr</span><span class="p">)</span>
             <span class="n">initial_storage</span> <span class="o">=</span> <span class="n">storage_ty</span><span class="o">.</span><span class="n">from_python_object</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">lazy_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -407,24 +407,24 @@
             <span class="n">initial_storage</span> <span class="o">=</span> <span class="n">storage_ty</span><span class="o">.</span><span class="n">dummy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">lazy_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">operations</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">Interpreter</span><span class="o">.</span><span class="n">run_callback</span><span class="p">(</span>
-            <span class="n">parameter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span>
-            <span class="n">entrypoint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">],</span>
+            <span class="n">parameter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'value'</span><span class="p">],</span>
+            <span class="n">entrypoint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'entrypoint'</span><span class="p">],</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">initial_storage</span><span class="p">,</span>
             <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">error</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">operations</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No operation could be interpreted&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'No operation could be interpreted'</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">operations</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Multiple internal operations, not sure which one to pick&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'Multiple internal operations, not sure which one to pick'</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="ContractCall.view">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.call.ContractCall.view">[docs]</a>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.4&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;Use callback_view instead&#39;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.4'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">'Use callback_view instead'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback_view</span><span class="p">()</span></div>
 </div>

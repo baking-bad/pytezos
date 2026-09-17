@@ -112,7 +112,7 @@
 
 <div class="viewcode-block" id="AbsInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.AbsInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">AbsInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;ABS&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AbsInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'ABS'</span><span class="p">):</span>
 <div class="viewcode-block" id="AbsInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.AbsInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -129,7 +129,7 @@
 
 <div class="viewcode-block" id="AddInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.AddInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">AddInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;ADD&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AddInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'ADD'</span><span class="p">):</span>
 <div class="viewcode-block" id="AddInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.AddInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -182,7 +182,7 @@
 
 <div class="viewcode-block" id="EdivInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.EdivInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">EdivInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;EDIV&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EdivInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'EDIV'</span><span class="p">):</span>
 <div class="viewcode-block" id="EdivInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.EdivInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -225,7 +225,7 @@
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Tuple</span><span class="p">[</span><span class="n">NatType</span><span class="p">,</span> <span class="n">NatType</span><span class="p">],</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop2</span><span class="p">())</span>
     <span class="n">a</span><span class="o">.</span><span class="n">assert_type_equal</span><span class="p">(</span><span class="n">NatType</span><span class="p">)</span>
     <span class="n">b</span><span class="o">.</span><span class="n">assert_type_equal</span><span class="p">(</span><span class="n">NatType</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">257</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;shift overflow </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s1">, should not exceed 256&#39;</span>
+    <span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">257</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'shift overflow </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s1">, should not exceed 256'</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">shift</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">)))</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">NatType</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
     <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
@@ -235,7 +235,7 @@
 
 <div class="viewcode-block" id="LslInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.LslInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">LslInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;LSL&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LslInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'LSL'</span><span class="p">):</span>
 <div class="viewcode-block" id="LslInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.LslInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -248,7 +248,7 @@
 
 <div class="viewcode-block" id="LsrInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.LsrInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">LsrInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;LSR&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LsrInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'LSR'</span><span class="p">):</span>
 <div class="viewcode-block" id="LsrInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.LsrInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -261,7 +261,7 @@
 
 <div class="viewcode-block" id="MulInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.MulInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MulInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;MUL&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MulInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'MUL'</span><span class="p">):</span>
 <div class="viewcode-block" id="MulInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.MulInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -314,7 +314,7 @@
 
 <div class="viewcode-block" id="NegInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.NegInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">NegInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;NEG&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NegInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'NEG'</span><span class="p">):</span>
 <div class="viewcode-block" id="NegInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.NegInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -343,7 +343,7 @@
 
 <div class="viewcode-block" id="SubInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.SubInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SubInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;SUB&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'SUB'</span><span class="p">):</span>
 <div class="viewcode-block" id="SubInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.SubInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -372,7 +372,7 @@
 
 <div class="viewcode-block" id="SubMutezInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.SubMutezInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SubMutezInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;SUB_MUTEZ&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubMutezInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'SUB_MUTEZ'</span><span class="p">):</span>
 <div class="viewcode-block" id="SubMutezInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.SubMutezInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -393,20 +393,20 @@
 
 <div class="viewcode-block" id="IntInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.IntInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">IntInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;INT&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">IntInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'INT'</span><span class="p">):</span>
 <div class="viewcode-block" id="IntInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.IntInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">):</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop1</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">BytesType</span><span class="p">):</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">IntType</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">&#39;big&#39;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">IntType</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">'big'</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">a</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Union</span><span class="p">[</span><span class="n">NatType</span><span class="p">,</span> <span class="n">BLS12_381_FrType</span><span class="p">],</span> <span class="n">a</span><span class="p">)</span>
             <span class="n">a</span><span class="o">.</span><span class="n">assert_type_in</span><span class="p">(</span><span class="n">NatType</span><span class="p">,</span> <span class="n">BLS12_381_FrType</span><span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">IntType</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
         <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-        <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> / </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="si">}</span><span class="s1"> =&gt; </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> / </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="si">}</span><span class="s1"> =&gt; </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">stack_items_added</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 </div>
 
@@ -414,7 +414,7 @@
 
 <div class="viewcode-block" id="IsNatInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.IsNatInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">IsNatInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;ISNAT&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">IsNatInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'ISNAT'</span><span class="p">):</span>
 <div class="viewcode-block" id="IsNatInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.IsNatInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -434,16 +434,16 @@
 
 <div class="viewcode-block" id="NatInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.NatInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">NatInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;NAT&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NatInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'NAT'</span><span class="p">):</span>
 <div class="viewcode-block" id="NatInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.NatInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="n">MichelsonStack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">):</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">BytesType</span><span class="p">,</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop1</span><span class="p">())</span>
         <span class="n">a</span><span class="o">.</span><span class="n">assert_type_in</span><span class="p">(</span><span class="n">BytesType</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">NatType</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">&#39;big&#39;</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">NatType</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">'big'</span><span class="p">))</span>
         <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-        <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> / </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="si">}</span><span class="s1"> =&gt; </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> / </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="si">}</span><span class="s1"> =&gt; </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">stack_items_added</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 </div>
 
@@ -451,7 +451,7 @@
 
 <div class="viewcode-block" id="BytesInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.BytesInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BytesInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;BYTES&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BytesInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'BYTES'</span><span class="p">):</span>
 <div class="viewcode-block" id="BytesInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.arithmetic.BytesInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -465,10 +465,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">length</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span> <span class="o">+</span> <span class="n">int_val</span><span class="o">.</span><span class="n">bit_length</span><span class="p">())</span> <span class="o">//</span> <span class="mi">8</span>
         <span class="c1"># NOTE: the shortest big-endian encoding of natural number or integer n</span>
-        <span class="n">byte_val</span> <span class="o">=</span> <span class="n">int_val</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="n">signed</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">byte_val</span> <span class="o">=</span> <span class="n">int_val</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="s1">'big'</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="n">signed</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">BytesType</span><span class="o">.</span><span class="n">from_value</span><span class="p">(</span><span class="n">byte_val</span><span class="p">)</span>
         <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-        <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> / </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="si">}</span><span class="s1"> =&gt; </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> / </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="si">}</span><span class="s1"> =&gt; </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">stack_items_added</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 </div>
 

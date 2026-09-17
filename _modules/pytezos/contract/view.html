@@ -103,42 +103,42 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">format_view_script</span><span class="p">(</span><span class="n">param_ty_expr</span><span class="p">,</span> <span class="n">storage_ty_expr</span><span class="p">,</span> <span class="n">return_ty_expr</span><span class="p">,</span> <span class="n">code_expr</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">'code'</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span>
-                <span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;parameter&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'parameter'</span><span class="p">,</span>
+                <span class="s1">'args'</span><span class="p">:</span> <span class="p">[</span>
                     <span class="p">{</span>
-                        <span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;pair&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'pair'</span><span class="p">,</span>
+                        <span class="s1">'args'</span><span class="p">:</span> <span class="p">[</span>
                             <span class="n">param_ty_expr</span><span class="p">,</span>
-                            <span class="n">storage_ty_expr</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">storage_ty_expr</span><span class="p">[</span><span class="s1">'args'</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                         <span class="p">],</span>
                     <span class="p">},</span>
                 <span class="p">],</span>
             <span class="p">},</span>
             <span class="p">{</span>
-                <span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;storage&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'storage'</span><span class="p">,</span>
+                <span class="s1">'args'</span><span class="p">:</span> <span class="p">[</span>
                     <span class="p">{</span>
-                        <span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;option&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">return_ty_expr</span><span class="p">],</span>
+                        <span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'option'</span><span class="p">,</span>
+                        <span class="s1">'args'</span><span class="p">:</span> <span class="p">[</span><span class="n">return_ty_expr</span><span class="p">],</span>
                     <span class="p">},</span>
                 <span class="p">],</span>
             <span class="p">},</span>
             <span class="p">{</span>
-                <span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'code'</span><span class="p">,</span>
+                <span class="s1">'args'</span><span class="p">:</span> <span class="p">[</span>
                     <span class="p">[</span>
-                        <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;CAR&#39;</span><span class="p">},</span>
+                        <span class="p">{</span><span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'CAR'</span><span class="p">},</span>
                         <span class="n">code_expr</span><span class="p">,</span>
-                        <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME&#39;</span><span class="p">},</span>
+                        <span class="p">{</span><span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'SOME'</span><span class="p">},</span>
                         <span class="p">{</span>
-                            <span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;NIL&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="p">[</span>
-                                <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;operation&#39;</span><span class="p">},</span>
+                            <span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'NIL'</span><span class="p">,</span>
+                            <span class="s1">'args'</span><span class="p">:</span> <span class="p">[</span>
+                                <span class="p">{</span><span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'operation'</span><span class="p">},</span>
                             <span class="p">],</span>
                         <span class="p">},</span>
-                        <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;PAIR&#39;</span><span class="p">},</span>
+                        <span class="p">{</span><span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'PAIR'</span><span class="p">},</span>
                     <span class="p">]</span>
                 <span class="p">],</span>
             <span class="p">},</span>
@@ -148,10 +148,10 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">format_view_params</span><span class="p">(</span><span class="n">param_expr</span><span class="p">,</span> <span class="n">storage_expr</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s1">&#39;entrypoint&#39;</span><span class="p">:</span> <span class="s1">&#39;default&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;Pair&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">param_expr</span><span class="p">,</span> <span class="n">storage_expr</span><span class="p">],</span>
+        <span class="s1">'entrypoint'</span><span class="p">:</span> <span class="s1">'default'</span><span class="p">,</span>
+        <span class="s1">'value'</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'Pair'</span><span class="p">,</span>
+            <span class="s1">'args'</span><span class="p">:</span> <span class="p">[</span><span class="n">param_expr</span><span class="p">,</span> <span class="n">storage_expr</span><span class="p">],</span>
         <span class="p">},</span>
     <span class="p">}</span>
 
@@ -159,7 +159,7 @@
 <div class="viewcode-block" id="ContractView">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.view.ContractView">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ContractView</span><span class="p">(</span><span class="n">ContextMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Proxy class for handling off-chain and on-chain views&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Proxy class for handling off-chain and on-chain views"""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -171,7 +171,7 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">param_ty_expr</span> <span class="o">=</span> <span class="n">parameter</span> <span class="ow">or</span> <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;unit&#39;</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_ty_expr</span> <span class="o">=</span> <span class="n">parameter</span> <span class="ow">or</span> <span class="p">{</span><span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'unit'</span><span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">return_ty_expr</span> <span class="o">=</span> <span class="n">return_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">code_expr</span> <span class="o">=</span> <span class="n">code</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">generate_pydoc</span><span class="p">(</span><span class="n">MichelsonType</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_ty_expr</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
@@ -179,21 +179,21 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="sa">f</span><span class="s1">&#39;.name</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Builtin</span><span class="se">\n</span><span class="s1">(*args, **kwargs)  # build view parameters (see typedef)&#39;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Typedef</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Helpers&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'.name</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Builtin</span><span class="se">\n</span><span class="s1">(*args, **kwargs)  # build view parameters (see typedef)'</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Typedef</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+            <span class="s1">'</span><span class="se">\n</span><span class="s1">Helpers'</span><span class="p">,</span>
             <span class="n">get_class_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractViewCall&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Spawn a contract call proxy initialized with the entrypoint name</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractViewCall'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Spawn a contract call proxy initialized with the entrypoint name</span>
 
 <span class="sd">        :param args: entrypoint args</span>
 <span class="sd">        :param kwargs: entrypoint key-value args</span>
 <span class="sd">        :rtype: ContractViewCall</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">py_obj</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -209,7 +209,7 @@
             <span class="n">param_expr</span> <span class="o">=</span> <span class="n">param_ty</span><span class="o">.</span><span class="n">from_python_object</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">()</span>
         <span class="k">except</span> <span class="n">MichelsonRuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unexpected arguments: </span><span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Unexpected arguments: </span><span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="o">*</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
         <span class="k">return</span> <span class="n">ContractViewCall</span><span class="p">(</span>
             <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span>
@@ -223,7 +223,7 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ContractViewCall</span><span class="p">(</span><span class="n">ContextMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Proxy class encapsulating a contract call: contract type scheme, contract address, parameters, and amount&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Proxy class encapsulating a contract call: contract type scheme, contract address, parameters, and amount"""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -244,11 +244,11 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="sa">f</span><span class="s1">&#39;.name</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Helpers&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'.name</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+            <span class="s1">'</span><span class="se">\n</span><span class="s1">Helpers'</span><span class="p">,</span>
             <span class="n">get_class_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_encode_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -259,7 +259,7 @@
                 <span class="k">return</span> <span class="n">storage_ty</span><span class="o">.</span><span class="n">from_python_object</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">lazy_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">MichelsonRuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unexpected storage object: </span><span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Unexpected storage object: </span><span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="o">*</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -291,9 +291,9 @@
         <span class="k">return</span> <span class="n">skip_nones</span><span class="p">(</span>
             <span class="n">script</span><span class="o">=</span><span class="n">script</span><span class="p">,</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">initial_storage</span><span class="p">,</span>
-            <span class="n">entrypoint</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">],</span>
-            <span class="nb">input</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span>
-            <span class="n">amount</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span>
+            <span class="n">entrypoint</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'entrypoint'</span><span class="p">],</span>
+            <span class="nb">input</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'value'</span><span class="p">],</span>
+            <span class="n">amount</span><span class="o">=</span><span class="s1">'0'</span><span class="p">,</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">get_chain_id</span><span class="p">(),</span>
             <span class="n">source</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
             <span class="n">payer</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
@@ -310,7 +310,7 @@
         <span class="n">chain_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractCallResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute using RPC interpreter.</span>
+<span class="w">        </span><span class="sd">"""Execute using RPC interpreter.</span>
 
 <span class="sd">        :param storage: initial storage as Python object, leave None if you want to generate a dummy one</span>
 <span class="sd">        :param source: patch SOURCE</span>
@@ -319,7 +319,7 @@
 <span class="sd">        :param chain_id: patch CHAIN_ID</span>
 <span class="sd">        :param gas_limit: restrict max consumed gas</span>
 <span class="sd">        :rtype: ContractCallResult</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="n">format_view_params</span><span class="p">(</span><span class="n">param_expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">param_expr</span><span class="p">,</span> <span class="n">storage_expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">))</span>
         <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_query</span><span class="p">(</span>
             <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="n">balance</span><span class="p">,</span> <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span>
@@ -328,7 +328,7 @@
         <span class="k">return</span> <span class="n">ContractCallResult</span><span class="o">.</span><span class="n">from_run_code</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">run_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chain_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">now</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute using special RPC endpoint for on-chain views.</span>
+<span class="w">        </span><span class="sd">"""Execute using special RPC endpoint for on-chain views.</span>
 
 <span class="sd">        :param source: patch SOURCE</span>
 <span class="sd">        :param sender: patch SENDER</span>
@@ -337,7 +337,7 @@
 <span class="sd">        :param level: patch LEVEL</span>
 <span class="sd">        :param now: patch NOW</span>
 <span class="sd">        :returns: decoded view result</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">query</span> <span class="o">=</span> <span class="n">skip_nones</span><span class="p">(</span>
             <span class="n">contract</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">,</span>
             <span class="n">view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
@@ -345,22 +345,22 @@
             <span class="n">source</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
             <span class="n">payer</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">get_chain_id</span><span class="p">(),</span>
-            <span class="n">unparsing_mode</span><span class="o">=</span><span class="s2">&quot;Readable&quot;</span><span class="p">,</span>
+            <span class="n">unparsing_mode</span><span class="o">=</span><span class="s2">"Readable"</span><span class="p">,</span>
             <span class="n">unlimited_gas</span><span class="o">=</span><span class="n">gas_limit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">gas</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_limit</span><span class="p">)</span> <span class="k">if</span> <span class="n">gas_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">level</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="k">if</span> <span class="n">level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">now</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">now</span><span class="p">)</span> <span class="k">if</span> <span class="n">now</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">block_id</span><span class="p">]</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">scripts</span><span class="o">.</span><span class="n">run_script_view</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-        <span class="n">py_obj</span> <span class="o">=</span> <span class="n">MichelsonType</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">return_ty_expr</span><span class="p">)</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span>
+        <span class="n">py_obj</span> <span class="o">=</span> <span class="n">MichelsonType</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">return_ty_expr</span><span class="p">)</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">'data'</span><span class="p">])</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">py_obj</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">storage_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get return value of an off-chain view.</span>
+<span class="w">        </span><span class="sd">"""Get return value of an off-chain view.</span>
 
 <span class="sd">        :param storage: override current contract storage (as Python object)</span>
 <span class="sd">        :returns: Decoded return value</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="n">format_view_params</span><span class="p">(</span>
             <span class="n">param_expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">param_expr</span><span class="p">,</span>
             <span class="n">storage_expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">),</span>
@@ -372,24 +372,24 @@
             <span class="n">code_expr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">code_expr</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">Interpreter</span><span class="o">.</span><span class="n">run_callback</span><span class="p">(</span>
-            <span class="n">parameter</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span>
-            <span class="n">entrypoint</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">],</span>
-            <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span><span class="p">},</span>
+            <span class="n">parameter</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'value'</span><span class="p">],</span>
+            <span class="n">entrypoint</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s1">'entrypoint'</span><span class="p">],</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'None'</span><span class="p">},</span>
             <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_spawn_context</span><span class="p">(</span><span class="n">script</span><span class="o">=</span><span class="n">script</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">error</span>
         <span class="k">return</span> <span class="n">storage</span>  <span class="c1"># type: ignore</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">onchain_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">view_results</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get return value of an on-chain view (not supporting external view calls).</span>
+<span class="w">        </span><span class="sd">"""Get return value of an on-chain view (not supporting external view calls).</span>
 
 <span class="sd">        :param storage: override current contract storage (as Python object)</span>
 <span class="sd">        :param balance: patch BALANCE</span>
-<span class="sd">        :param view_results: patch VIEW calls (keys must be string &quot;address%view&quot;, values =&gt; Python objects)</span>
+<span class="sd">        :param view_results: patch VIEW calls (keys must be string "address%view", values =&gt; Python objects)</span>
 <span class="sd">        :returns: Decoded return value</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ret</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">Interpreter</span><span class="o">.</span><span class="n">run_view</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="n">parameter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">param_expr</span><span class="p">,</span>
@@ -398,13 +398,13 @@
                 <span class="n">balance</span><span class="o">=</span><span class="n">balance</span><span class="p">,</span>
                 <span class="n">script</span><span class="o">=</span><span class="p">{</span>
                     <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">script</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
-                    <span class="s1">&#39;storage&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">),</span>
+                    <span class="s1">'storage'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">),</span>
                 <span class="p">},</span>
                 <span class="n">view_results</span><span class="o">=</span><span class="n">view_results</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">error</span>
         <span class="k">return</span> <span class="n">ret</span>  <span class="c1"># type: ignore</span>
 </pre></div>

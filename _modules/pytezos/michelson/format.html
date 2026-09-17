@@ -95,12 +95,12 @@
 <div class="viewcode-block" id="format_timestamp">
 <a class="viewcode-back" href="../../../code.html#pytezos.michelson.format.format_timestamp">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">format_timestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format unix timestamp.</span>
+<span class="w">    </span><span class="sd">"""Format unix timestamp.</span>
 
 <span class="sd">    :param timestamp: Unix timestamp (seconds)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%SZ&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%SZ'</span><span class="p">)</span></div>
 
 
 
@@ -112,150 +112,150 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">is_framed</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;prim&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">{</span>
-        <span class="s1">&#39;Pair&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;Left&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;Right&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;Some&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;pair&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;or&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;option&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;map&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;big_map&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;list&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;set&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;contract&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;lambda&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;ticket&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;sapling_state&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;sapling_transaction&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;sapling_transaction_deprecated&#39;</span><span class="p">,</span>
+    <span class="k">if</span> <span class="n">node</span><span class="p">[</span><span class="s1">'prim'</span><span class="p">]</span> <span class="ow">in</span> <span class="p">{</span>
+        <span class="s1">'Pair'</span><span class="p">,</span>
+        <span class="s1">'Left'</span><span class="p">,</span>
+        <span class="s1">'Right'</span><span class="p">,</span>
+        <span class="s1">'Some'</span><span class="p">,</span>
+        <span class="s1">'pair'</span><span class="p">,</span>
+        <span class="s1">'or'</span><span class="p">,</span>
+        <span class="s1">'option'</span><span class="p">,</span>
+        <span class="s1">'map'</span><span class="p">,</span>
+        <span class="s1">'big_map'</span><span class="p">,</span>
+        <span class="s1">'list'</span><span class="p">,</span>
+        <span class="s1">'set'</span><span class="p">,</span>
+        <span class="s1">'contract'</span><span class="p">,</span>
+        <span class="s1">'lambda'</span><span class="p">,</span>
+        <span class="s1">'ticket'</span><span class="p">,</span>
+        <span class="s1">'sapling_state'</span><span class="p">,</span>
+        <span class="s1">'sapling_transaction'</span><span class="p">,</span>
+        <span class="s1">'sapling_transaction_deprecated'</span><span class="p">,</span>
     <span class="p">}:</span>
         <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">elif</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;prim&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">{</span>
-        <span class="s1">&#39;key&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;unit&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;signature&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;operation&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;int&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;nat&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;string&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;bytes&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;mutez&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;bool&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;key_hash&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;timestamp&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;address&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;bls12_381_g1&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;bls12_381_g2&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;bls12_381_fr&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;chain_id&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;never&#39;</span><span class="p">,</span>
+    <span class="k">elif</span> <span class="n">node</span><span class="p">[</span><span class="s1">'prim'</span><span class="p">]</span> <span class="ow">in</span> <span class="p">{</span>
+        <span class="s1">'key'</span><span class="p">,</span>
+        <span class="s1">'unit'</span><span class="p">,</span>
+        <span class="s1">'signature'</span><span class="p">,</span>
+        <span class="s1">'operation'</span><span class="p">,</span>
+        <span class="s1">'int'</span><span class="p">,</span>
+        <span class="s1">'nat'</span><span class="p">,</span>
+        <span class="s1">'string'</span><span class="p">,</span>
+        <span class="s1">'bytes'</span><span class="p">,</span>
+        <span class="s1">'mutez'</span><span class="p">,</span>
+        <span class="s1">'bool'</span><span class="p">,</span>
+        <span class="s1">'key_hash'</span><span class="p">,</span>
+        <span class="s1">'timestamp'</span><span class="p">,</span>
+        <span class="s1">'address'</span><span class="p">,</span>
+        <span class="s1">'bls12_381_g1'</span><span class="p">,</span>
+        <span class="s1">'bls12_381_g2'</span><span class="p">,</span>
+        <span class="s1">'bls12_381_fr'</span><span class="p">,</span>
+        <span class="s1">'chain_id'</span><span class="p">,</span>
+        <span class="s1">'never'</span><span class="p">,</span>
     <span class="p">}:</span>
-        <span class="k">return</span> <span class="s1">&#39;annots&#39;</span> <span class="ow">in</span> <span class="n">node</span>
+        <span class="k">return</span> <span class="s1">'annots'</span> <span class="ow">in</span> <span class="n">node</span>
     <span class="k">return</span> <span class="kc">False</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">is_complex</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;prim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;LAMBDA&#39;</span> <span class="ow">or</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;prim&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;IF&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">node</span><span class="p">[</span><span class="s1">'prim'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'LAMBDA'</span> <span class="ow">or</span> <span class="n">node</span><span class="p">[</span><span class="s1">'prim'</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'IF'</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">is_inline</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;prim&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;PUSH&#39;</span>
+    <span class="k">return</span> <span class="n">node</span><span class="p">[</span><span class="s1">'prim'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'PUSH'</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">is_script</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
         <span class="nb">map</span><span class="p">(</span>
             <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prim&#39;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'prim'</span><span class="p">)</span>
             <span class="ow">in</span> <span class="p">[</span>
-                <span class="s1">&#39;parameter&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;storage&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;code&#39;</span><span class="p">,</span>
+                <span class="s1">'parameter'</span><span class="p">,</span>
+                <span class="s1">'storage'</span><span class="p">,</span>
+                <span class="s1">'code'</span><span class="p">,</span>
             <span class="p">],</span>
             <span class="n">node</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">format_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_root</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrapped</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">format_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_root</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrapped</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">is_script_root</span> <span class="o">=</span> <span class="n">is_root</span> <span class="ow">and</span> <span class="n">is_script</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-        <span class="n">seq_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="k">if</span> <span class="n">is_script_root</span> <span class="k">else</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="n">seq_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="k">if</span> <span class="n">is_script_root</span> <span class="k">else</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">*</span> <span class="mi">2</span>
         <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">format_node</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">seq_indent</span><span class="p">,</span> <span class="n">inline</span><span class="p">,</span> <span class="n">wrapped</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">node</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
             <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indent</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">items</span><span class="p">))</span> <span class="o">+</span> <span class="mi">4</span>
-            <span class="n">space</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="n">is_script_root</span> <span class="k">else</span> <span class="s1">&#39; &#39;</span>
+            <span class="n">space</span> <span class="o">=</span> <span class="s1">''</span> <span class="k">if</span> <span class="n">is_script_root</span> <span class="k">else</span> <span class="s1">' '</span>
             <span class="k">if</span> <span class="n">inline</span> <span class="ow">or</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="n">line_size</span><span class="p">:</span>
-                <span class="n">seq</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s1">; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+                <span class="n">seq</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s1">; '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">seq</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s1">;</span><span class="se">\n</span><span class="si">{</span><span class="n">seq_indent</span><span class="si">}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">seq</span> <span class="k">if</span> <span class="n">is_script_root</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="se">{{</span><span class="s1"> </span><span class="si">{</span><span class="n">seq</span><span class="si">}</span><span class="s1"> </span><span class="se">}}</span><span class="s1">&#39;</span>
+                <span class="n">seq</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">space</span><span class="si">}</span><span class="s1">;</span><span class="se">\n</span><span class="si">{</span><span class="n">seq_indent</span><span class="si">}</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">seq</span> <span class="k">if</span> <span class="n">is_script_root</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">'</span><span class="se">{{</span><span class="s1"> </span><span class="si">{</span><span class="n">seq</span><span class="si">}</span><span class="s1"> </span><span class="se">}}</span><span class="s1">'</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span>
+            <span class="k">return</span> <span class="s1">'</span><span class="si">{}</span><span class="s1">'</span>
 
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prim&#39;</span><span class="p">):</span>
-            <span class="n">expr</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">node</span><span class="p">[</span><span class="s1">&#39;prim&#39;</span><span class="p">]]</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;annots&#39;</span><span class="p">,</span> <span class="p">[]))</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;args&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'prim'</span><span class="p">):</span>
+            <span class="n">expr</span> <span class="o">=</span> <span class="s1">' '</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">node</span><span class="p">[</span><span class="s1">'prim'</span><span class="p">]]</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'annots'</span><span class="p">,</span> <span class="p">[]))</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'args'</span><span class="p">,</span> <span class="p">[])</span>
 
             <span class="k">if</span> <span class="n">is_complex</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-                <span class="n">arg_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="mi">2</span>
+                <span class="n">arg_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">*</span> <span class="mi">2</span>
                 <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">format_node</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">arg_indent</span><span class="p">,</span> <span class="n">inline</span><span class="p">),</span> <span class="n">args</span><span class="p">))</span>
                 <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indent</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">items</span><span class="p">))</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
                 <span class="k">if</span> <span class="n">inline</span> <span class="ow">or</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="n">line_size</span><span class="p">:</span>
-                    <span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+                    <span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">{</span><span class="n">arg_indent</span><span class="si">}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">expr</span><span class="p">]</span> <span class="o">+</span> <span class="n">items</span><span class="p">)</span>
+                    <span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="si">{</span><span class="n">arg_indent</span><span class="si">}</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">expr</span><span class="p">]</span> <span class="o">+</span> <span class="n">items</span><span class="p">)</span>
 
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">arg_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">format_node</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">arg_indent</span><span class="p">,</span><span class="w"> </span><span class="n">inline</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">arg_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">format_node</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">arg_indent</span><span class="p">,</span><span class="w"> </span><span class="n">inline</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span>
 
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">arg_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="mi">2</span>
-                <span class="n">alt_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">arg_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">*</span> <span class="mi">2</span>
+                <span class="n">alt_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
                     <span class="n">item</span> <span class="o">=</span> <span class="n">format_node</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">arg_indent</span><span class="p">,</span> <span class="n">inline</span><span class="p">)</span>
                     <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indent</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
                     <span class="k">if</span> <span class="n">inline</span> <span class="ow">or</span> <span class="n">is_inline</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">or</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="n">line_size</span><span class="p">:</span>
                         <span class="n">arg_indent</span> <span class="o">=</span> <span class="n">alt_indent</span>
-                        <span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">&#39;</span>
+                        <span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">'</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">arg_indent</span><span class="si">}{</span><span class="n">item</span><span class="si">}</span><span class="s1">&#39;</span>
+                        <span class="n">expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">arg_indent</span><span class="si">}{</span><span class="n">item</span><span class="si">}</span><span class="s1">'</span>
 
             <span class="k">if</span> <span class="n">is_framed</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_root</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">wrapped</span><span class="p">:</span>
-                <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="s1">)&#39;</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s1">'(</span><span class="si">{</span><span class="n">expr</span><span class="si">}</span><span class="s1">)'</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">expr</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">core_type</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;_&#39;</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;annots&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">core_type</span> <span class="o">==</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span>
+            <span class="n">core_type</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">'_'</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">'annots'</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">core_type</span> <span class="o">==</span> <span class="s1">'int'</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">value</span>
-            <span class="k">elif</span> <span class="n">core_type</span> <span class="o">==</span> <span class="s1">&#39;bytes&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;0x</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="k">elif</span> <span class="n">core_type</span> <span class="o">==</span> <span class="s1">&#39;string&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">core_type</span> <span class="o">==</span> <span class="s1">'bytes'</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s1">'0x</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">'</span>
+            <span class="k">elif</span> <span class="n">core_type</span> <span class="o">==</span> <span class="s1">'string'</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unexpected core node </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'unexpected core node </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unexpected node </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'unexpected node </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="micheline_to_michelson">
 <a class="viewcode-back" href="../../../code.html#pytezos.michelson.format.micheline_to_michelson">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">micheline_to_michelson</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts micheline expression into formatted Michelson source.</span>
+<span class="w">    </span><span class="sd">"""Converts micheline expression into formatted Michelson source.</span>
 
 <span class="sd">    :param data: Micheline expression</span>
 <span class="sd">    :param inline: produce single line, used for tezos-client arguments (False by default)</span>
 <span class="sd">    :param wrap: ensure expression is wrapped in brackets</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">format_node</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="n">inline</span><span class="p">,</span> <span class="n">is_root</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">wrap</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">startswith</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Left&#39;</span><span class="p">,</span> <span class="s1">&#39;Right&#39;</span><span class="p">,</span> <span class="s1">&#39;Some&#39;</span><span class="p">,</span> <span class="s1">&#39;Pair&#39;</span><span class="p">])):</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">res</span><span class="si">}</span><span class="s1">)&#39;</span>
+        <span class="k">if</span> <span class="n">wrap</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">startswith</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Left'</span><span class="p">,</span> <span class="s1">'Right'</span><span class="p">,</span> <span class="s1">'Some'</span><span class="p">,</span> <span class="s1">'Pair'</span><span class="p">])):</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s1">'(</span><span class="si">{</span><span class="n">res</span><span class="si">}</span><span class="s1">)'</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">res</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>

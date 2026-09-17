@@ -102,7 +102,7 @@
 <div class="viewcode-block" id="ContractEntrypoint">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.entrypoint.ContractEntrypoint">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ContractEntrypoint</span><span class="p">(</span><span class="n">ContextMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Proxy class for spawning ContractCall instances.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Proxy class for spawning ContractCall instances."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
@@ -111,23 +111,23 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="sa">f</span><span class="s1">&#39;.entrypoint</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Builtin</span><span class="se">\n</span><span class="s1">(*args, **kwargs)</span><span class="se">\t</span><span class="s1"># build transaction parameters (see typedef)&#39;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Typedef</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Helpers&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'.entrypoint</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Builtin</span><span class="se">\n</span><span class="s1">(*args, **kwargs)</span><span class="se">\t</span><span class="s1"># build transaction parameters (see typedef)'</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Typedef</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+            <span class="s1">'</span><span class="se">\n</span><span class="s1">Helpers'</span><span class="p">,</span>
             <span class="n">get_class_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ContractEntrypoint.__call__">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.entrypoint.ContractEntrypoint.__call__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractCall&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Spawn a contract call proxy initialized with the entrypoint name</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractCall'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Spawn a contract call proxy initialized with the entrypoint name</span>
 
 <span class="sd">        :param args: entrypoint args</span>
 <span class="sd">        :param kwargs: entrypoint key-value args</span>
 <span class="sd">        :rtype: ContractCall</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">py_obj</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -147,18 +147,18 @@
 <div class="viewcode-block" id="ContractEntrypoint.decode">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.entrypoint.ContractEntrypoint.decode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">entrypoint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert from Michelson to Python type system</span>
+<span class="w">        </span><span class="sd">"""Convert from Michelson to Python type system</span>
 
 <span class="sd">        :param value: Micheline JSON expression or Michelson value</span>
 <span class="sd">        :param entrypoint: overwrite current entrypoint (in case you want to parse tx parameters)</span>
 <span class="sd">        :return: Python object {entrypoint: value}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">michelson_to_micheline</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">entrypoint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span>
         <span class="n">param_ty</span> <span class="o">=</span> <span class="n">ParameterSection</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">parameter_expr</span><span class="p">)</span>
-        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">:</span> <span class="n">entrypoint</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'entrypoint'</span><span class="p">:</span> <span class="n">entrypoint</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
         <span class="n">py_obj</span> <span class="o">=</span> <span class="n">param_ty</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">py_obj</span></div>
 
@@ -166,18 +166,18 @@
 <div class="viewcode-block" id="ContractEntrypoint.encode">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.entrypoint.ContractEntrypoint.encode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode transaction parameters from the given Python object</span>
+<span class="w">        </span><span class="sd">"""Encode transaction parameters from the given Python object</span>
 
 <span class="sd">        :param py_obj: Python object</span>
 <span class="sd">        :param mode: whether to use `readable` or `optimized` (or `legacy_optimized`) encoding</span>
 <span class="sd">        :return: {entrypoint, value}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">param_ty</span> <span class="o">=</span> <span class="n">ParameterSection</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">parameter_expr</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">param_ty</span><span class="o">.</span><span class="n">from_python_object</span><span class="p">({</span><span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span><span class="p">:</span> <span class="n">py_obj</span><span class="p">})</span><span class="o">.</span><span class="n">to_parameters</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">mode</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">MichelsonRuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unexpected arguments: </span><span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Unexpected arguments: </span><span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="o">*</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span></div>
 </div>
 
 </pre></div>

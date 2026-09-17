@@ -109,7 +109,7 @@
 <a class="viewcode-back" href="../../../repl.html#pytezos.michelson.repl.InterpreterResult">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">InterpreterResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of running contract in interpreter&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Result of running contract in interpreter"""</span>
 
     <span class="n">operations</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">storage</span> <span class="o">=</span> <span class="kc">None</span>
@@ -124,9 +124,9 @@
 <div class="viewcode-block" id="Interpreter">
 <a class="viewcode-back" href="../../../repl.html#pytezos.michelson.repl.Interpreter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Interpreter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Michelson interpreter reimplemented in Python.</span>
+<span class="w">    </span><span class="sd">"""Michelson interpreter reimplemented in Python.</span>
 <span class="sd">    Based on the following reference: https://tezos.gitlab.io/michelson-reference/</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -141,10 +141,10 @@
 <div class="viewcode-block" id="Interpreter.execute">
 <a class="viewcode-back" href="../../../repl.html#pytezos.michelson.repl.Interpreter.execute">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InterpreterResult</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute some code preserving current context and stack</span>
+<span class="w">        </span><span class="sd">"""Execute some code preserving current context and stack</span>
 
 <span class="sd">        :param code: Michelson code</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">InterpreterResult</span><span class="p">(</span><span class="n">stdout</span><span class="o">=</span><span class="p">[])</span>
         <span class="n">stack_backup</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">)</span>
         <span class="n">context_backup</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
@@ -169,7 +169,7 @@
 <div class="viewcode-block" id="Interpreter.reset">
 <a class="viewcode-back" href="../../../repl.html#pytezos.michelson.repl.Interpreter.reset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset interpreter&#39;s stack and context&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Reset interpreter's stack and context"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">=</span> <span class="n">MichelsonStack</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">ExecutionContext</span><span class="p">()</span></div>
 
@@ -181,8 +181,8 @@
         <span class="n">parameter</span><span class="p">,</span>
         <span class="n">storage</span><span class="p">,</span>
         <span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">entrypoint</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span>
-        <span class="n">output_mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span>
+        <span class="n">entrypoint</span><span class="o">=</span><span class="s1">'default'</span><span class="p">,</span>
+        <span class="n">output_mode</span><span class="o">=</span><span class="s1">'readable'</span><span class="p">,</span>
         <span class="n">amount</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -191,11 +191,11 @@
         <span class="n">block_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute contract in interpreter</span>
+<span class="w">        </span><span class="sd">"""Execute contract in interpreter</span>
 
 <span class="sd">        :param parameter: parameter expression</span>
 <span class="sd">        :param storage: storage expression</span>
-<span class="sd">        :param script: contract&#39;s Michelson code</span>
+<span class="sd">        :param script: contract's Michelson code</span>
 <span class="sd">        :param entrypoint: contract entrypoint</span>
 <span class="sd">        :param output_mode: one of readable/optimized/legacy_optimized</span>
 <span class="sd">        :param amount: patch AMOUNT</span>
@@ -204,7 +204,7 @@
 <span class="sd">        :param sender: patch SENDER</span>
 <span class="sd">        :param balance: patch BALANCE</span>
 <span class="sd">        :param block_id: set block ID</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">ExecutionContext</span><span class="p">(</span>
             <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
@@ -212,7 +212,7 @@
             <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
             <span class="n">balance</span><span class="o">=</span><span class="n">balance</span><span class="p">,</span>
             <span class="n">block_id</span><span class="o">=</span><span class="n">block_id</span><span class="p">,</span>
-            <span class="n">script</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="n">script</span><span class="p">,</span> <span class="s1">&#39;storage&#39;</span><span class="p">:</span> <span class="n">storage</span><span class="p">},</span>
+            <span class="n">script</span><span class="o">=</span><span class="p">{</span><span class="s1">'code'</span><span class="p">:</span> <span class="n">script</span><span class="p">,</span> <span class="s1">'storage'</span><span class="p">:</span> <span class="n">storage</span><span class="p">},</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">stack</span> <span class="o">=</span> <span class="n">MichelsonStack</span><span class="p">()</span>
@@ -242,14 +242,14 @@
         <span class="n">storage</span><span class="p">,</span>
         <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute view entrypoint of the contract loaded into the context</span>
+<span class="w">        </span><span class="sd">"""Execute view entrypoint of the contract loaded into the context</span>
 
 <span class="sd">        :param entrypoint: contract entrypoint</span>
 <span class="sd">        :param parameter: parameter section</span>
 <span class="sd">        :param storage: storage section</span>
 <span class="sd">        :param context: execution context</span>
 <span class="sd">        :returns: [operations, storage, stdout, error]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ctx</span> <span class="o">=</span> <span class="n">ExecutionContext</span><span class="p">(</span>
             <span class="n">shell</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">shell</span><span class="p">,</span>
             <span class="n">key</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
@@ -268,11 +268,11 @@
             <span class="n">operations</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">OperationType</span><span class="p">],</span> <span class="nb">list</span><span class="p">(</span><span class="n">pair</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
             <span class="n">storage</span> <span class="o">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="c1"># Note: the `storage` returned by the Michelson interpreter above is not</span>
-            <span class="c1"># required to include the full annotations specified in the contract&#39;s storage.</span>
+            <span class="c1"># required to include the full annotations specified in the contract's storage.</span>
             <span class="c1"># The lack of annotations affects calls to `to_python_object()`, causing the storage</span>
             <span class="c1"># you get back from the view to not always be converted to the same object</span>
             <span class="c1"># as if you called ContractInterface.storage() directly.</span>
-            <span class="c1"># Re-parsing using the contract&#39;s storage section here to recover the annotations.</span>
+            <span class="c1"># Re-parsing using the contract's storage section here to recover the annotations.</span>
             <span class="n">storage</span> <span class="o">=</span> <span class="n">program</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">storage</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">())</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">op</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">()</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">operations</span><span class="p">],</span> <span class="n">storage</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">(),</span> <span class="n">stdout</span><span class="p">,</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="n">MichelsonRuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -319,16 +319,16 @@
         <span class="n">block_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute TZT test suite code</span>
+<span class="w">        </span><span class="sd">"""Execute TZT test suite code</span>
 
-<span class="sd">        :param script: test contract&#39;s Michelson code</span>
+<span class="sd">        :param script: test contract's Michelson code</span>
 <span class="sd">        :param amount: patch AMOUNT</span>
 <span class="sd">        :param chain_id: patch CHAIN_ID</span>
 <span class="sd">        :param source: patch SOURCE</span>
 <span class="sd">        :param sender: patch SENDER</span>
 <span class="sd">        :param balance: patch BALANCE</span>
 <span class="sd">        :param block_id: set block ID</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">ExecutionContext</span><span class="p">(</span>
             <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
@@ -336,7 +336,7 @@
             <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
             <span class="n">balance</span><span class="o">=</span><span class="n">balance</span><span class="p">,</span>
             <span class="n">block_id</span><span class="o">=</span><span class="n">block_id</span><span class="p">,</span>
-            <span class="n">script</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="n">script</span><span class="p">},</span>
+            <span class="n">script</span><span class="o">=</span><span class="p">{</span><span class="s1">'code'</span><span class="p">:</span> <span class="n">script</span><span class="p">},</span>
             <span class="n">tzt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>

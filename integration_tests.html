@@ -118,7 +118,7 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContractInterface</span><span class="p">,</span> <span class="n">pytezos</span>
 
-<span class="n">contract_michelson</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="n">contract_michelson</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">  parameter string;</span>
 <span class="s2">  storage string;</span>
 <span class="s2">  code { DUP;</span>
@@ -126,21 +126,21 @@
 <span class="s2">        CDR ; CONS ;</span>
 <span class="s2">        CONCAT ;</span>
 <span class="s2">        NIL operation; PAIR }</span>
-<span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">"""</span>
 
 <span class="c1"># From blockchain</span>
-<span class="n">contract</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">&#39;KT1...&#39;</span><span class="p">)</span>
+<span class="n">contract</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">'KT1...'</span><span class="p">)</span>
 
 <span class="c1"># From michelson</span>
 <span class="n">contract</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_michelson</span><span class="p">(</span><span class="n">contract_michelson</span><span class="p">)</span>
 
 <span class="c1"># From file</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;my_contract.tz&#39;</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'my_contract.tz'</span><span class="p">,</span> <span class="s1">'w+'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
   <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contract_michelson</span><span class="p">)</span>
-<span class="n">contract</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;my_contract.tz&#39;</span><span class="p">)</span>
+<span class="n">contract</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">'my_contract.tz'</span><span class="p">)</span>
 
 <span class="c1"># From URL</span>
-<span class="n">contract</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/atomex-me/atomex-michelson/master/src/atomex.tz&#39;</span><span class="p">)</span>
+<span class="n">contract</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s1">'https://raw.githubusercontent.com/atomex-me/atomex-michelson/master/src/atomex.tz'</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -148,10 +148,10 @@
 <h2>Calling contract entrypoints<a class="headerlink" href="#calling-contract-entrypoints" title="Link to this heading"></a></h2>
 <p>Entrypoints are accessed by name of contract attributes. Call them with parameters to create <a class="reference internal" href="high_level.html#pytezos.contract.call.ContractCall" title="pytezos.contract.call.ContractCall"><code class="xref py py-class docutils literal notranslate"><span class="pre">pytezos.contract.call.ContractCall</span></code></a> wrapper.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create call to `default` entrypoint</span>
-<span class="n">call</span> <span class="o">=</span> <span class="n">contract</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+<span class="n">call</span> <span class="o">=</span> <span class="n">contract</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="s2">"foo"</span><span class="p">)</span>
 
 <span class="c1"># Add amount to transaction</span>
-<span class="n">call</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">with_amount</span><span class="p">(</span><span class="s1">&#39;0.01&#39;</span><span class="p">)</span>
+<span class="n">call</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">with_amount</span><span class="p">(</span><span class="s1">'0.01'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now you can call <cite>inject</cite> method to send operation to blockchain. But we’re interested in simulating contract calls without interacting with public blockchain. There are several methods to do this:</p>
@@ -162,17 +162,17 @@
 </ul>
 <p>Let’s talk about the first two methods.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Node interpreter</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">run_code</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">run_code</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="s2">"foo"</span><span class="p">)</span>
 
 <span class="c1"># Built-in interpreter</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">interpret</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">interpret</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="s2">"foo"</span><span class="p">)</span>
 
 <span class="c1"># In both cases you could patch SENDER, AMOUNT and other context variables</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">interpret</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">interpret</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="s2">"foo"</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Each method will return <a class="reference internal" href="high_level.html#pytezos.contract.result.ContractCallResult" title="pytezos.contract.result.ContractCallResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">pytezos.contract.result.ContractCallResult</span></code></a> instance. Now let’s ensure our call has modified storage correctly.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">storage</span> <span class="o">==</span> <span class="s2">&quot;foobar&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">storage</span> <span class="o">==</span> <span class="s2">"foobar"</span>
 </pre></div>
 </div>
 </section>
@@ -243,7 +243,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.sandbox.node</span><span class="w"> </span><span class="kn">import</span> <span class="n">SandboxedNodeTestCase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.contract.result</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContractCallResult</span>
 
-<span class="n">contract_michelson</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="n">contract_michelson</span> <span class="o">=</span> <span class="s2">"""</span>
 <span class="s2">    parameter string;</span>
 <span class="s2">    storage string;</span>
 <span class="s2">    code { DUP;</span>
@@ -251,39 +251,39 @@
 <span class="s2">        CDR ; CONS ;</span>
 <span class="s2">        CONCAT ;</span>
 <span class="s2">        NIL operation; PAIR }</span>
-<span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">"""</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SandboxedContractTest</span><span class="p">(</span><span class="n">SandboxedNodeTestCase</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">test_deploy_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Create client</span>
-        <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;bootstrap1&#39;</span><span class="p">)</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">'bootstrap1'</span><span class="p">)</span>
         <span class="n">client</span><span class="o">.</span><span class="n">reveal</span><span class="p">()</span>
 
         <span class="c1"># Originate contract with initial storage</span>
         <span class="n">contract</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_michelson</span><span class="p">(</span><span class="n">contract_michelson</span><span class="p">)</span>
-        <span class="n">opg</span> <span class="o">=</span> <span class="n">contract</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">shell</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_node_url</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;bootstrap1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">originate</span><span class="p">(</span><span class="n">initial_storage</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+        <span class="n">opg</span> <span class="o">=</span> <span class="n">contract</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">shell</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_node_url</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="s1">'bootstrap1'</span><span class="p">)</span><span class="o">.</span><span class="n">originate</span><span class="p">(</span><span class="n">initial_storage</span><span class="o">=</span><span class="s2">"foo"</span><span class="p">)</span>
         <span class="n">opg</span> <span class="o">=</span> <span class="n">opg</span><span class="o">.</span><span class="n">fill</span><span class="p">()</span><span class="o">.</span><span class="n">sign</span><span class="p">()</span><span class="o">.</span><span class="n">inject</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">bake_block</span><span class="p">()</span>
 
         <span class="c1"># Find originated contract address by operation hash</span>
-        <span class="n">opg</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">:]</span><span class="o">.</span><span class="n">find_operation</span><span class="p">(</span><span class="n">opg</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">])</span>
-        <span class="n">contract_address</span> <span class="o">=</span> <span class="n">opg</span><span class="p">[</span><span class="s1">&#39;contents&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="s1">&#39;operation_result&#39;</span><span class="p">][</span><span class="s1">&#39;originated_contracts&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">opg</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="s1">'head'</span><span class="p">:]</span><span class="o">.</span><span class="n">find_operation</span><span class="p">(</span><span class="n">opg</span><span class="p">[</span><span class="s1">'hash'</span><span class="p">])</span>
+        <span class="n">contract_address</span> <span class="o">=</span> <span class="n">opg</span><span class="p">[</span><span class="s1">'contents'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'metadata'</span><span class="p">][</span><span class="s1">'operation_result'</span><span class="p">][</span><span class="s1">'originated_contracts'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># Load originated contract from blockchain</span>
-        <span class="n">originated_contract</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="n">contract_address</span><span class="p">)</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">shell</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_node_url</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;bootstrap1&#39;</span><span class="p">)</span>
+        <span class="n">originated_contract</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="n">contract_address</span><span class="p">)</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">shell</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_node_url</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="s1">'bootstrap1'</span><span class="p">)</span>
 
         <span class="c1"># Perform real contract call</span>
-        <span class="n">call</span> <span class="o">=</span> <span class="n">originated_contract</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">)</span>
+        <span class="n">call</span> <span class="o">=</span> <span class="n">originated_contract</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="s2">"bar"</span><span class="p">)</span>
         <span class="n">opg</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">inject</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">bake_block</span><span class="p">()</span>
 
         <span class="c1"># Get injected operation and convert to ContractCallResult</span>
-        <span class="n">opg</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">:]</span><span class="o">.</span><span class="n">find_operation</span><span class="p">(</span><span class="n">opg</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">])</span>
+        <span class="n">opg</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="s1">'head'</span><span class="p">:]</span><span class="o">.</span><span class="n">find_operation</span><span class="p">(</span><span class="n">opg</span><span class="p">[</span><span class="s1">'hash'</span><span class="p">])</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">ContractCallResult</span><span class="o">.</span><span class="n">from_operation_group</span><span class="p">(</span><span class="n">opg</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">({</span><span class="s1">&#39;string&#39;</span><span class="p">:</span> <span class="s1">&#39;foobar&#39;</span><span class="p">},</span> <span class="n">result</span><span class="o">.</span><span class="n">storage</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">({</span><span class="s1">'string'</span><span class="p">:</span> <span class="s1">'foobar'</span><span class="p">},</span> <span class="n">result</span><span class="o">.</span><span class="n">storage</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Sandboxed node will be rolled back to genesis block between run of multiple testcases.</p>

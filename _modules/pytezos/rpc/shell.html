@@ -117,56 +117,56 @@
 <div class="viewcode-block" id="make_operation_result">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.make_operation_result">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">make_operation_result</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;operation_result&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">}}</span></div>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">'metadata'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'operation_result'</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">}}</span></div>
 
 
 
 <div class="viewcode-block" id="ShellQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.ShellQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ShellQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ShellQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">''</span><span class="p">):</span>
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlocksQuery</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shortcut for `chains.main.blocks`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Shortcut for `chains.main.blocks`"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chains</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">blocks</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockQuery</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shortcut for `blocks.head`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Shortcut for `blocks.head`"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="o">.</span><span class="n">head</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">block</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockQuery</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cached head block, useful if you just want to explore things.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Cached head block, useful if you just want to explore things."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">hash</span><span class="p">()]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">cycles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Operate on cycles rather than blocks.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Operate on cycles rather than blocks."""</span>
         <span class="k">return</span> <span class="n">CyclesQuery</span><span class="p">(</span>
             <span class="n">node</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">,</span>
-            <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_wild_path</span> <span class="o">+</span> <span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks&#39;</span><span class="p">,</span>
-            <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;main&#39;</span><span class="p">],</span>
+            <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_wild_path</span> <span class="o">+</span> <span class="s1">'/chains/</span><span class="si">{}</span><span class="s1">/blocks'</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">+</span> <span class="p">[</span><span class="s1">'main'</span><span class="p">],</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">voting_periods</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Operate on voting periods rather than blocks.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">VotingPeriodsQuery</span><span class="p">(</span>
             <span class="n">node</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">,</span>
-            <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_wild_path</span> <span class="o">+</span> <span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/blocks&#39;</span><span class="p">,</span>
-            <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;main&#39;</span><span class="p">],</span>
+            <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_wild_path</span> <span class="o">+</span> <span class="s1">'/chains/</span><span class="si">{}</span><span class="s1">/blocks'</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">+</span> <span class="p">[</span><span class="s1">'main'</span><span class="p">],</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">contracts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shortcut for `head.context.contracts`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Shortcut for `head.context.contracts`"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">contracts</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">mempool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shortcut for `chains.main.mempool`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Shortcut for `chains.main.mempool`"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chains</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">mempool</span>
 
 <div class="viewcode-block" id="ShellQuery.wait_blocks">
@@ -179,7 +179,7 @@
         <span class="n">time_between_blocks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">block_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterates over future blocks (waits and yields block hash), handles reorgs</span>
+<span class="w">        </span><span class="sd">"""Iterates over future blocks (waits and yields block hash), handles reorgs</span>
 
 <span class="sd">        :param current_block_hash: hash of the current block (head)</span>
 <span class="sd">        :param max_blocks: number of blocks to iterate (not including the current one)</span>
@@ -187,10 +187,10 @@
 <span class="sd">        :param time_between_blocks: override protocol constant</span>
 <span class="sd">        :param block_timeout: set block timeout (by default Pytezos will wait for a long time)</span>
 <span class="sd">        :return: block hashes</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">time_between_blocks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">constants</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">current_block_hash</span><span class="p">]</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">constants</span><span class="p">()</span>
-            <span class="n">time_between_blocks</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;minimal_block_delay&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">time_between_blocks</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'minimal_block_delay'</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">block_timeout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">block_timeout</span> <span class="o">=</span> <span class="n">MAX_BLOCK_TIMEOUT</span>
@@ -199,17 +199,17 @@
             <span class="k">yield</span> <span class="n">current_block_hash</span>
 
         <span class="n">current_header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">current_block_hash</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
-        <span class="n">max_level</span> <span class="o">=</span> <span class="n">current_header</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">max_blocks</span>
+        <span class="n">max_level</span> <span class="o">=</span> <span class="n">current_header</span><span class="p">[</span><span class="s1">'level'</span><span class="p">]</span> <span class="o">+</span> <span class="n">max_blocks</span>
 
-        <span class="k">while</span> <span class="n">current_header</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">max_level</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Current level: </span><span class="si">%d</span><span class="s1"> (max </span><span class="si">%d</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">current_header</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">],</span> <span class="n">max_level</span><span class="p">)</span>
-            <span class="n">prev_block_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">current_header</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">],</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%SZ&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+        <span class="k">while</span> <span class="n">current_header</span><span class="p">[</span><span class="s1">'level'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">max_level</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Current level: </span><span class="si">%d</span><span class="s1"> (max </span><span class="si">%d</span><span class="s1">)'</span><span class="p">,</span> <span class="n">current_header</span><span class="p">[</span><span class="s1">'level'</span><span class="p">],</span> <span class="n">max_level</span><span class="p">)</span>
+            <span class="n">prev_block_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">current_header</span><span class="p">[</span><span class="s1">'timestamp'</span><span class="p">],</span> <span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%SZ'</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
                 <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span>
             <span class="p">)</span>
             <span class="n">elapsed_sec</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span> <span class="o">-</span> <span class="n">prev_block_dt</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span>
             <span class="n">sleep_sec</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">elapsed_sec</span> <span class="o">&gt;</span> <span class="n">time_between_blocks</span> <span class="k">else</span> <span class="p">(</span><span class="n">time_between_blocks</span> <span class="o">-</span> <span class="n">elapsed_sec</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Sleep </span><span class="si">%d</span><span class="s1"> seconds until block </span><span class="si">%s</span><span class="s1"> is superseded&#39;</span><span class="p">,</span> <span class="n">sleep_sec</span><span class="p">,</span> <span class="n">current_block_hash</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Sleep </span><span class="si">%d</span><span class="s1"> seconds until block </span><span class="si">%s</span><span class="s1"> is superseded'</span><span class="p">,</span> <span class="n">sleep_sec</span><span class="p">,</span> <span class="n">current_block_hash</span><span class="p">)</span>
             <span class="n">sleep</span><span class="p">(</span><span class="n">sleep_sec</span><span class="p">)</span>
 
             <span class="n">next_block_hash</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -219,7 +219,7 @@
                 <span class="k">if</span> <span class="n">current_block_hash</span> <span class="o">==</span> <span class="n">next_block_hash</span><span class="p">:</span>
                     <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Found new block </span><span class="si">%s</span><span class="s1"> (</span><span class="si">%d</span><span class="s1"> sec delay)&#39;</span><span class="p">,</span> <span class="n">next_block_hash</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Found new block </span><span class="si">%s</span><span class="s1"> (</span><span class="si">%d</span><span class="s1"> sec delay)'</span><span class="p">,</span> <span class="n">next_block_hash</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span>
                     <span class="k">break</span>
 
             <span class="k">if</span> <span class="n">current_block_hash</span> <span class="o">!=</span> <span class="n">next_block_hash</span><span class="p">:</span>
@@ -229,17 +229,17 @@
                 <span class="c1"># walk back over predecessors so no block goes unscanned.</span>
                 <span class="n">missed</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="n">header</span> <span class="o">=</span> <span class="n">next_header</span>
-                <span class="k">while</span> <span class="n">header</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">current_header</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">header</span><span class="p">[</span><span class="s1">&#39;predecessor&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">current_block_hash</span><span class="p">:</span>
-                    <span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;predecessor&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
-                    <span class="n">missed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">])</span>
+                <span class="k">while</span> <span class="n">header</span><span class="p">[</span><span class="s1">'level'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">current_header</span><span class="p">[</span><span class="s1">'level'</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">header</span><span class="p">[</span><span class="s1">'predecessor'</span><span class="p">]</span> <span class="o">!=</span> <span class="n">current_block_hash</span><span class="p">:</span>
+                    <span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">header</span><span class="p">[</span><span class="s1">'predecessor'</span><span class="p">]]</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
+                    <span class="n">missed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">'hash'</span><span class="p">])</span>
                 <span class="k">for</span> <span class="n">block_hash</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">missed</span><span class="p">):</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Catching up on skipped block </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">block_hash</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Catching up on skipped block </span><span class="si">%s</span><span class="s1">'</span><span class="p">,</span> <span class="n">block_hash</span><span class="p">)</span>
                     <span class="k">yield</span> <span class="n">block_hash</span>
                 <span class="k">yield</span> <span class="n">next_block_hash</span>
                 <span class="n">current_block_hash</span> <span class="o">=</span> <span class="n">next_block_hash</span>
                 <span class="n">current_header</span> <span class="o">=</span> <span class="n">next_header</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="s1">&#39;Reached timeout (</span><span class="si">%d</span><span class="s1"> sec) while waiting for the next block&#39;</span><span class="p">,</span> <span class="n">block_timeout</span><span class="p">)</span></div>
+                <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="s1">'Reached timeout (</span><span class="si">%d</span><span class="s1"> sec) while waiting for the next block'</span><span class="p">,</span> <span class="n">block_timeout</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ShellQuery.wait_operations">
@@ -253,7 +253,7 @@
         <span class="n">time_between_blocks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">block_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait for one or many operations gain enough confirmations</span>
+<span class="w">        </span><span class="sd">"""Wait for one or many operations gain enough confirmations</span>
 
 <span class="sd">        :param opg_hashes: list of operation hashes</span>
 <span class="sd">        :param ttl: max time-to-live value (in mempool)</span>
@@ -262,7 +262,7 @@
 <span class="sd">        :param time_between_blocks: override protocol constant</span>
 <span class="sd">        :param block_timeout: set block timeout (by default Pytezos will wait for a long time)</span>
 <span class="sd">        :return: list of operation contents with metadata</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">confirmations</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">pending</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">opg_hashes</span><span class="p">)</span>
@@ -281,25 +281,25 @@
         <span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pending</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">mempool</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mempool</span><span class="o">.</span><span class="n">pending_operations</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span>
+                    <span class="n">mempool</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">'hash'</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mempool</span><span class="o">.</span><span class="n">pending_operations</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span>
                 <span class="k">except</span> <span class="p">(</span><span class="n">RpcNotFoundError</span><span class="p">,</span> <span class="n">RpcForbiddenError</span><span class="p">):</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Node has no mempool or hides it, tracking inclusion by blocks only&#39;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Node has no mempool or hides it, tracking inclusion by blocks only'</span><span class="p">)</span>
                     <span class="n">pending</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
                     <span class="n">mempool</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">opg_hashes</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">pending</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">mempool</span><span class="p">:</span>
-                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Operation </span><span class="si">%s</span><span class="s1"> is still in mempool&#39;</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">)</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Operation </span><span class="si">%s</span><span class="s1"> is still in mempool'</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Operation </span><span class="si">%s</span><span class="s1"> has left mempool&#39;</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">)</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Operation </span><span class="si">%s</span><span class="s1"> has left mempool'</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">)</span>
                             <span class="n">pending</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">opg_hash</span><span class="p">)</span>
 
             <span class="n">included</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">block_hash</span><span class="p">]</span><span class="o">.</span><span class="n">operation_hashes</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">included</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vp</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">opg_hashes</span> <span class="ow">and</span> <span class="n">opg_hash</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">confirmations</span><span class="p">:</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Operation </span><span class="si">%s</span><span class="s1"> has been included to block </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">,</span> <span class="n">block_hash</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">pending</span><span class="p">:</span>  <span class="c1"># can be still in the particular node&#39;s mempool (not yet removed)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Operation </span><span class="si">%s</span><span class="s1"> has been included to block </span><span class="si">%s</span><span class="s1">'</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">,</span> <span class="n">block_hash</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">pending</span><span class="p">:</span>  <span class="c1"># can be still in the particular node's mempool (not yet removed)</span>
                             <span class="n">pending</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">opg_hash</span><span class="p">)</span>
                         <span class="n">confirmations</span><span class="p">[</span><span class="n">opg_hash</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># initialize</span>
                         <span class="n">operations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">block_hash</span><span class="p">]</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]())</span>
@@ -307,14 +307,14 @@
             <span class="k">for</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">confirmations</span><span class="p">:</span>
                 <span class="n">confirmations</span><span class="p">[</span><span class="n">opg_hash</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s1">&#39;Operation </span><span class="si">%s</span><span class="s1"> has </span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1"> confirmations&#39;</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">,</span> <span class="n">confirmations</span><span class="p">[</span><span class="n">opg_hash</span><span class="p">],</span> <span class="n">min_confirmations</span>
+                    <span class="s1">'Operation </span><span class="si">%s</span><span class="s1"> has </span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1"> confirmations'</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">,</span> <span class="n">confirmations</span><span class="p">[</span><span class="n">opg_hash</span><span class="p">],</span> <span class="n">min_confirmations</span>
                 <span class="p">)</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">operations</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">opg_hashes</span><span class="p">):</span>
                 <span class="k">break</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">operations</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">opg_hashes</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">(</span><span class="s1">&#39;Only </span><span class="si">%d</span><span class="s1"> of </span><span class="si">%d</span><span class="s1"> operations were included, stopping&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">operations</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">opg_hashes</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">(</span><span class="s1">'Only </span><span class="si">%d</span><span class="s1"> of </span><span class="si">%d</span><span class="s1"> operations were included, stopping'</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">operations</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">opg_hashes</span><span class="p">)))</span>
 
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait_blocks</span><span class="p">(</span>
             <span class="n">block_hash</span><span class="p">,</span>
@@ -324,7 +324,7 @@
             <span class="k">for</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">opg_hashes</span><span class="p">:</span>
                 <span class="n">confirmations</span><span class="p">[</span><span class="n">opg_hash</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s1">&#39;Operation </span><span class="si">%s</span><span class="s1"> has </span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1"> confirmations&#39;</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">,</span> <span class="n">confirmations</span><span class="p">[</span><span class="n">opg_hash</span><span class="p">],</span> <span class="n">min_confirmations</span>
+                    <span class="s1">'Operation </span><span class="si">%s</span><span class="s1"> has </span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1"> confirmations'</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">,</span> <span class="n">confirmations</span><span class="p">[</span><span class="n">opg_hash</span><span class="p">],</span> <span class="n">min_confirmations</span>
                 <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">operations</span></div>
@@ -332,7 +332,7 @@
 
 <div class="viewcode-block" id="ShellQuery.wait_next_block">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.ShellQuery.wait_next_block">[docs]</a>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.2.2&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Use wait_blocks() instead&#39;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.2.2'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Use wait_blocks() instead'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wait_next_block</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">delay_sec</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -340,26 +340,26 @@
         <span class="n">time_between_blocks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">max_iterations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait until next block is finalized.</span>
+<span class="w">        </span><span class="sd">"""Wait until next block is finalized.</span>
 
 <span class="sd">        :param prev_hash: Current block hash (optional). If not set, current head is used.</span>
 <span class="sd">        :param time_between_blocks: override the corresponding parameter from constants</span>
 <span class="sd">        :param max_iterations: Manually set the number of iterations</span>
 <span class="sd">        :param delay_sec: Sleep delay</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">time_between_blocks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">time_between_blocks</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">constants</span><span class="p">()[</span><span class="s2">&quot;minimal_block_delay&quot;</span><span class="p">])</span>  <span class="c1"># type: ignore</span>
+            <span class="n">time_between_blocks</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">constants</span><span class="p">()[</span><span class="s2">"minimal_block_delay"</span><span class="p">])</span>  <span class="c1"># type: ignore</span>
 
         <span class="k">if</span> <span class="n">time_between_blocks</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">prev_hash</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
-                <span class="n">prev_hash</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">]</span>
-                <span class="n">prev_block_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">],</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%SZ&#39;</span><span class="p">)</span>
+                <span class="n">prev_hash</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="s1">'hash'</span><span class="p">]</span>
+                <span class="n">prev_block_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">'timestamp'</span><span class="p">],</span> <span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%SZ'</span><span class="p">)</span>
                 <span class="n">elapsed_sec</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">-</span> <span class="n">prev_block_dt</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span>
                 <span class="n">sleep_sec</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">elapsed_sec</span> <span class="o">&gt;</span> <span class="n">time_between_blocks</span> <span class="k">else</span> <span class="n">time_between_blocks</span> <span class="o">-</span> <span class="n">elapsed_sec</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">sleep_sec</span> <span class="o">=</span> <span class="n">time_between_blocks</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Wait </span><span class="si">%s</span><span class="s1"> seconds until block </span><span class="si">%s</span><span class="s1"> is finalized&#39;</span><span class="p">,</span> <span class="n">sleep_sec</span><span class="p">,</span> <span class="n">prev_hash</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Wait </span><span class="si">%s</span><span class="s1"> seconds until block </span><span class="si">%s</span><span class="s1"> is finalized'</span><span class="p">,</span> <span class="n">sleep_sec</span><span class="p">,</span> <span class="n">prev_hash</span><span class="p">)</span>
             <span class="n">sleep</span><span class="p">(</span><span class="n">sleep_sec</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">max_iterations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -371,29 +371,29 @@
                 <span class="n">sleep</span><span class="p">(</span><span class="n">delay_sec</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">current_block_hash</span>
-        <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">(</span><span class="s2">&quot;Timeout&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">StopIteration</span><span class="p">(</span><span class="s2">"Timeout"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ShellQuery.get_confirmations">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.ShellQuery.get_confirmations">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_confirmations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">branch</span><span class="p">,</span> <span class="n">head</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the number of blocks applied after the operation was included in chain</span>
+<span class="w">        </span><span class="sd">"""Returns the number of blocks applied after the operation was included in chain</span>
 
 <span class="sd">        :param opg_hash: Operation group hash</span>
-<span class="sd">        :param kind: Operation kind (&#39;transaction&#39;, &#39;origination&#39;, etc)</span>
+<span class="sd">        :param kind: Operation kind ('transaction', 'origination', etc)</span>
 <span class="sd">        :param branch: Block ID one should stop the search at</span>
 <span class="sd">        :param head: Block ID one should start the search from</span>
 <span class="sd">        :return: Number of confirmations (0 if not found)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">head</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">()[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span>
-        <span class="n">stop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">()[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span>
+<span class="sd">        """</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">head</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">()[</span><span class="s1">'level'</span><span class="p">]</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">()[</span><span class="s1">'level'</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">vp</span> <span class="o">=</span> <span class="n">validation_passes</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span>
             <span class="n">hashes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">level</span><span class="p">]</span><span class="o">.</span><span class="n">operation_hashes</span><span class="p">[</span><span class="n">vp</span><span class="p">]()</span>
             <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">_hash</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hashes</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">opg_hash</span> <span class="o">==</span> <span class="n">_hash</span><span class="p">:</span>
                     <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">level</span><span class="p">]</span><span class="o">.</span><span class="n">operations</span><span class="p">[</span><span class="n">vp</span><span class="p">,</span> <span class="n">idx</span><span class="p">]()</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Operation </span><span class="si">%s</span><span class="s1"> was included in block </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Operation </span><span class="si">%s</span><span class="s1"> was included in block </span><span class="si">%s</span><span class="s1">'</span><span class="p">,</span> <span class="n">opg_hash</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">start</span> <span class="o">-</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 </div>
@@ -402,11 +402,11 @@
 
 <div class="viewcode-block" id="ChainQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.ChainQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ChainQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ChainQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">'/chains/</span><span class="si">{}</span><span class="s1">'</span><span class="p">):</span>
 <div class="viewcode-block" id="ChainQuery.watermark">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.ChainQuery.watermark">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">watermark</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Chain watermark, hex encoded.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Chain watermark, hex encoded."""</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">hexlify</span><span class="p">(</span><span class="n">base58_decode</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">encode</span><span class="p">()))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 </div>
@@ -415,7 +415,7 @@
 
 <div class="viewcode-block" id="InvalidBlockQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.InvalidBlockQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">InvalidBlockQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/invalid_blocks/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">InvalidBlockQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">'/chains/</span><span class="si">{}</span><span class="s1">/invalid_blocks/</span><span class="si">{}</span><span class="s1">'</span><span class="p">):</span>
 <div class="viewcode-block" id="InvalidBlockQuery.delete">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.InvalidBlockQuery.delete">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -426,15 +426,15 @@
 
 <div class="viewcode-block" id="MempoolQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.MempoolQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MempoolQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/mempool&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MempoolQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">'/chains/</span><span class="si">{}</span><span class="s1">/mempool'</span><span class="p">):</span>
 <div class="viewcode-block" id="MempoolQuery.post">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.MempoolQuery.post">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set operation filter rules.</span>
+<span class="w">        </span><span class="sd">"""Set operation filter rules.</span>
 
 <span class="sd">        :param configuration: a JSON dictionary, known keys are `minimal_fees`, `minimal_nanotez_per_gas_unit`,</span>
 <span class="sd">            `minimal_nanotez_per_byte`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">configuration</span><span class="p">)</span></div>
 </div>
 
@@ -442,31 +442,31 @@
 
 <div class="viewcode-block" id="PendingOperationsQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.PendingOperationsQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">PendingOperationsQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/chains/</span><span class="si">{}</span><span class="s1">/mempool/pending_operations&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PendingOperationsQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">'/chains/</span><span class="si">{}</span><span class="s1">/mempool/pending_operations'</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for operation in node&#39;s mempool by hash.</span>
+<span class="w">        </span><span class="sd">"""Search for operation in node's mempool by hash.</span>
 
 <span class="sd">        :param item: operation group hash (base58)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">operations_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">status</span><span class="p">,</span> <span class="n">operations</span> <span class="ow">in</span> <span class="n">operations_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">operation</span> <span class="ow">in</span> <span class="n">operations</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">operation</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">operation</span><span class="p">[</span><span class="s1">'hash'</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
                         <span class="k">return</span> <span class="p">{</span>
                             <span class="o">**</span><span class="n">make_operation_result</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">),</span>
                             <span class="o">**</span><span class="n">operation</span><span class="p">,</span>
                         <span class="p">}</span>
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">operation</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
-                        <span class="n">errors</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pop1</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[])</span>
+                        <span class="n">errors</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pop1</span><span class="p">(</span><span class="s1">'error'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[])</span>
                         <span class="k">return</span> <span class="p">{</span>
                             <span class="o">**</span><span class="n">make_operation_result</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">),</span>
                             <span class="o">**</span><span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                            <span class="s1">&#39;hash&#39;</span><span class="p">:</span> <span class="n">operation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="s1">'hash'</span><span class="p">:</span> <span class="n">operation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                         <span class="p">}</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Unknown operation type&#39;</span><span class="p">,</span> <span class="n">operation</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'Unknown operation type'</span><span class="p">,</span> <span class="n">operation</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">StopIteration</span>
 
 <div class="viewcode-block" id="PendingOperationsQuery.flatten">
@@ -484,45 +484,45 @@
                         <span class="p">}</span>
                     <span class="p">)</span>
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-                    <span class="n">errors</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="p">[])</span>
+                    <span class="n">errors</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'error'</span><span class="p">,</span> <span class="p">[])</span>
                     <span class="n">operations_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                         <span class="p">{</span>
                             <span class="o">**</span><span class="n">make_operation_result</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">),</span>
                             <span class="o">**</span><span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                            <span class="s1">&#39;hash&#39;</span><span class="p">:</span> <span class="n">operation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="s1">'hash'</span><span class="p">:</span> <span class="n">operation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                         <span class="p">}</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Unknown operation type&#39;</span><span class="p">,</span> <span class="n">operation</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'Unknown operation type'</span><span class="p">,</span> <span class="n">operation</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">operations_list</span></div>
 
 
 <div class="viewcode-block" id="PendingOperationsQuery.from_source">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.PendingOperationsQuery.from_source">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Contents of operations from `source` that are still waiting for inclusion (validated or not yet processed).</span>
+<span class="w">        </span><span class="sd">"""Contents of operations from `source` that are still waiting for inclusion (validated or not yet processed).</span>
 <span class="sd">        Empty when the node has no mempool or does not expose it.</span>
 
 <span class="sd">        :param source: public key hash</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">operations_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span>
                 <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
-                <span class="n">refused</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="p">,</span>
-                <span class="n">outdated</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="p">,</span>
-                <span class="n">branch_refused</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="p">,</span>
-                <span class="n">branch_delayed</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="p">,</span>
+                <span class="n">refused</span><span class="o">=</span><span class="s1">'false'</span><span class="p">,</span>
+                <span class="n">outdated</span><span class="o">=</span><span class="s1">'false'</span><span class="p">,</span>
+                <span class="n">branch_refused</span><span class="o">=</span><span class="s1">'false'</span><span class="p">,</span>
+                <span class="n">branch_delayed</span><span class="o">=</span><span class="s1">'false'</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="n">RpcForbiddenError</span><span class="p">,</span> <span class="n">RpcNotFoundError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;mempool is not available (</span><span class="si">%s</span><span class="s1">), assuming no pending operations&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'mempool is not available (</span><span class="si">%s</span><span class="s1">), assuming no pending operations'</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">[]</span>
-        <span class="n">validated</span> <span class="o">=</span> <span class="n">operations_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;validated&#39;</span><span class="p">,</span> <span class="n">operations_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;applied&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">validated</span> <span class="o">=</span> <span class="n">operations_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'validated'</span><span class="p">,</span> <span class="n">operations_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'applied'</span><span class="p">,</span> <span class="p">[]))</span>
         <span class="n">contents</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">operation</span> <span class="ow">in</span> <span class="n">validated</span> <span class="o">+</span> <span class="n">operations_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;unprocessed&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="k">for</span> <span class="n">operation</span> <span class="ow">in</span> <span class="n">validated</span> <span class="o">+</span> <span class="n">operations_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'unprocessed'</span><span class="p">,</span> <span class="p">[]):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="n">operation</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">operation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;contents&#39;</span><span class="p">,</span> <span class="p">[]):</span>
-                <span class="k">if</span> <span class="n">content</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;source&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">source</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">operation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'contents'</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="k">if</span> <span class="n">content</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'source'</span><span class="p">)</span> <span class="o">==</span> <span class="n">source</span><span class="p">:</span>
                     <span class="n">contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">contents</span></div>
 
@@ -530,73 +530,73 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">PendingOperationsQuery</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="s1">&#39;[]&#39;</span> <span class="o">+</span> <span class="n">get_attr_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;__getitem__&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;.from_source()&#39;</span> <span class="o">+</span> <span class="n">get_attr_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;from_source&#39;</span><span class="p">),</span>
+            <span class="s1">'[]'</span> <span class="o">+</span> <span class="n">get_attr_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">'__getitem__'</span><span class="p">),</span>
+            <span class="s1">'.from_source()'</span> <span class="o">+</span> <span class="n">get_attr_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">'from_source'</span><span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="DescribeQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.DescribeQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DescribeQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/describe&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DescribeQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">'/describe'</span><span class="p">):</span>
 <div class="viewcode-block" id="DescribeQuery.__call__">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.DescribeQuery.__call__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get RPCs documentation and input/output schema.</span>
+<span class="w">        </span><span class="sd">"""Get RPCs documentation and input/output schema.</span>
 
 <span class="sd">        :param recurse: Show information for child elements, default is True.</span>
-<span class="sd">            In some cases doesn&#39;t work without this flag.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            In some cases doesn't work without this flag.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="n">recurse</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="sa">f</span><span class="s1">&#39;()</span><span class="si">{</span><span class="n">get_attr_docstring</span><span class="p">(</span><span class="n">DescribeQuery</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;__call__&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;Can be followed by any path:</span><span class="se">\n</span><span class="s1">.chains</span><span class="se">\n</span><span class="s1">.network.connections</span><span class="se">\n</span><span class="s1">etc</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'()</span><span class="si">{</span><span class="n">get_attr_docstring</span><span class="p">(</span><span class="n">DescribeQuery</span><span class="p">,</span><span class="w"> </span><span class="s2">"__call__"</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+            <span class="s1">'Can be followed by any path:</span><span class="se">\n</span><span class="s1">.chains</span><span class="se">\n</span><span class="s1">.network.connections</span><span class="se">\n</span><span class="s1">etc</span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="BlockInjectionQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.BlockInjectionQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">BlockInjectionQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/injection/block&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BlockInjectionQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">'/injection/block'</span><span class="p">):</span>
 <div class="viewcode-block" id="BlockInjectionQuery.post">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.BlockInjectionQuery.post">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">_async</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chain</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inject a block in the node and broadcast it.</span>
+<span class="w">        </span><span class="sd">"""Inject a block in the node and broadcast it.</span>
 
 <span class="sd">        The `operations` embedded in `blockHeader` might be pre-validated using a contextual RPCs from the latest block</span>
-<span class="sd">        (e.g. &#39;/blocks/head/context/preapply&#39;).</span>
+<span class="sd">        (e.g. '/blocks/head/context/preapply').</span>
 
 <span class="sd">        block format:</span>
 
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            {</span>
-<span class="sd">                &quot;data&quot;: &lt;hex-encoded block header&gt;,</span>
-<span class="sd">                &quot;operations&quot;: [ [ {</span>
-<span class="sd">                &quot;branch&quot;: &lt;block_hash&gt;,</span>
-<span class="sd">                &quot;data&quot;: &lt;hex-encoded operation&gt;</span>
+<span class="sd">                "data": &lt;hex-encoded block header&gt;,</span>
+<span class="sd">                "operations": [ [ {</span>
+<span class="sd">                "branch": &lt;block_hash&gt;,</span>
+<span class="sd">                "data": &lt;hex-encoded operation&gt;</span>
 <span class="sd">                } ... ] ... ]</span>
 <span class="sd">            }</span>
 
 <span class="sd">        :param block: JSON input</span>
 <span class="sd">        :param _async: By default, the RPC will wait for the block to be validated before answering, \</span>
-<span class="sd">        set True if you don&#39;t want to.</span>
+<span class="sd">        set True if you don't want to.</span>
 <span class="sd">        :param force:</span>
 <span class="sd">        :param chain: Optionally you can specify the chain (main/test)</span>
 <span class="sd">        :returns: ID of the block</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span>
             <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-                <span class="s1">&#39;async&#39;</span><span class="p">:</span> <span class="n">_async</span><span class="p">,</span>
-                <span class="s1">&#39;force&#39;</span><span class="p">:</span> <span class="n">force</span><span class="p">,</span>
-                <span class="s1">&#39;chain&#39;</span><span class="p">:</span> <span class="n">chain</span><span class="p">,</span>
-                <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
+                <span class="s1">'async'</span><span class="p">:</span> <span class="n">_async</span><span class="p">,</span>
+                <span class="s1">'force'</span><span class="p">:</span> <span class="n">force</span><span class="p">,</span>
+                <span class="s1">'chain'</span><span class="p">:</span> <span class="n">chain</span><span class="p">,</span>
+                <span class="s1">'timestamp'</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="n">json</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
         <span class="p">)</span></div>
@@ -606,27 +606,27 @@
 
 <div class="viewcode-block" id="OperationInjectionQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.OperationInjectionQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">OperationInjectionQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/injection/operation&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OperationInjectionQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">'/injection/operation'</span><span class="p">):</span>
 <div class="viewcode-block" id="OperationInjectionQuery.post">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.OperationInjectionQuery.post">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">_async</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chain</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inject an operation in node and broadcast it.</span>
+<span class="w">        </span><span class="sd">"""Inject an operation in node and broadcast it.</span>
 <span class="sd">        The `signedOperationContents` should be constructed using a contextual RPCs from the latest block</span>
 <span class="sd">        and signed by the client.</span>
 
 <span class="sd">        :param operation: Hex-encoded operation data or bytes</span>
 <span class="sd">        :param _async: By default, the RPC will wait for the operation to be (pre-)validated before answering,</span>
-<span class="sd">            set True if you don&#39;t want to.</span>
+<span class="sd">            set True if you don't want to.</span>
 <span class="sd">        :param chain: Optionally you can specify the chain</span>
 <span class="sd">        :returns: ID of the operation</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
             <span class="n">operation</span> <span class="o">=</span> <span class="n">operation</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span>
             <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-                <span class="s1">&#39;async&#39;</span><span class="p">:</span> <span class="n">_async</span><span class="p">,</span>
-                <span class="s1">&#39;chain&#39;</span><span class="p">:</span> <span class="n">chain</span><span class="p">,</span>
+                <span class="s1">'async'</span><span class="p">:</span> <span class="n">_async</span><span class="p">,</span>
+                <span class="s1">'chain'</span><span class="p">:</span> <span class="n">chain</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="n">json</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span>
         <span class="p">)</span></div>
@@ -636,22 +636,22 @@
 
 <div class="viewcode-block" id="ProtocolInjectionQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.ProtocolInjectionQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ProtocolInjectionQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/injection/protocol&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProtocolInjectionQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">'/injection/protocol'</span><span class="p">):</span>
 <div class="viewcode-block" id="ProtocolInjectionQuery.post">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.ProtocolInjectionQuery.post">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">,</span> <span class="n">_async</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inject a protocol in node.</span>
+<span class="w">        </span><span class="sd">"""Inject a protocol in node.</span>
 
 <span class="sd">        protocol format:</span>
 
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            {</span>
-<span class="sd">                &quot;expected_env_version&quot;: &lt;integer&gt;,</span>
-<span class="sd">                &quot;components&quot;: [{</span>
-<span class="sd">                    &quot;name&quot;: &lt;unistring&gt;,</span>
-<span class="sd">                    &quot;interface&quot;?: &lt;hex-encoded data&gt;,</span>
-<span class="sd">                    &quot;implementation&quot;: &lt;hex-encoded data&gt; }</span>
+<span class="sd">                "expected_env_version": &lt;integer&gt;,</span>
+<span class="sd">                "components": [{</span>
+<span class="sd">                    "name": &lt;unistring&gt;,</span>
+<span class="sd">                    "interface"?: &lt;hex-encoded data&gt;,</span>
+<span class="sd">                    "implementation": &lt;hex-encoded data&gt; }</span>
 <span class="sd">                     ...</span>
 <span class="sd">                ]}</span>
 <span class="sd">            }</span>
@@ -660,11 +660,11 @@
 <span class="sd">        :param _async:</span>
 <span class="sd">        :param force:</span>
 <span class="sd">        :returns: ID of the protocol</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span>
             <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-                <span class="s1">&#39;async&#39;</span><span class="p">:</span> <span class="n">_async</span><span class="p">,</span>
-                <span class="s1">&#39;force&#39;</span><span class="p">:</span> <span class="n">force</span><span class="p">,</span>
+                <span class="s1">'async'</span><span class="p">:</span> <span class="n">_async</span><span class="p">,</span>
+                <span class="s1">'force'</span><span class="p">:</span> <span class="n">force</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="n">json</span><span class="o">=</span><span class="n">protocol</span><span class="p">,</span>
         <span class="p">)</span></div>
@@ -689,12 +689,12 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">MonitorQuery</span><span class="p">(</span>
     <span class="n">RpcQuery</span><span class="p">,</span>
     <span class="n">path</span><span class="o">=</span><span class="p">[</span>
-        <span class="s1">&#39;/monitor/active_chains&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;/monitor/bootstrapped&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;/monitor/commit_hash&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;/monitor/heads/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;/monitor/protocols&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;/monitor/valid_blocks&#39;</span><span class="p">,</span>
+        <span class="s1">'/monitor/active_chains'</span><span class="p">,</span>
+        <span class="s1">'/monitor/bootstrapped'</span><span class="p">,</span>
+        <span class="s1">'/monitor/commit_hash'</span><span class="p">,</span>
+        <span class="s1">'/monitor/heads/</span><span class="si">{}</span><span class="s1">'</span><span class="p">,</span>
+        <span class="s1">'/monitor/protocols'</span><span class="p">,</span>
+        <span class="s1">'/monitor/valid_blocks'</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">):</span>
 <div class="viewcode-block" id="MonitorQuery.__call__">
@@ -702,7 +702,7 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">ResponseGenerator</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-                <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+                <span class="n">method</span><span class="o">=</span><span class="s1">'GET'</span><span class="p">,</span>
                 <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
                 <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -713,44 +713,44 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="s1">&#39;NOTE: Returned object is a generator.&#39;</span><span class="p">,</span>
+            <span class="s1">'NOTE: Returned object is a generator.'</span><span class="p">,</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="ConnectionQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.ConnectionQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ConnectionQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;/network/connections/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConnectionQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">'/network/connections/</span><span class="si">{}</span><span class="s1">'</span><span class="p">):</span>
 <div class="viewcode-block" id="ConnectionQuery.delete">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.ConnectionQuery.delete">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delete</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;wait&#39;</span><span class="p">:</span> <span class="n">wait</span><span class="p">})</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delete</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">'wait'</span><span class="p">:</span> <span class="n">wait</span><span class="p">})</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="NetworkItems">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.NetworkItems">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">NetworkItems</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;/network/peers&#39;</span><span class="p">,</span> <span class="s1">&#39;/network/points&#39;</span><span class="p">]):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NetworkItems</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="p">[</span><span class="s1">'/network/peers'</span><span class="p">,</span> <span class="s1">'/network/points'</span><span class="p">]):</span>
 <div class="viewcode-block" id="NetworkItems.__call__">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.NetworkItems.__call__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="n">_filter</span><span class="p">})</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">'filter'</span><span class="p">:</span> <span class="n">_filter</span><span class="p">})</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="NetworkLogQuery">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.NetworkLogQuery">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">NetworkLogQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;/network/peers/</span><span class="si">{}</span><span class="s1">/log&#39;</span><span class="p">,</span> <span class="s1">&#39;/network/points/</span><span class="si">{}</span><span class="s1">/log&#39;</span><span class="p">]):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NetworkLogQuery</span><span class="p">(</span><span class="n">RpcQuery</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="p">[</span><span class="s1">'/network/peers/</span><span class="si">{}</span><span class="s1">/log'</span><span class="p">,</span> <span class="s1">'/network/points/</span><span class="si">{}</span><span class="s1">/log'</span><span class="p">]):</span>
 <div class="viewcode-block" id="NetworkLogQuery.__call__">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.NetworkLogQuery.__call__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">monitor</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">monitor</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ResponseGenerator</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-                    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+                    <span class="n">method</span><span class="o">=</span><span class="s1">'GET'</span><span class="p">,</span>
                     <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="p">)</span>

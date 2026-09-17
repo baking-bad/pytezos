@@ -111,18 +111,18 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">dir_to_files</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
     <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;TEZOS_PROTOCOL&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">'TEZOS_PROTOCOL'</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">index</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">index</span><span class="p">[</span><span class="s1">&#39;modules&#39;</span><span class="p">]:</span>
-        <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;mli&#39;</span><span class="p">,</span> <span class="s1">&#39;ml&#39;</span><span class="p">]:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">index</span><span class="p">[</span><span class="s1">'modules'</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'mli'</span><span class="p">,</span> <span class="s1">'ml'</span><span class="p">]:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">'</span>
 
             <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
                 <span class="k">continue</span>
 
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
                 <span class="n">text</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
                 <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>
 
@@ -148,7 +148,7 @@
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.url_to_files">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">url_to_files</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
-    <span class="n">raw</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">''</span>
 
     <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">iter_content</span><span class="p">()):</span>
         <span class="n">raw</span> <span class="o">+=</span> <span class="n">data</span>
@@ -163,19 +163,19 @@
     <span class="n">components</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
 
     <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-        <span class="n">name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mli&#39;</span><span class="p">:</span> <span class="s1">&#39;interface&#39;</span><span class="p">,</span> <span class="s1">&#39;ml&#39;</span><span class="p">:</span> <span class="s1">&#39;implementation&#39;</span><span class="p">}[</span><span class="n">ext</span><span class="p">]</span>
+        <span class="n">name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'.'</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'mli'</span><span class="p">:</span> <span class="s1">'interface'</span><span class="p">,</span> <span class="s1">'ml'</span><span class="p">:</span> <span class="s1">'implementation'</span><span class="p">}[</span><span class="n">ext</span><span class="p">]</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">hexlify</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
             <span class="n">components</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">components</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span>
+            <span class="n">components</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'name'</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span>
 
     <span class="n">proto</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;expected_env_version&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># TODO: this is V1</span>
-        <span class="s1">&#39;components&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">components</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+        <span class="s1">'expected_env_version'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># TODO: this is V1</span>
+        <span class="s1">'components'</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">components</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">proto</span></div>
 
@@ -185,10 +185,10 @@
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.files_to_tar">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">files_to_tar</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">fileobj</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
-    <span class="n">nameparts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
-    <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span>
+    <span class="n">nameparts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'.'</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="s1">'w'</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nameparts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="n">mode</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;w:</span><span class="si">{</span><span class="n">nameparts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'w:</span><span class="si">{</span><span class="n">nameparts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">'</span>
 
     <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span> <span class="n">fileobj</span><span class="o">=</span><span class="n">fileobj</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>  <span class="c1"># type: ignore[call-overload]</span>
         <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
@@ -207,12 +207,12 @@
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.proto_to_files">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">proto_to_files</span><span class="p">(</span><span class="n">proto</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
     <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">extensions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;interface&#39;</span><span class="p">:</span> <span class="s1">&#39;mli&#39;</span><span class="p">,</span> <span class="s1">&#39;implementation&#39;</span><span class="p">:</span> <span class="s1">&#39;ml&#39;</span><span class="p">}</span>
+    <span class="n">extensions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'interface'</span><span class="p">:</span> <span class="s1">'mli'</span><span class="p">,</span> <span class="s1">'implementation'</span><span class="p">:</span> <span class="s1">'ml'</span><span class="p">}</span>
 
-    <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">proto</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;components&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+    <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">proto</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'components'</span><span class="p">,</span> <span class="p">[]):</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">extensions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">component</span><span class="p">:</span>
-                <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">component</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">component</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">'</span>
                 <span class="n">text</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">component</span><span class="p">[</span><span class="n">key</span><span class="p">])</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
                 <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">filename</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>
 
@@ -223,20 +223,20 @@
 <div class="viewcode-block" id="proto_to_bytes">
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.proto_to_bytes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">proto_to_bytes</span><span class="p">(</span><span class="n">proto</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">''</span>
 
-    <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">proto</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;components&#39;</span><span class="p">,</span> <span class="p">[]):</span>
-        <span class="n">res</span> <span class="o">+=</span> <span class="n">netstruct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;I$&#39;</span><span class="p">,</span> <span class="n">component</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">proto</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'components'</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">netstruct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">'I$'</span><span class="p">,</span> <span class="n">component</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
 
-        <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;interface&#39;</span><span class="p">):</span>
-            <span class="n">res</span> <span class="o">+=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xff</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">netstruct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;I$&#39;</span><span class="p">,</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">component</span><span class="p">[</span><span class="s1">&#39;interface&#39;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'interface'</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\xff</span><span class="s1">'</span> <span class="o">+</span> <span class="n">netstruct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">'I$'</span><span class="p">,</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">component</span><span class="p">[</span><span class="s1">'interface'</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">+=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span>
 
         <span class="c1"># we should also handle patch case</span>
-        <span class="n">res</span> <span class="o">+=</span> <span class="n">netstruct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;I$&#39;</span><span class="p">,</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;implementation&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)))</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="n">netstruct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">'I$'</span><span class="p">,</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'implementation'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)))</span>
 
-    <span class="n">res</span> <span class="o">=</span> <span class="n">netstruct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;hI$&#39;</span><span class="p">,</span> <span class="n">proto</span><span class="p">[</span><span class="s1">&#39;expected_env_version&#39;</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">netstruct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="sa">b</span><span class="s1">'hI$'</span><span class="p">,</span> <span class="n">proto</span><span class="p">[</span><span class="s1">'expected_env_version'</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
 
 
@@ -250,10 +250,10 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Helpers&#39;</span><span class="p">,</span>
+            <span class="s1">'</span><span class="se">\n</span><span class="s1">Helpers'</span><span class="p">,</span>
             <span class="n">get_class_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">proto_to_files</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto</span><span class="p">))</span>
@@ -262,12 +262,12 @@
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.from_uri">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_uri</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads protocol implementation from various sources and converts it to the RPC-like format.</span>
+<span class="w">        </span><span class="sd">"""Loads protocol implementation from various sources and converts it to the RPC-like format.</span>
 
 <span class="sd">        :param uri: link/path to a tar archive or path to a folder with extracted contents</span>
 <span class="sd">        :returns: Protocol instance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">uri</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">uri</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'http'</span><span class="p">):</span>
             <span class="n">files</span> <span class="o">=</span> <span class="n">url_to_files</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">uri</span><span class="p">)):</span>
             <span class="n">files</span> <span class="o">=</span> <span class="n">tar_to_files</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
@@ -282,13 +282,13 @@
 <div class="viewcode-block" id="Protocol.index">
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.index">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates TEZOS_PROTOCOL file.</span>
+<span class="w">        </span><span class="sd">"""Generates TEZOS_PROTOCOL file.</span>
 
 <span class="sd">        :returns: dict with protocol hash and modules</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;hash&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hash</span><span class="p">(),</span>
-            <span class="s1">&#39;modules&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proto</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;components&#39;</span><span class="p">,</span> <span class="p">[]))),</span>
+            <span class="s1">'hash'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hash</span><span class="p">(),</span>
+            <span class="s1">'modules'</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">'name'</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proto</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'components'</span><span class="p">,</span> <span class="p">[]))),</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
@@ -296,24 +296,24 @@
 <div class="viewcode-block" id="Protocol.export_tar">
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.export_tar">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">export_tar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a tarball and dumps to a file or returns bytes.</span>
+<span class="w">        </span><span class="sd">"""Creates a tarball and dumps to a file or returns bytes.</span>
 
 <span class="sd">        :param output_path: Path to the tarball [optional]. You can add .bz2 or .gz extension to make it compressed</span>
 <span class="sd">        :returns: bytes if path is None or nothing</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">files</span> <span class="o">=</span> <span class="n">proto_to_files</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto</span><span class="p">)</span>
-        <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;TEZOS_PROTOCOL&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">())))</span>
+        <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">'TEZOS_PROTOCOL'</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">())))</span>
         <span class="k">return</span> <span class="n">files_to_tar</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">output_path</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Protocol.export_html">
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.export_html">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">export_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates github-like side-by-side diff viewe, powered by diff2html.js</span>
+<span class="w">        </span><span class="sd">"""Generates github-like side-by-side diff viewe, powered by diff2html.js</span>
 
 <span class="sd">        :param output_path: will write to this file if specified</span>
 <span class="sd">        :returns: html string if path is not specified</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">diffs</span> <span class="o">=</span> <span class="p">[</span><span class="n">text</span> <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">text</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">generate_unidiff_html</span><span class="p">(</span><span class="n">diffs</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span><span class="p">)</span></div>
 
@@ -321,19 +321,19 @@
 <div class="viewcode-block" id="Protocol.diff">
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.diff">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">context_size</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates file diff between two protocol versions.</span>
+<span class="w">        </span><span class="sd">"""Calculates file diff between two protocol versions.</span>
 
 <span class="sd">        :param proto: an instance of Protocol</span>
 <span class="sd">        :param context_size: number of context lines before and after the change</span>
 <span class="sd">        :returns: patch in proto format</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">yours</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
         <span class="n">theirs</span> <span class="o">=</span> <span class="n">proto_to_files</span><span class="p">(</span><span class="n">proto</span><span class="p">())</span>
 
         <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">their_text</span> <span class="ow">in</span> <span class="n">theirs</span><span class="p">:</span>
             <span class="n">patch</span> <span class="o">=</span> <span class="n">make_patch</span><span class="p">(</span>
-                <span class="n">a</span><span class="o">=</span><span class="n">yours</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="n">a</span><span class="o">=</span><span class="n">yours</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">''</span><span class="p">),</span>
                 <span class="n">b</span><span class="o">=</span><span class="n">their_text</span><span class="p">,</span>
                 <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
                 <span class="n">context_size</span><span class="o">=</span><span class="n">context_size</span><span class="p">,</span>
@@ -346,17 +346,17 @@
 <div class="viewcode-block" id="Protocol.patch">
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.patch">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">patch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Applies unified diff and returns full-fledged protocol.</span>
+<span class="w">        </span><span class="sd">"""Applies unified diff and returns full-fledged protocol.</span>
 
 <span class="sd">        :param patch: an instance of Protocol containing diff of files</span>
 <span class="sd">        :returns: Protocol instance</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">yours</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
         <span class="n">diff</span> <span class="o">=</span> <span class="n">proto_to_files</span><span class="p">(</span><span class="n">patch</span><span class="p">())</span>
 
         <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">diff_text</span> <span class="ow">in</span> <span class="n">diff</span><span class="p">:</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="n">yours</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">yours</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">diff_text</span><span class="p">:</span>
                 <span class="n">text</span> <span class="o">=</span> <span class="n">apply_patch</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">diff_text</span><span class="p">)</span>
             <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">filename</span><span class="p">,</span> <span class="n">text</span><span class="p">))</span>
@@ -368,7 +368,7 @@
 <a class="viewcode-back" href="../../../inspect_proposals.html#pytezos.protocol.protocol.Protocol.hash">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">hash</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">hash_digest</span> <span class="o">=</span> <span class="n">blake2b_32</span><span class="p">(</span><span class="n">proto_to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proto</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="n">hash_digest</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;P&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="n">hash_digest</span><span class="p">,</span> <span class="sa">b</span><span class="s1">'P'</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 </div>
 
 </pre></div>

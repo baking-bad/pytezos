@@ -105,7 +105,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">RpcError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShellQuery</span>
 
-<span class="n">DEFAULT_IPFS_GATEWAY</span> <span class="o">=</span> <span class="s1">&#39;https://ipfs.filebase.io/ipfs&#39;</span>
+<span class="n">DEFAULT_IPFS_GATEWAY</span> <span class="o">=</span> <span class="s1">'https://ipfs.filebase.io/ipfs'</span>
 
 
 <div class="viewcode-block" id="ExecutionContext">
@@ -141,8 +141,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">FeeThresholds</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">fee_thresholds</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ShellQuery</span><span class="p">]</span> <span class="o">=</span> <span class="n">shell</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="ow">or</span> <span class="s1">&#39;readable&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">block_id</span> <span class="o">=</span> <span class="n">block_id</span> <span class="ow">or</span> <span class="s1">&#39;head&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="ow">or</span> <span class="s1">'readable'</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_id</span> <span class="o">=</span> <span class="n">block_id</span> <span class="ow">or</span> <span class="s1">'head'</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">address</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="n">balance</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">=</span> <span class="n">amount</span>
@@ -156,20 +156,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">total_voting_power</span> <span class="o">=</span> <span class="n">total_voting_power</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min_block_time</span> <span class="o">=</span> <span class="n">min_block_time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tzt</span> <span class="o">=</span> <span class="n">tzt</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;parameter&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">storage_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;storage&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">code_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;code&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">views_expr</span> <span class="o">=</span> <span class="n">get_script_sections</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;view&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="k">else</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;input&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;output&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sender_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;sender&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">balance_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;balance&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">amount_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;amount&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">self_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;self&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">now_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;now&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">source_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;source&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">chain_id_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;chain_id&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">big_maps_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;big_maps&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'parameter'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'storage'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'code'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">views_expr</span> <span class="o">=</span> <span class="n">get_script_sections</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'view'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'input'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'output'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sender_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'sender'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">balance_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'balance'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amount_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'amount'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">self_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'self'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">now_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'now'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'source'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chain_id_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'chain_id'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">big_maps_expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'big_maps'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">tzt</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">origination_index</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tmp_big_map_index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tmp_sapling_index</span> <span class="o">=</span> <span class="mi">0</span>
@@ -182,23 +182,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">global_constants</span> <span class="o">=</span> <span class="n">global_constants</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sandboxed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ipfs_gateway</span> <span class="o">=</span> <span class="p">(</span><span class="n">ipfs_gateway</span> <span class="ow">or</span> <span class="n">DEFAULT_IPFS_GATEWAY</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">storage_value</span> <span class="o">=</span> <span class="n">script</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;storage&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipfs_gateway</span> <span class="o">=</span> <span class="p">(</span><span class="n">ipfs_gateway</span> <span class="ow">or</span> <span class="n">DEFAULT_IPFS_GATEWAY</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_value</span> <span class="o">=</span> <span class="n">script</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'storage'</span><span class="p">)</span> <span class="k">if</span> <span class="n">script</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;It&#39;s not allowed to copy context&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"It's not allowed to copy context"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expr</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_expr</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">code_expr</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span>
-                <span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s1">'code'</span><span class="p">:</span> <span class="p">[</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">parameter_expr</span><span class="p">,</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">storage_expr</span><span class="p">,</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">code_expr</span><span class="p">,</span>
                     <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">views_expr</span><span class="p">,</span>
                 <span class="p">],</span>
-                <span class="s1">&#39;storage&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_value</span><span class="p">,</span>
+                <span class="s1">'storage'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_value</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
@@ -206,10 +206,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">sandboxed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;`shell` is not set&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'`shell` is not set'</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sandboxed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_sandboxed</span> <span class="o">=</span> <span class="s1">&#39;SANDBOXED&#39;</span> <span class="ow">in</span> <span class="n">version</span><span class="p">[</span><span class="s1">&#39;network_version&#39;</span><span class="p">][</span><span class="s1">&#39;chain_name&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sandboxed</span> <span class="o">=</span> <span class="s1">'SANDBOXED'</span> <span class="ow">in</span> <span class="n">version</span><span class="p">[</span><span class="s1">'network_version'</span><span class="p">][</span><span class="s1">'chain_name'</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sandboxed</span>
 
 <div class="viewcode-block" id="ExecutionContext.reset">
@@ -238,12 +238,12 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;key is undefined&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'key is undefined'</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;shell is undefined&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'shell is undefined'</span><span class="p">)</span>
 
             <span class="n">key_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">contracts</span><span class="p">[</span><span class="n">key_hash</span><span class="p">]()[</span><span class="s1">&#39;counter&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">contracts</span><span class="p">[</span><span class="n">key_hash</span><span class="p">]()[</span><span class="s1">'counter'</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">counter</span></div>
@@ -252,21 +252,21 @@
 <div class="viewcode-block" id="ExecutionContext.get_counter_offset">
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_counter_offset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_counter_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current count of pending operations from the current key in mempool.</span>
+<span class="w">        </span><span class="sd">"""Return current count of pending operations from the current key in mempool.</span>
 <span class="sd">        Zero when the node has no mempool or does not expose it.</span>
 <span class="sd">        Informational only: `autofill` does not apply it to the counter, since the mempool admits</span>
 <span class="sd">        one manager operation per source per block (use `bulk()` to send several).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;`key` is not set&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'`key` is not set'</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;`shell` is not set&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'`shell` is not set'</span><span class="p">)</span>
 
         <span class="n">pending</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">mempool</span><span class="o">.</span><span class="n">pending_operations</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">())</span>
         <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">pending</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;pending operation in mempool: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"pending operation in mempool: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;counter offset: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pending</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"counter offset: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pending</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">pending</span><span class="p">)</span></div>
 
 
@@ -297,13 +297,13 @@
             <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
                 <span class="n">dst_big_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alloc_big_map_index</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">alloc_big_map_index</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">return</span> <span class="n">src_big_map</span><span class="p">,</span> <span class="n">dst_big_map</span><span class="p">,</span> <span class="s1">&#39;copy&#39;</span>
+                <span class="k">return</span> <span class="n">src_big_map</span><span class="p">,</span> <span class="n">dst_big_map</span><span class="p">,</span> <span class="s1">'copy'</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">src_big_map</span><span class="p">,</span> <span class="n">src_big_map</span><span class="p">,</span> <span class="s1">&#39;update&#39;</span>
+                <span class="k">return</span> <span class="n">src_big_map</span><span class="p">,</span> <span class="n">src_big_map</span><span class="p">,</span> <span class="s1">'update'</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">big_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alloc_big_map_index</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">alloc_big_map_index</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">big_map</span><span class="p">,</span> <span class="s1">&#39;alloc&#39;</span></div>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">big_map</span><span class="p">,</span> <span class="s1">'alloc'</span></div>
 
 
 <div class="viewcode-block" id="ExecutionContext.get_originated_address">
@@ -318,7 +318,7 @@
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.spend_balance">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">spend_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_balance</span><span class="p">()</span>
-        <span class="k">assert</span> <span class="n">amount</span> <span class="o">&lt;=</span> <span class="n">balance</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;cannot spend </span><span class="si">{</span><span class="n">amount</span><span class="si">}</span><span class="s1"> tez, </span><span class="si">{</span><span class="n">balance</span><span class="si">}</span><span class="s1"> tez left&#39;</span>
+        <span class="k">assert</span> <span class="n">amount</span> <span class="o">&lt;=</span> <span class="n">balance</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'cannot spend </span><span class="si">{</span><span class="n">amount</span><span class="si">}</span><span class="s1"> tez, </span><span class="si">{</span><span class="n">balance</span><span class="si">}</span><span class="s1"> tez left'</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">balance_update</span> <span class="o">-=</span> <span class="n">amount</span></div>
 
 
@@ -330,7 +330,7 @@
                 <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># dummy callback</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">contracts</span><span class="p">[</span><span class="n">address</span><span class="p">]</span><span class="o">.</span><span class="n">script</span><span class="p">()</span>
-                <span class="n">expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;parameter&#39;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+                <span class="n">expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'parameter'</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
         <span class="k">elif</span> <span class="n">address</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
@@ -343,7 +343,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_storage_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="ow">and</span> <span class="n">address</span><span class="p">:</span>
             <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">contracts</span><span class="p">[</span><span class="n">address</span><span class="p">]</span><span class="o">.</span><span class="n">script</span><span class="p">()</span>
-            <span class="n">expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;storage&#39;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="n">expr</span> <span class="o">=</span> <span class="n">get_script_section</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'storage'</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
         <span class="k">elif</span> <span class="n">address</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
@@ -368,7 +368,7 @@
 <div class="viewcode-block" id="ExecutionContext.get_view_result">
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_view_result">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_view_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="n">name</span> <span class="k">if</span> <span class="n">address</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">address</span><span class="si">}</span><span class="s1">%</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">name</span> <span class="k">if</span> <span class="n">address</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">address</span><span class="si">}</span><span class="s1">%</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">'</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">view_results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
 
 
@@ -384,14 +384,14 @@
         <span class="k">if</span> <span class="n">address</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
                 <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">contracts</span><span class="p">[</span><span class="n">address</span><span class="p">]</span><span class="o">.</span><span class="n">script</span><span class="p">()</span>
-                <span class="n">views</span> <span class="o">=</span> <span class="n">get_script_sections</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+                <span class="n">views</span> <span class="o">=</span> <span class="n">get_script_sections</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'view'</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">views</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">views_expr</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">expr</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">view</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="n">views</span> <span class="k">if</span> <span class="n">view</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;string&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">expr</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">view</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="n">views</span> <span class="k">if</span> <span class="n">view</span><span class="p">[</span><span class="s1">'args'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'string'</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_global_constants</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">StopIteration</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">None</span></div>
@@ -514,7 +514,7 @@
         <span class="k">if</span> <span class="n">ptr</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Shell is undefined, cannot connect to network&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Shell is undefined, cannot connect to network'</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">block_id</span><span class="p">]</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">big_maps</span><span class="p">[</span><span class="n">ptr</span><span class="p">][</span><span class="n">key_hash</span><span class="p">]()</span>
         <span class="k">except</span> <span class="n">RpcError</span><span class="p">:</span>
@@ -572,9 +572,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">now</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">now</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
-            <span class="n">ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">header</span><span class="p">()[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">]</span>
-            <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%SZ&#39;</span><span class="p">)</span>
-            <span class="n">first_delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">constants</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;minimal_block_delay&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">header</span><span class="p">()[</span><span class="s1">'timestamp'</span><span class="p">]</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%SZ'</span><span class="p">)</span>
+            <span class="n">first_delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">constants</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'minimal_block_delay'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">dt</span> <span class="o">-</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">1970</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">())</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">first_delay</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span></div>
@@ -587,7 +587,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
             <span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">block_id</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
-            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">'level'</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">1</span></div>
 
@@ -599,7 +599,7 @@
             <span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
             <span class="n">contract</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">contracts</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_self_address</span><span class="p">()]()</span>
-            <span class="n">balance</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">contract</span><span class="p">[</span><span class="s1">&#39;balance&#39;</span><span class="p">])</span>
+            <span class="n">balance</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">contract</span><span class="p">[</span><span class="s1">'balance'</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">balance</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="n">balance</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance_update</span></div>
@@ -634,7 +634,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_block_time</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
             <span class="n">constants</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">constants</span><span class="p">()</span>
-            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">constants</span><span class="p">[</span><span class="s1">&#39;minimal_block_delay&#39;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">constants</span><span class="p">[</span><span class="s1">'minimal_block_delay'</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">1</span></div>
 
@@ -656,7 +656,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">header</span><span class="p">()[</span><span class="s1">&#39;protocol&#39;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">header</span><span class="p">()[</span><span class="s1">'protocol'</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
@@ -667,7 +667,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;KT1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+            <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span> <span class="sa">b</span><span class="s1">'KT1'</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ExecutionContext.get_dummy_txr_address">
@@ -676,7 +676,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;txr1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+            <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span> <span class="sa">b</span><span class="s1">'txr1'</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ExecutionContext.get_dummy_public_key">
@@ -685,7 +685,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;edpk&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+            <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="sa">b</span><span class="s1">'edpk'</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ExecutionContext.get_dummy_key_hash">
@@ -694,25 +694,25 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;tz1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+            <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span> <span class="sa">b</span><span class="s1">'tz1'</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ExecutionContext.get_dummy_signature">
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_signature">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">64</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;sig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="mi">64</span><span class="p">,</span> <span class="sa">b</span><span class="s1">'sig'</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ExecutionContext.get_dummy_chain_id">
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_chain_id">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_chain_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;Net&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">base58_encode</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="sa">b</span><span class="s1">'Net'</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ExecutionContext.get_dummy_lambda">
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_dummy_lambda">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_dummy_lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;prim&#39;</span><span class="p">:</span> <span class="s1">&#39;FAILWITH&#39;</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">'prim'</span><span class="p">:</span> <span class="s1">'FAILWITH'</span><span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="ExecutionContext.set_total_voting_power">
@@ -730,11 +730,11 @@
 <div class="viewcode-block" id="ExecutionContext.get_fee_thresholds">
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_fee_thresholds">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_fee_thresholds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FeeThresholds</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fee thresholds to quote operations with: explicit ones, the node&#39;s mempool filter (`&#39;node&#39;`), or None</span>
-<span class="sd">        for the built-in mainnet defaults. The node&#39;s filter is read once and cached on the context.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span> <span class="o">==</span> <span class="s1">&#39;node&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Fee thresholds to quote operations with: explicit ones, the node's mempool filter (`'node'`), or None</span>
+<span class="sd">        for the built-in mainnet defaults. The node's filter is read once and cached on the context."""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span> <span class="o">==</span> <span class="s1">'node'</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;`shell` is not set&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'`shell` is not set'</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span> <span class="o">=</span> <span class="n">FeeThresholds</span><span class="o">.</span><span class="n">from_mempool_filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">mempool</span><span class="o">.</span><span class="n">filter</span><span class="p">())</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span><span class="p">,</span> <span class="n">FeeThresholds</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span></div>
@@ -751,9 +751,9 @@
 <div class="viewcode-block" id="ExecutionContext.register_global_constant">
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.register_global_constant">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">register_global_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register global constant</span>
+<span class="w">        </span><span class="sd">"""Register global constant</span>
 <span class="sd">        :param expression: Micheline expression</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">constant_hash</span> <span class="o">=</span> <span class="n">forge_script_expr</span><span class="p">(</span><span class="n">forge_micheline</span><span class="p">(</span><span class="n">expression</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">global_constants</span><span class="p">[</span><span class="n">constant_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">expression</span></div>
 
@@ -761,27 +761,27 @@
 <div class="viewcode-block" id="ExecutionContext.resolve_global_constants">
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.resolve_global_constants">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolve_global_constants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Replace global constants with their respectful values or throw an error if the constant is not defined</span>
+<span class="w">        </span><span class="sd">"""Replace global constants with their respectful values or throw an error if the constant is not defined</span>
 <span class="sd">        :param expression: Micheline expression</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_constant</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">constant_hash</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;string&#39;</span><span class="p">]</span>
+                <span class="n">constant_hash</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="s1">'args'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'string'</span><span class="p">]</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unexpected constant expression&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Unexpected constant expression'</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
             <span class="k">if</span> <span class="n">constant_hash</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_constants</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Constant </span><span class="si">{</span><span class="n">constant_hash</span><span class="si">}</span><span class="s1"> is not defined&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Constant </span><span class="si">{</span><span class="n">constant_hash</span><span class="si">}</span><span class="s1"> is not defined'</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">global_constants</span><span class="p">[</span><span class="n">constant_hash</span><span class="p">])</span>
             <span class="c1"># TODO: check if global constants are really recursive</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">_resolve</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prim&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;constant&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'prim'</span><span class="p">)</span> <span class="o">==</span> <span class="s1">'constant'</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">_resolve_constant</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;args&#39;</span><span class="p">):</span>
-                    <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">_resolve</span><span class="p">,</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">]))</span>
-                    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;args&#39;</span> <span class="k">else</span> <span class="n">args</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'args'</span><span class="p">):</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">_resolve</span><span class="p">,</span> <span class="n">node</span><span class="p">[</span><span class="s1">'args'</span><span class="p">]))</span>
+                    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">'args'</span> <span class="k">else</span> <span class="n">args</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">node</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>

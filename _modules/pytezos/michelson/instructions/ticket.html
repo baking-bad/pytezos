@@ -100,7 +100,7 @@
 
 <div class="viewcode-block" id="JoinTicketsInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.ticket.JoinTicketsInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">JoinTicketsInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;JOIN_TICKETS&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">JoinTicketsInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'JOIN_TICKETS'</span><span class="p">):</span>
 <div class="viewcode-block" id="JoinTicketsInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.ticket.JoinTicketsInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -108,8 +108,8 @@
         <span class="n">pair</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">PairType</span><span class="p">,</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop1</span><span class="p">())</span>
         <span class="n">pair</span><span class="o">.</span><span class="n">assert_type_in</span><span class="p">(</span><span class="n">PairType</span><span class="p">)</span>
         <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">TicketType</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;expected ticket on the left, got </span><span class="si">{</span><span class="n">left</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">TicketType</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;expected ticket on the right, got </span><span class="si">{</span><span class="n">right</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">TicketType</span><span class="p">),</span> <span class="sa">f</span><span class="s1">'expected ticket on the left, got </span><span class="si">{</span><span class="n">left</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1">'</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">TicketType</span><span class="p">),</span> <span class="sa">f</span><span class="s1">'expected ticket on the right, got </span><span class="si">{</span><span class="n">right</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1">'</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">TicketType</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">OptionType</span><span class="o">.</span><span class="n">none</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">left</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
@@ -124,7 +124,7 @@
 
 <div class="viewcode-block" id="ReadTicketInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.ticket.ReadTicketInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ReadTicketInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;READ_TICKET&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ReadTicketInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'READ_TICKET'</span><span class="p">):</span>
 <div class="viewcode-block" id="ReadTicketInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.ticket.ReadTicketInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -142,7 +142,7 @@
 
 <div class="viewcode-block" id="SplitTicketInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.ticket.SplitTicketInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SplitTicketInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;SPLIT_TICKET&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SplitTicketInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'SPLIT_TICKET'</span><span class="p">):</span>
 <div class="viewcode-block" id="SplitTicketInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.ticket.SplitTicketInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -167,7 +167,7 @@
 
 <div class="viewcode-block" id="TicketDeprecatedInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.ticket.TicketDeprecatedInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TicketDeprecatedInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;TICKET_DEPRECATED&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TicketDeprecatedInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'TICKET_DEPRECATED'</span><span class="p">):</span>
 <div class="viewcode-block" id="TicketDeprecatedInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.ticket.TicketDeprecatedInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -185,7 +185,7 @@
 
 <div class="viewcode-block" id="TicketInstruction">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.ticket.TicketInstruction">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TicketInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;TICKET&#39;</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TicketInstruction</span><span class="p">(</span><span class="n">MichelsonInstruction</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'TICKET'</span><span class="p">):</span>
 <div class="viewcode-block" id="TicketInstruction.execute">
 <a class="viewcode-back" href="../../../../instructions.html#pytezos.michelson.instructions.ticket.TicketInstruction.execute">[docs]</a>
     <span class="nd">@classmethod</span>

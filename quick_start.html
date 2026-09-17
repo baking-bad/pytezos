@@ -162,7 +162,7 @@ but if you feel lucky you can try to install natively:</p>
 
 <span class="go"> Properties</span>
 <span class="go"> .key                tz1grSQDByRpnVs7sPtaprNZRp531ZKz6Jmm</span>
-<span class="go"> .shell              [&#39;https://rpc.tzkt.io/shadownet&#39;]</span>
+<span class="go"> .shell              ['https://rpc.tzkt.io/shadownet']</span>
 <span class="go"> .block_id   head</span>
 
 <span class="go"> Helpers</span>
@@ -203,7 +203,7 @@ We are interested in <code class="docutils literal notranslate"><span class="pre
 <span class="go">&lt;function PyTezosClient.using at 0x7f958be02ee0&gt;</span>
 <span class="go"> Change current RPC endpoint and account (private key).</span>
 
-<span class="go"> :param shell: one of &#39;mainnet&#39;, &#39;***net&#39;, or RPC node uri, or instance of :class:`pytezos.rpc.shell.ShellQuery`</span>
+<span class="go"> :param shell: one of 'mainnet', '***net', or RPC node uri, or instance of :class:`pytezos.rpc.shell.ShellQuery`</span>
 <span class="go"> :param key: base58 encoded key, path to the faucet file, faucet file itself, alias from tezos-client, or `Key`</span>
 <span class="go"> :param mode: whether to use `readable` or `optimized` encoding for parameters/storage/other</span>
 <span class="go"> :param ipfs_gateway: HTTP gateway used to resolve ``ipfs://`` metadata links,</span>
@@ -248,7 +248,7 @@ so you can start to interact immediately, but it’s highly recommended to use y
 
 <span class="go">Properties</span>
 <span class="go">.key                tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp</span>
-<span class="go">.shell              [&#39;https://rpc.tzkt.io/shadownet&#39;]</span>
+<span class="go">.shell              ['https://rpc.tzkt.io/shadownet']</span>
 <span class="go">.block_id   head</span>
 
 <span class="go">Helpers</span>
@@ -289,7 +289,7 @@ so you can start to interact immediately, but it’s highly recommended to use y
 Press “Request 2001 tez” and wait for transaction to be completed.</p>
 <p>Check that your balance is non-zero:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pytezos</span><span class="o">.</span><span class="n">account</span><span class="p">()</span>
-<span class="go">{&#39;balance&#39;: &#39;2001000000&#39;, &#39;counter&#39;: &#39;1&#39;}</span>
+<span class="go">{'balance': '2001000000', 'counter': '1'}</span>
 </pre></div>
 </div>
 <p>What happened is your account has been allocated by an incoming transaction and its balance is now positive.</p>
@@ -304,23 +304,23 @@ Press “Request 2001 tez” and wait for transaction to be completed.</p>
 
 <span class="go"> Properties</span>
 <span class="go"> .key                tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp</span>
-<span class="go"> .shell              [&#39;https://rpc.tzkt.io/shadownet&#39;]</span>
+<span class="go"> .shell              ['https://rpc.tzkt.io/shadownet']</span>
 <span class="go"> .block_id   head</span>
 
 <span class="go"> Hash</span>
 <span class="go"> oo6e7UjGkvoqXG49VRNuN5cEAjo5TqyiRJtVhTvXETbYDDahDNR</span>
 
 <span class="go"> Payload</span>
-<span class="go"> {&#39;branch&#39;: &#39;BMCwRayudxVKJs68pAGEebhUJAtj6VRHGadkFsau8T7mbCjUXKp&#39;,</span>
-<span class="go"> &#39;contents&#39;: [{&#39;counter&#39;: &#39;15404826&#39;,</span>
-<span class="go">             &#39;fee&#39;: &#39;370&#39;,</span>
-<span class="go">             &#39;gas_limit&#39;: &#39;1000&#39;,</span>
-<span class="go">             &#39;kind&#39;: &#39;reveal&#39;,</span>
-<span class="go">             &#39;public_key&#39;: &#39;edpkvHehVYEFJss7VxieJydkdbAwbSNqV9hN4SHo2P6WtsceZ24eaj&#39;,</span>
-<span class="go">             &#39;source&#39;: &#39;tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp&#39;,</span>
-<span class="go">             &#39;storage_limit&#39;: &#39;0&#39;}],</span>
-<span class="go"> &#39;protocol&#39;: &#39;PtLimaPtLMwfNinJi9rCfDPWea8dFgTZ1MeJ9f1m2SRic6ayiwW&#39;,</span>
-<span class="go"> &#39;signature&#39;: &#39;sigPcdMpWx48qsCyotSaHg3RYskNq6RWD2cJT2Nno53yUiJBpTAkGNuMnPvNc17iDqM994TNqckGm85Dxv3C6smKaKYnf7xp&#39;}</span>
+<span class="go"> {'branch': 'BMCwRayudxVKJs68pAGEebhUJAtj6VRHGadkFsau8T7mbCjUXKp',</span>
+<span class="go"> 'contents': [{'counter': '15404826',</span>
+<span class="go">             'fee': '370',</span>
+<span class="go">             'gas_limit': '1000',</span>
+<span class="go">             'kind': 'reveal',</span>
+<span class="go">             'public_key': 'edpkvHehVYEFJss7VxieJydkdbAwbSNqV9hN4SHo2P6WtsceZ24eaj',</span>
+<span class="go">             'source': 'tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp',</span>
+<span class="go">             'storage_limit': '0'}],</span>
+<span class="go"> 'protocol': 'PtLimaPtLMwfNinJi9rCfDPWea8dFgTZ1MeJ9f1m2SRic6ayiwW',</span>
+<span class="go"> 'signature': 'sigPcdMpWx48qsCyotSaHg3RYskNq6RWD2cJT2Nno53yUiJBpTAkGNuMnPvNc17iDqM994TNqckGm85Dxv3C6smKaKYnf7xp'}</span>
 
 <span class="go"> Helpers</span>
 <span class="go"> .activate_account()</span>
@@ -357,28 +357,28 @@ Press “Request 2001 tez” and wait for transaction to be completed.</p>
 </div>
 <p>We can also search for operation by hash if we know exact block level or that it was injected recently:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pytezos</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:]</span><span class="o">.</span><span class="n">find_operation</span><span class="p">(</span><span class="n">reveal_op</span><span class="o">.</span><span class="n">opg_hash</span><span class="p">)</span>
-<span class="go">{&#39;protocol&#39;: &#39;PtLimaPtLMwfNinJi9rCfDPWea8dFgTZ1MeJ9f1m2SRic6ayiwW&#39;,</span>
-<span class="go"> &#39;chain_id&#39;: &#39;NetXnHfVqm9iesp&#39;,</span>
-<span class="go"> &#39;hash&#39;: &#39;oo6e7UjGkvoqXG49VRNuN5cEAjo5TqyiRJtVhTvXETbYDDahDNR&#39;,</span>
-<span class="go"> &#39;branch&#39;: &#39;BLvDnmxUXwLMB3UyREj8ckLDdSBgzajyxZJfmoCrifZXhaRaHAL&#39;,</span>
-<span class="go"> &#39;contents&#39;: [{&#39;kind&#39;: &#39;reveal&#39;,</span>
-<span class="go"> &#39;source&#39;: &#39;tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp&#39;,</span>
-<span class="go"> &#39;fee&#39;: &#39;370&#39;,</span>
-<span class="go"> &#39;counter&#39;: &#39;15404829&#39;,</span>
-<span class="go"> &#39;gas_limit&#39;: &#39;1000&#39;,</span>
-<span class="go"> &#39;storage_limit&#39;: &#39;0&#39;,</span>
-<span class="go"> &#39;public_key&#39;: &#39;edpkvHehVYEFJss7VxieJydkdbAwbSNqV9hN4SHo2P6WtsceZ24eaj&#39;,</span>
-<span class="go"> &#39;metadata&#39;: {&#39;balance_updates&#39;: [{&#39;kind&#39;: &#39;contract&#39;,</span>
-<span class="go">     &#39;contract&#39;: &#39;tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp&#39;,</span>
-<span class="go">     &#39;change&#39;: &#39;-370&#39;,</span>
-<span class="go">     &#39;origin&#39;: &#39;block&#39;},</span>
-<span class="go">     {&#39;kind&#39;: &#39;accumulator&#39;,</span>
-<span class="go">     &#39;category&#39;: &#39;block fees&#39;,</span>
-<span class="go">     &#39;change&#39;: &#39;370&#39;,</span>
-<span class="go">     &#39;origin&#39;: &#39;block&#39;}],</span>
-<span class="go">     &#39;operation_result&#39;: {&#39;status&#39;: &#39;applied&#39;,</span>
-<span class="go">     &#39;consumed_milligas&#39;: &#39;1000000&#39;}}}],</span>
-<span class="go"> &#39;signature&#39;: &#39;siggMmepBSUQuavD2ws99CQtt4jRapf5HDiJM3Um26n619Y1ojCcRhxoLampysAMZZDEqVdbUXqGUXLpHzDRaTdRdCZD4p5W&#39;}</span>
+<span class="go">{'protocol': 'PtLimaPtLMwfNinJi9rCfDPWea8dFgTZ1MeJ9f1m2SRic6ayiwW',</span>
+<span class="go"> 'chain_id': 'NetXnHfVqm9iesp',</span>
+<span class="go"> 'hash': 'oo6e7UjGkvoqXG49VRNuN5cEAjo5TqyiRJtVhTvXETbYDDahDNR',</span>
+<span class="go"> 'branch': 'BLvDnmxUXwLMB3UyREj8ckLDdSBgzajyxZJfmoCrifZXhaRaHAL',</span>
+<span class="go"> 'contents': [{'kind': 'reveal',</span>
+<span class="go"> 'source': 'tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp',</span>
+<span class="go"> 'fee': '370',</span>
+<span class="go"> 'counter': '15404829',</span>
+<span class="go"> 'gas_limit': '1000',</span>
+<span class="go"> 'storage_limit': '0',</span>
+<span class="go"> 'public_key': 'edpkvHehVYEFJss7VxieJydkdbAwbSNqV9hN4SHo2P6WtsceZ24eaj',</span>
+<span class="go"> 'metadata': {'balance_updates': [{'kind': 'contract',</span>
+<span class="go">     'contract': 'tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp',</span>
+<span class="go">     'change': '-370',</span>
+<span class="go">     'origin': 'block'},</span>
+<span class="go">     {'kind': 'accumulator',</span>
+<span class="go">     'category': 'block fees',</span>
+<span class="go">     'change': '370',</span>
+<span class="go">     'origin': 'block'}],</span>
+<span class="go">     'operation_result': {'status': 'applied',</span>
+<span class="go">     'consumed_milligas': '1000000'}}}],</span>
+<span class="go"> 'signature': 'siggMmepBSUQuavD2ws99CQtt4jRapf5HDiJM3Um26n619Y1ojCcRhxoLampysAMZZDEqVdbUXqGUXLpHzDRaTdRdCZD4p5W'}</span>
 </pre></div>
 </div>
 </section>
@@ -388,21 +388,21 @@ Press “Request 2001 tez” and wait for transaction to be completed.</p>
 tutorial we will get it from Michelson source file. There are plenty of available methods, but we’are interested in
 <code class="docutils literal notranslate"><span class="pre">script</span></code> which gives us payload for origination.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pytezos</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContractInterface</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/baking-bad/pytezos/master/tests/unit_tests/test_michelson/test_repl/mini_scenarios/ticket_wallet_fungible.tz&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span> <span class="o">=</span> <span class="n">ContractInterface</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s1">'https://raw.githubusercontent.com/baking-bad/pytezos/master/tests/unit_tests/test_michelson/test_repl/mini_scenarios/ticket_wallet_fungible.tz'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contract</span><span class="o">.</span><span class="n">script</span>
 <span class="go">&lt;function ContractInterface.script at 0x7fc1768e2c10&gt;</span>
 <span class="go">Generate script for contract origination.</span>
 
 <span class="go">:param initial_storage: Python object, leave None to generate default (attach shell/key for smart fill)</span>
 <span class="go">:param mode: whether to use `readable` or `optimized` (or `legacy_optimized`) encoding for initial storage</span>
-<span class="go">:return: {&quot;code&quot;: $Micheline, &quot;storage&quot;: $Micheline}</span>
+<span class="go">:return: {"code": $Micheline, "storage": $Micheline}</span>
 </pre></div>
 </div>
 <p>PyTezos can generate empty storage based on the type description, moreover it can do smart filling with the context provided (network, key).
 Let’s attach shell and key to the contract interface and see the default storage generated:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ci</span> <span class="o">=</span> <span class="n">contract</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">ci</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">dummy</span><span class="p">()</span>
-<span class="go">{&#39;manager&#39;: &#39;tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp&#39;, &#39;tickets&#39;: {}}</span>
+<span class="go">{'manager': 'tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp', 'tickets': {}}</span>
 </pre></div>
 </div>
 <p>Perfect! Now we are ready to deploy the contract:</p>
@@ -413,11 +413,11 @@ Let’s attach shell and key to the contract interface and see the default stora
 <p>Note that we used synchronous injection this time, PyTezos does all the polling job for you and freezes the execution until operations is included into a block.
 Previously we were searching operation using an integer offset (N levels ago), here’s another example how to search an operation using branch:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation.result</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationResult</span>
-<span class="gp">... </span><span class="n">opg</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="s1">&#39;BM8tcfVyd1g8yqqfE8UpasXZWFLS3Xr3cRyYaoKTTfhU9PUr1YR&#39;</span><span class="p">:]</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">find_operation</span><span class="p">(</span><span class="s1">&#39;ooKx4wBV4DerrXnAEMRfZrwTyBZQQgBMGGD3xbyXeffWn88QC1f&#39;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">opg</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="s1">'BM8tcfVyd1g8yqqfE8UpasXZWFLS3Xr3cRyYaoKTTfhU9PUr1YR'</span><span class="p">:]</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">find_operation</span><span class="p">(</span><span class="s1">'ooKx4wBV4DerrXnAEMRfZrwTyBZQQgBMGGD3xbyXeffWn88QC1f'</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">res</span> <span class="o">=</span> <span class="n">OperationResult</span><span class="o">.</span><span class="n">from_operation_group</span><span class="p">(</span><span class="n">opg</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">originated_contracts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="go">&#39;KT1VtPT2CKekZnQvyR44tTNyWCKrmHdxxYBw&#39;</span>
+<span class="go">'KT1VtPT2CKekZnQvyR44tTNyWCKrmHdxxYBw'</span>
 </pre></div>
 </div>
 </section>
@@ -426,11 +426,11 @@ Previously we were searching operation using an integer offset (N levels ago), h
 <p>The example we chose is actually a ticket wallet that can only send or receive existing tickets, so we need another contract capable of minting new ones.
 Simultaneously, we will explore how to batch several operations in a single group.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wallet</span> <span class="o">=</span> <span class="n">ContractInterface</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/baking-bad/pytezos/master/tests/unit_tests/test_michelson/test_repl/mini_scenarios/ticket_wallet_fungible.tz&#39;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s1">'https://raw.githubusercontent.com/baking-bad/pytezos/master/tests/unit_tests/test_michelson/test_repl/mini_scenarios/ticket_wallet_fungible.tz'</span><span class="p">)</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
 <span class="gp">...</span>
 <span class="gp">... </span><span class="n">builder</span> <span class="o">=</span> <span class="n">ContractInterface</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/baking-bad/pytezos/master/tests/unit_tests/test_michelson/test_repl/mini_scenarios/ticket_builder_fungible.tz&#39;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s1">'https://raw.githubusercontent.com/baking-bad/pytezos/master/tests/unit_tests/test_michelson/test_repl/mini_scenarios/ticket_builder_fungible.tz'</span><span class="p">)</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
 <span class="gp">...</span>
 <span class="gp">... </span><span class="n">opg</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">bulk</span><span class="p">(</span>
@@ -439,20 +439,20 @@ Simultaneously, we will explore how to batch several operations in a single grou
 <span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">min_confirmations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">...</span>
 <span class="gp">... </span><span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">originated_contracts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">OperationResult</span><span class="o">.</span><span class="n">from_operation_group</span><span class="p">(</span><span class="n">opg</span><span class="o">.</span><span class="n">opg_result</span><span class="p">)]</span>
-<span class="go">[&#39;KT1S4UmLNwVcmLBE9VgHKpJJWpKE1JE8VjwN&#39;, &#39;KT1Si4t6ETLoj6eEsjp8hvfJeiFe3b6Z7eM5&#39;]</span>
+<span class="go">['KT1S4UmLNwVcmLBE9VgHKpJJWpKE1JE8VjwN', 'KT1Si4t6ETLoj6eEsjp8hvfJeiFe3b6Z7eM5']</span>
 </pre></div>
 </div>
 </section>
 <section id="call-an-entrypoint">
 <h2>Call an entrypoint<a class="headerlink" href="#call-an-entrypoint" title="Link to this heading"></a></h2>
 <p>We have our contracts deployed and ready to be invoked, let’s see the list of entrypoints available and their signatures:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">builder</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">&#39;KT1Si4t6ETLoj6eEsjp8hvfJeiFe3b6Z7eM5&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">builder</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">'KT1Si4t6ETLoj6eEsjp8hvfJeiFe3b6Z7eM5'</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">builder</span><span class="o">.</span><span class="n">parameter</span>
 <span class="go"> &lt;pytezos.contract.entrypoint.ContractEntrypoint object at 0x7f95d57f54c0&gt;</span>
 
 <span class="go"> Properties</span>
 <span class="go"> .key                tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp</span>
-<span class="go"> .shell              [&#39;https://rpc.tzkt.io/shadownet&#39;]</span>
+<span class="go"> .shell              ['https://rpc.tzkt.io/shadownet']</span>
 <span class="go"> .address    KT1Si4t6ETLoj6eEsjp8hvfJeiFe3b6Z7eM5</span>
 <span class="go"> .block_id   head</span>
 <span class="go"> .entrypoint default</span>
@@ -462,13 +462,13 @@ Simultaneously, we will explore how to batch several operations in a single grou
 
 <span class="go"> Typedef</span>
 <span class="go"> $default:</span>
-<span class="go">     { &quot;burn&quot;: ticket (unit) } ||</span>
-<span class="go">     { &quot;mint&quot;: $mint }</span>
+<span class="go">     { "burn": ticket (unit) } ||</span>
+<span class="go">     { "mint": $mint }</span>
 
 <span class="go"> $mint:</span>
 <span class="go">     {</span>
-<span class="go">     &quot;destination&quot;: contract ($destination_param),</span>
-<span class="go">     &quot;amount&quot;: nat</span>
+<span class="go">     "destination": contract ($destination_param),</span>
+<span class="go">     "amount": nat</span>
 <span class="go">     }</span>
 
 <span class="go"> $destination_param:</span>
@@ -492,13 +492,13 @@ Simultaneously, we will explore how to batch several operations in a single grou
 </pre></div>
 </div>
 <p>And for the wallet:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wallet</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">&#39;KT1S4UmLNwVcmLBE9VgHKpJJWpKE1JE8VjwN&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wallet</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">'KT1S4UmLNwVcmLBE9VgHKpJJWpKE1JE8VjwN'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">wallet</span><span class="o">.</span><span class="n">parameter</span>
 <span class="go">&lt;pytezos.contract.entrypoint.ContractEntrypoint object at 0x7f95d57f5fd0&gt;</span>
 
 <span class="go">Properties</span>
 <span class="go">.key                tz1QeVeCHFMBd3fRj5aPxwqcAaqUDiARjwJp</span>
-<span class="go">.shell              [&#39;https://rpc.tzkt.io/shadownet&#39;]</span>
+<span class="go">.shell              ['https://rpc.tzkt.io/shadownet']</span>
 <span class="go">.address    KT1S4UmLNwVcmLBE9VgHKpJJWpKE1JE8VjwN</span>
 <span class="go">.block_id   head</span>
 <span class="go">.entrypoint default</span>
@@ -508,14 +508,14 @@ Simultaneously, we will explore how to batch several operations in a single grou
 
 <span class="go">Typedef</span>
 <span class="go">$default:</span>
-<span class="go">    { &quot;receive&quot;: ticket (unit) } ||</span>
-<span class="go">    { &quot;send&quot;: $send }</span>
+<span class="go">    { "receive": ticket (unit) } ||</span>
+<span class="go">    { "send": $send }</span>
 
 <span class="go">$send:</span>
 <span class="go">    {</span>
-<span class="go">    &quot;destination&quot;: contract ($destination_param),</span>
-<span class="go">    &quot;amount&quot;: nat,</span>
-<span class="go">    &quot;ticketer&quot;: address</span>
+<span class="go">    "destination": contract ($destination_param),</span>
+<span class="go">    "amount": nat,</span>
+<span class="go">    "ticketer": address</span>
 <span class="go">    }</span>
 
 <span class="go">$destination_param:</span>
@@ -544,11 +544,11 @@ Simultaneously, we will explore how to batch several operations in a single grou
 <p>Seems that we can mint a ticket using our builder and specify our wallet as a destination.
 Let’s also use bulk API again to demonstrate how to batch contract calls:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">opg</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">bulk</span><span class="p">(</span>
-<span class="gp">... </span>   <span class="n">builder</span><span class="o">.</span><span class="n">mint</span><span class="p">(</span><span class="n">destination</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">wallet</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s1">%receive&#39;</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span>
-<span class="gp">... </span>   <span class="n">builder</span><span class="o">.</span><span class="n">mint</span><span class="p">(</span><span class="n">destination</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">wallet</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s1">%receive&#39;</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="n">builder</span><span class="o">.</span><span class="n">mint</span><span class="p">(</span><span class="n">destination</span><span class="o">=</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">wallet</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s1">%receive'</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span>
+<span class="gp">... </span>   <span class="n">builder</span><span class="o">.</span><span class="n">mint</span><span class="p">(</span><span class="n">destination</span><span class="o">=</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">wallet</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s1">%receive'</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
 <span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">min_confirmations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wallet</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="s1">&#39;tickets&#39;</span><span class="p">][</span><span class="n">builder</span><span class="o">.</span><span class="n">address</span><span class="p">]()</span>
-<span class="go">(&#39;KT1Si4t6ETLoj6eEsjp8hvfJeiFe3b6Z7eM5&#39;, Unit, 165)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wallet</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="s1">'tickets'</span><span class="p">][</span><span class="n">builder</span><span class="o">.</span><span class="n">address</span><span class="p">]()</span>
+<span class="go">('KT1Si4t6ETLoj6eEsjp8hvfJeiFe3b6Z7eM5', Unit, 165)</span>
 </pre></div>
 </div>
 <p>Success!</p>
@@ -557,7 +557,7 @@ Let’s also use bulk API again to demonstrate how to batch contract calls:</p>
 <h2>Access storage<a class="headerlink" href="#access-storage" title="Link to this heading"></a></h2>
 <p>We have slightly touched storage access in the previous section, now let’s play with <a class="reference external" href="https://better-call.dev/mainnet/KT1REEb5VxWRjcHm5GzDMwErMmNFftsE5Gpf/operations">KT1REEb5VxWRjcHm5GzDMwErMmNFftsE5Gpf</a>
 as it has BigMap entries, named entrypoints, and a non-trivial data scheme.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="s1">&#39;mainnet&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">&#39;KT1REEb5VxWRjcHm5GzDMwErMmNFftsE5Gpf&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="s1">'mainnet'</span><span class="p">)</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">'KT1REEb5VxWRjcHm5GzDMwErMmNFftsE5Gpf'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span>
 <span class="go"> &lt;pytezos.jupyter.ContractInterface object at 0x7fc17689f2b0&gt;</span>
 
@@ -614,35 +614,35 @@ This is the collision-safe form: a contract may name an entrypoint or a view <co
 of the same name, and both lose to an existing <code class="docutils literal notranslate"><span class="pre">ContractInterface</span></code> attribute: the losing member is not bound as
 a top-level shortcut and appears in the listing as <code class="docutils literal notranslate"><span class="pre">.entrypoint.&lt;name&gt;()</span></code> / <code class="docutils literal notranslate"><span class="pre">.view.&lt;name&gt;()</span></code> instead.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">transfer</span>  <span class="c1"># same object as usds.transfer</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">entrypoint</span><span class="p">[</span><span class="s1">&#39;transfer&#39;</span><span class="p">]</span>  <span class="c1"># item access also works for names that are not Python identifiers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">entrypoint</span><span class="p">[</span><span class="s1">'transfer'</span><span class="p">]</span>  <span class="c1"># item access also works for names that are not Python identifiers</span>
 </pre></div>
 </div>
 <p>For an FA2.1 token with both a <code class="docutils literal notranslate"><span class="pre">%balance_of</span></code> entrypoint and a <code class="docutils literal notranslate"><span class="pre">balance_of</span></code> view, <code class="docutils literal notranslate"><span class="pre">.balance_of</span></code> is the
 entrypoint and the view is called as <code class="docutils literal notranslate"><span class="pre">.view.balance_of(...).onchain_view()</span></code>.</p>
 <p>You can access contract storage at any block level, just pass block id into the <code class="docutils literal notranslate"><span class="pre">using</span></code> method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">block_id</span><span class="o">=</span><span class="s1">&#39;head~10&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span>
-<span class="go"> {&#39;default_expiry&#39;: 300000,</span>
-<span class="go">  &#39;ledger&#39;: -1,</span>
-<span class="go">  &#39;metadata&#39;: -2,</span>
-<span class="go">  &#39;minting_allowances&#39;: {&#39;tz1PNsHbJRejCnnYzbsQ1CR8wUdEQqVjWen1&#39;: 999989000000,</span>
-<span class="go">   &#39;tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT&#39;: 999985800000},</span>
-<span class="go">  &#39;operators&#39;: -3,</span>
-<span class="go">  &#39;paused&#39;: False,</span>
-<span class="go">  &#39;permit_counter&#39;: 0,</span>
-<span class="go">  &#39;permits&#39;: -4,</span>
-<span class="go">  &#39;roles&#39;: {&#39;master_minter&#39;: &#39;tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT&#39;,</span>
-<span class="go">   &#39;owner&#39;: &#39;tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT&#39;,</span>
-<span class="go">   &#39;pauser&#39;: &#39;tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT&#39;,</span>
-<span class="go">   &#39;pending_owner&#39;: None},</span>
-<span class="go">  &#39;total_supply&#39;: 20200000,</span>
-<span class="go">  &#39;transferlist_contract&#39;: None}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">block_id</span><span class="o">=</span><span class="s1">'head~10'</span><span class="p">)</span><span class="o">.</span><span class="n">storage</span><span class="p">()</span>
+<span class="go"> {'default_expiry': 300000,</span>
+<span class="go">  'ledger': -1,</span>
+<span class="go">  'metadata': -2,</span>
+<span class="go">  'minting_allowances': {'tz1PNsHbJRejCnnYzbsQ1CR8wUdEQqVjWen1': 999989000000,</span>
+<span class="go">   'tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT': 999985800000},</span>
+<span class="go">  'operators': -3,</span>
+<span class="go">  'paused': False,</span>
+<span class="go">  'permit_counter': 0,</span>
+<span class="go">  'permits': -4,</span>
+<span class="go">  'roles': {'master_minter': 'tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT',</span>
+<span class="go">   'owner': 'tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT',</span>
+<span class="go">   'pauser': 'tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT',</span>
+<span class="go">   'pending_owner': None},</span>
+<span class="go">  'total_supply': 20200000,</span>
+<span class="go">  'transferlist_contract': None}</span>
 </pre></div>
 </div>
 <p>Under the hood PyTezos has parsed the storage type, collapsed all nested structures, converted annotations into keys,
 and in the result we get a simple Python object which is much easier to manipulate.
 You can also access child elements by name or index (depending on the underlying Michelson type).
 In order to see type definition, just remove the trailing brackets:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="s1">&#39;ledger&#39;</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="s1">'ledger'</span><span class="p">]</span>
 <span class="go"> &lt;pytezos.contract.data.ContractData object at 0x7f21aaeaca30&gt;</span>
 
 <span class="go"> Properties</span>
@@ -679,7 +679,7 @@ In order to see type definition, just remove the trailing brackets:</p>
 <section id="bigmap-lookup">
 <h2>BigMap lookup<a class="headerlink" href="#bigmap-lookup" title="Link to this heading"></a></h2>
 <p>The approach described in the previous section also works for lazy storage, here’s how you can access Big_map values:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="s1">&#39;ledger&#39;</span><span class="p">][</span><span class="s1">&#39;tz1PNsHbJRejCnnYzbsQ1CR8wUdEQqVjWen1&#39;</span><span class="p">]()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">storage</span><span class="p">[</span><span class="s1">'ledger'</span><span class="p">][</span><span class="s1">'tz1PNsHbJRejCnnYzbsQ1CR8wUdEQqVjWen1'</span><span class="p">]()</span>
 <span class="go">11000000</span>
 </pre></div>
 </div>
@@ -689,14 +689,14 @@ In order to see type definition, just remove the trailing brackets:</p>
 <h2>Contract metadata<a class="headerlink" href="#contract-metadata" title="Link to this heading"></a></h2>
 <p>If a contract publishes TZIP-016 metadata (and TZIP-021 token metadata), PyTezos resolves and parses it for you:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">name</span>
-<span class="go">&#39;Stably USD&#39;</span>
+<span class="go">'Stably USD'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">token_metadata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">symbol</span>
-<span class="go">&#39;USDS&#39;</span>
+<span class="go">'USDS'</span>
 </pre></div>
 </div>
 <p>Metadata stored under an <code class="docutils literal notranslate"><span class="pre">ipfs://</span></code> link is fetched through a public HTTP gateway.
 Pass another one to <code class="docutils literal notranslate"><span class="pre">using</span></code> if the default is slow or unreachable from your network:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pytezos</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="s1">&#39;mainnet&#39;</span><span class="p">,</span> <span class="n">ipfs_gateway</span><span class="o">=</span><span class="s1">&#39;https://gateway.pinata.cloud/ipfs&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">&#39;KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">metadata</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pytezos</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="s1">'mainnet'</span><span class="p">,</span> <span class="n">ipfs_gateway</span><span class="o">=</span><span class="s1">'https://gateway.pinata.cloud/ipfs'</span><span class="p">)</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">'KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW'</span><span class="p">)</span><span class="o">.</span><span class="n">metadata</span>
 </pre></div>
 </div>
 <p>A gateway that is unreachable, refuses the request or serves something other than JSON raises <code class="docutils literal notranslate"><span class="pre">requests.RequestException</span></code> naming the gateway and the content hash.</p>
@@ -721,8 +721,8 @@ We can do the same using special entrypoint <code class="docutils literal notran
 <span class="go"> Typedef</span>
 <span class="go"> $balance_of:</span>
 <span class="go">     {</span>
-<span class="go">       &quot;requests&quot;: [ $requests_item, … ],</span>
-<span class="go">       &quot;callback&quot;: contract ($callback_param)</span>
+<span class="go">       "requests": [ $requests_item, … ],</span>
+<span class="go">       "callback": contract ($callback_param)</span>
 <span class="go">     }</span>
 
 <span class="go"> $callback_param:</span>
@@ -730,8 +730,8 @@ We can do the same using special entrypoint <code class="docutils literal notran
 
 <span class="go"> $requests_item:</span>
 <span class="go">     {</span>
-<span class="go">       &quot;owner&quot;: address,</span>
-<span class="go">       &quot;token_id&quot;: nat</span>
+<span class="go">       "owner": address,</span>
+<span class="go">       "token_id": nat</span>
 <span class="go">     }</span>
 
 <span class="go"> $address:</span>
@@ -750,17 +750,17 @@ We can do the same using special entrypoint <code class="docutils literal notran
 In addition to that a callback address is expected which should accept the response (currently there are no on-chain views in Tezos, this async pattern is a workaround for them).
 PyTezos allows you to keep that address empty and get the view result:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">usds</span><span class="o">.</span><span class="n">balance_of</span><span class="p">(</span><span class="n">requests</span><span class="o">=</span><span class="p">[</span>
-<span class="gp">... </span>  <span class="p">{</span><span class="s1">&#39;owner&#39;</span><span class="p">:</span> <span class="s1">&#39;tz1PNsHbJRejCnnYzbsQ1CR8wUdEQqVjWen1&#39;</span><span class="p">,</span> <span class="s1">&#39;token_id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
-<span class="gp">... </span>  <span class="p">{</span><span class="s1">&#39;owner&#39;</span><span class="p">:</span> <span class="s1">&#39;tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT&#39;</span><span class="p">,</span> <span class="s1">&#39;token_id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
-<span class="gp">... </span>  <span class="p">{</span><span class="s1">&#39;owner&#39;</span><span class="p">:</span> <span class="s1">&#39;tz2QegZQXyz8b74iTdaqKsGRF7YQb88Wu9CS&#39;</span><span class="p">,</span> <span class="s1">&#39;token_id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="gp">... </span>  <span class="p">{</span><span class="s1">'owner'</span><span class="p">:</span> <span class="s1">'tz1PNsHbJRejCnnYzbsQ1CR8wUdEQqVjWen1'</span><span class="p">,</span> <span class="s1">'token_id'</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+<span class="gp">... </span>  <span class="p">{</span><span class="s1">'owner'</span><span class="p">:</span> <span class="s1">'tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT'</span><span class="p">,</span> <span class="s1">'token_id'</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+<span class="gp">... </span>  <span class="p">{</span><span class="s1">'owner'</span><span class="p">:</span> <span class="s1">'tz2QegZQXyz8b74iTdaqKsGRF7YQb88Wu9CS'</span><span class="p">,</span> <span class="s1">'token_id'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
 <span class="go">...], callback=None).view()</span>
-<span class="go">[{&#39;owner&#39;: &#39;tz1PNsHbJRejCnnYzbsQ1CR8wUdEQqVjWen1&#39;,</span>
-<span class="go">  &#39;token_id&#39;: 0,</span>
-<span class="go">  &#39;nat_2&#39;: 11000000},</span>
-<span class="go"> {&#39;owner&#39;: &#39;tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT&#39;,</span>
-<span class="go">  &#39;token_id&#39;: 0,</span>
-<span class="go">  &#39;nat_2&#39;: 8200000},</span>
-<span class="go"> {&#39;owner&#39;: &#39;tz2QegZQXyz8b74iTdaqKsGRF7YQb88Wu9CS&#39;, &#39;token_id&#39;: 0, &#39;nat_2&#39;: 0}]</span>
+<span class="go">[{'owner': 'tz1PNsHbJRejCnnYzbsQ1CR8wUdEQqVjWen1',</span>
+<span class="go">  'token_id': 0,</span>
+<span class="go">  'nat_2': 11000000},</span>
+<span class="go"> {'owner': 'tz1i2tE6hic2ASe9Kvy85ar5hGSSc58bYejT',</span>
+<span class="go">  'token_id': 0,</span>
+<span class="go">  'nat_2': 8200000},</span>
+<span class="go"> {'owner': 'tz2QegZQXyz8b74iTdaqKsGRF7YQb88Wu9CS', 'token_id': 0, 'nat_2': 0}]</span>
 </pre></div>
 </div>
 </section>
@@ -768,12 +768,12 @@ PyTezos allows you to keep that address empty and get the view result:</p>
 <h2>Get Contract Balance<a class="headerlink" href="#get-contract-balance" title="Link to this heading"></a></h2>
 <p>Looking for a balance for a contract involves interacting with the contract context. You can inspect the context object to see the methods, or read about it here - <a class="reference internal" href="repl.html#pytezos.context.impl.ExecutionContext" title="pytezos.context.impl.ExecutionContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">pytezos.context.impl.ExecutionContext</span></code></a></p>
 <p>The context object holds general functions for retriving data about a contract/address, including the <cite>get_balance()</cite> call.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kolibri_oven</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="s1">&#39;mainnet&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">&#39;KT1KH3wH4sneEevPVW7AACiVKMjhTvmXLSK6&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">kolibri_oven</span><span class="o">.</span><span class="n">context</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;get_&#39;</span><span class="p">)])</span>
-<span class="go">[&#39;get_amount&#39;, &#39;get_amount_expr&#39;, &#39;get_balance&#39;, &#39;get_balance_expr&#39;, &#39;get_big_map_diff&#39;, &#39;get_big_map_value&#39;, &#39;get_big_maps_expr&#39;, &#39;get_chain_id&#39;, &#39;get_chain_id_expr&#39;, &#39;get_code_expr&#39;, &#39;get_counter&#39;, &#39;get_counter_offset&#39;, &#39;get_dummy_address&#39;, &#39;get_dummy_chain_id&#39;, &#39;get_dummy_key_hash&#39;, &#39;get_dummy_lambda&#39;, &#39;get_dummy_public_key&#39;, &#39;get_dummy_signature&#39;, &#39;get_input_expr&#39;, &#39;get_level&#39;, &#39;get_now&#39;, &#39;get_now_expr&#39;, &#39;get_operations_ttl&#39;, &#39;get_originated_address&#39;, &#39;get_output_expr&#39;, &#39;get_parameter_expr&#39;, &#39;get_sapling_state_diff&#39;, &#39;get_self_address&#39;, &#39;get_self_expr&#39;, &#39;get_sender&#39;, &#39;get_sender_expr&#39;, &#39;get_source&#39;, &#39;get_source_expr&#39;, &#39;get_storage_expr&#39;, &#39;get_tmp_big_map_id&#39;, &#39;get_tmp_sapling_state_id&#39;, &#39;get_total_voting_power&#39;, &#39;get_voting_power&#39;]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">kolibri_oven</span> <span class="o">=</span> <span class="n">pytezos</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="s1">'mainnet'</span><span class="p">)</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="s1">'KT1KH3wH4sneEevPVW7AACiVKMjhTvmXLSK6'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">kolibri_oven</span><span class="o">.</span><span class="n">context</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'get_'</span><span class="p">)])</span>
+<span class="go">['get_amount', 'get_amount_expr', 'get_balance', 'get_balance_expr', 'get_big_map_diff', 'get_big_map_value', 'get_big_maps_expr', 'get_chain_id', 'get_chain_id_expr', 'get_code_expr', 'get_counter', 'get_counter_offset', 'get_dummy_address', 'get_dummy_chain_id', 'get_dummy_key_hash', 'get_dummy_lambda', 'get_dummy_public_key', 'get_dummy_signature', 'get_input_expr', 'get_level', 'get_now', 'get_now_expr', 'get_operations_ttl', 'get_originated_address', 'get_output_expr', 'get_parameter_expr', 'get_sapling_state_diff', 'get_self_address', 'get_self_expr', 'get_sender', 'get_sender_expr', 'get_source', 'get_source_expr', 'get_storage_expr', 'get_tmp_big_map_id', 'get_tmp_sapling_state_id', 'get_total_voting_power', 'get_voting_power']</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">kolibri_oven_balance</span> <span class="o">=</span> <span class="n">kolibri_oven</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">get_balance</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kolibri oven </span><span class="si">{}</span><span class="s2"> has XTZ balance </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kolibri_oven</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">kolibri_oven_balance</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">"Kolibri oven </span><span class="si">{}</span><span class="s2"> has XTZ balance </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kolibri_oven</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">kolibri_oven_balance</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">))</span>
 <span class="go">Kolibri oven KT1KH3wH4sneEevPVW7AACiVKMjhTvmXLSK6 has XTZ balance 191.869689</span>
 </pre></div>
 </div>

@@ -98,21 +98,21 @@
 
 <div class="viewcode-block" id="SaplingTransactionType">
 <a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.sapling.SaplingTransactionType">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SaplingTransactionType</span><span class="p">(</span><span class="n">MichelsonType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;sapling_transaction&#39;</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SaplingTransactionType</span><span class="p">(</span><span class="n">MichelsonType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'sapling_transaction'</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
 
 <div class="viewcode-block" id="SaplingTransactionDeprecatedType">
 <a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.sapling.SaplingTransactionDeprecatedType">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SaplingTransactionDeprecatedType</span><span class="p">(</span><span class="n">MichelsonType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;sapling_transaction_deprecated&#39;</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SaplingTransactionDeprecatedType</span><span class="p">(</span><span class="n">MichelsonType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'sapling_transaction_deprecated'</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
 
 <div class="viewcode-block" id="SaplingStateType">
 <a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.sapling.SaplingStateType">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SaplingStateType</span><span class="p">(</span><span class="n">MichelsonType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;sapling_state&#39;</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SaplingStateType</span><span class="p">(</span><span class="n">MichelsonType</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'sapling_state'</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SaplingStateType</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">ptr</span>
@@ -120,9 +120,9 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="si">}</span><span class="s1">&gt;&#39;</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s1">'&lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="si">}</span><span class="s1">&gt;'</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span>
+            <span class="k">return</span> <span class="s1">'</span><span class="si">{}</span><span class="s1">'</span>
 
 <div class="viewcode-block" id="SaplingStateType.empty">
 <a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.sapling.SaplingStateType.empty">[docs]</a>
@@ -135,30 +135,30 @@
 <div class="viewcode-block" id="SaplingStateType.from_micheline_value">
 <a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.sapling.SaplingStateType.from_micheline_value">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SaplingStateType&#39;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_micheline_value</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">val_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'SaplingStateType'</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val_expr</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">ptr</span> <span class="o">=</span> <span class="n">parse_micheline_literal</span><span class="p">(</span><span class="n">val_expr</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">})</span>
+            <span class="n">ptr</span> <span class="o">=</span> <span class="n">parse_micheline_literal</span><span class="p">(</span><span class="n">val_expr</span><span class="p">,</span> <span class="p">{</span><span class="s1">'int'</span><span class="p">:</span> <span class="nb">int</span><span class="p">})</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">ptr</span><span class="o">=</span><span class="n">ptr</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val_expr</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unexpected value </span><span class="si">{</span><span class="n">val_expr</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'unexpected value </span><span class="si">{</span><span class="n">val_expr</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SaplingStateType.to_micheline_value">
 <a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.sapling.SaplingStateType.to_micheline_value">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">'readable'</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">lazy_diff</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Sapling_state id is not defined&#39;</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="p">)}</span></div>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'Sapling_state id is not defined'</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">'int'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ptr</span><span class="p">)}</span></div>
 
 
 <div class="viewcode-block" id="SaplingStateType.to_python_object">
 <a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.sapling.SaplingStateType.to_python_object">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_python_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">comparable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="ow">not</span> <span class="n">comparable</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> is not comparable&#39;</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="n">comparable</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prim</span><span class="si">}</span><span class="s1"> is not comparable'</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span>
         <span class="k">else</span><span class="p">:</span>
@@ -183,14 +183,14 @@
 
 <div class="viewcode-block" id="SaplingStateType.merge_lazy_diff">
 <a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.sapling.SaplingStateType.merge_lazy_diff">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">merge_lazy_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;MichelsonType&#39;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">merge_lazy_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">'MichelsonType'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SaplingStateType.aggregate_lazy_diff">
 <a class="viewcode-back" href="../../../../types.html#pytezos.michelson.types.sapling.SaplingStateType.aggregate_lazy_diff">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">aggregate_lazy_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;readable&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MichelsonType&#39;</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Sapling_state ID is not defined&#39;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aggregate_lazy_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">'readable'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'MichelsonType'</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">ptr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'Sapling_state ID is not defined'</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">:</span>
             <span class="n">dst_ptr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">get_sapling_state_diff</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>

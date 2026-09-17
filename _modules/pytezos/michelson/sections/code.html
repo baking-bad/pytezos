@@ -92,11 +92,11 @@
 
 <div class="viewcode-block" id="CodeSection">
 <a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.code.CodeSection">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">CodeSection</span><span class="p">(</span><span class="n">Micheline</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CodeSection</span><span class="p">(</span><span class="n">Micheline</span><span class="p">,</span> <span class="n">prim</span><span class="o">=</span><span class="s1">'code'</span><span class="p">,</span> <span class="n">args_len</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <div class="viewcode-block" id="CodeSection.match">
 <a class="viewcode-back" href="../../../../code.html#pytezos.michelson.sections.code.CodeSection.match">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">match</span><span class="p">(</span><span class="n">code_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;CodeSection&#39;</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">match</span><span class="p">(</span><span class="n">code_expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="s1">'CodeSection'</span><span class="p">]:</span>
         <span class="bp">cls</span> <span class="o">=</span> <span class="n">Micheline</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">code_expr</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">CodeSection</span><span class="p">):</span>
             <span class="bp">cls</span> <span class="o">=</span> <span class="n">CodeSection</span><span class="o">.</span><span class="n">create_type</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">])</span>
@@ -108,7 +108,7 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">stack</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="n">AbstractContext</span><span class="p">):</span>
         <span class="n">context</span><span class="o">.</span><span class="n">set_code_expr</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">())</span>
-        <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;code: updated&#39;</span><span class="p">)</span></div>
+        <span class="n">stdout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">'code: updated'</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

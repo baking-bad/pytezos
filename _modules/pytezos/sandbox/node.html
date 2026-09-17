@@ -111,24 +111,26 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.sandbox.parameters</span><span class="w"> </span><span class="kn">import</span> <span class="n">LATEST</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.sandbox.parameters</span><span class="w"> </span><span class="kn">import</span> <span class="n">sandbox_addresses</span>
 
-<span class="n">DOCKER_IMAGE</span> <span class="o">=</span> <span class="s1">&#39;bakingbad/sandboxed-node:v25.0&#39;</span>
+<span class="n">DOCKER_IMAGE</span> <span class="o">=</span> <span class="s1">'bakingbad/sandboxed-node:v25.0'</span>
 <span class="n">MAX_ATTEMPTS</span> <span class="o">=</span> <span class="mi">60</span>
 <span class="n">ATTEMPT_DELAY</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">ACTIVATION_SETTLE_DELAY</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">TEZOS_NODE_PORT</span> <span class="o">=</span> <span class="mi">8732</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">kill_existing_containers</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Stop every sandboxed node on this machine — ours or not. A clean slate before a test run."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">docker</span> <span class="o">=</span> <span class="n">DockerClient</span><span class="p">()</span>
     <span class="k">except</span> <span class="n">DockerException</span><span class="p">:</span>
         <span class="c1"># No docker daemon reachable — nothing to clean up. Avoids the</span>
-        <span class="c1"># &quot;Exception ignored in atexit callback&quot; stderr noise on shutdown</span>
+        <span class="c1"># "Exception ignored in atexit callback" stderr noise on shutdown</span>
         <span class="c1"># in environments without docker (e.g. the published pytezos image).</span>
         <span class="k">return</span>
     <span class="n">running_containers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DockerContainer</span><span class="p">]</span> <span class="o">=</span> <span class="n">docker</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">containers</span><span class="o">.</span><span class="n">list</span><span class="p">(</span>
         <span class="n">filters</span><span class="o">=</span><span class="p">{</span>
-            <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;running&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;ancestor&#39;</span><span class="p">:</span> <span class="n">DOCKER_IMAGE</span><span class="p">,</span>
+            <span class="s1">'status'</span><span class="p">:</span> <span class="s1">'running'</span><span class="p">,</span>
+            <span class="s1">'ancestor'</span><span class="p">:</span> <span class="n">DOCKER_IMAGE</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">container</span> <span class="ow">in</span> <span class="n">running_containers</span><span class="p">:</span>
@@ -136,11 +138,11 @@
             <span class="n">container</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 
-<span class="n">_started_here</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;SandboxedNodeContainer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">_started_here</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">'SandboxedNodeContainer'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">kill_own_containers</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Stop the nodes this process started, leaving any other sandbox node alone.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Stop the nodes this process started, leaving any other sandbox node alone."""</span>
     <span class="k">for</span> <span class="n">container</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">_started_here</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
             <span class="n">container</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">delete_volume</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -160,65 +162,65 @@
     <span class="k">while</span> <span class="n">tb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">trace</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">tb_frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_filename</span><span class="p">,</span>
-                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">tb_frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span><span class="p">,</span>
-                <span class="s2">&quot;lineno&quot;</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">tb_lineno</span><span class="p">,</span>
+                <span class="s2">"filename"</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">tb_frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_filename</span><span class="p">,</span>
+                <span class="s2">"name"</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">tb_frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span><span class="p">,</span>
+                <span class="s2">"lineno"</span><span class="p">:</span> <span class="n">tb</span><span class="o">.</span><span class="n">tb_lineno</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
         <span class="n">tb</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">tb_next</span>
     <span class="n">pprint</span><span class="p">(</span>
         <span class="p">{</span>
-            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-            <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
-            <span class="s1">&#39;trace&#39;</span><span class="p">:</span> <span class="n">trace</span><span class="p">,</span>
+            <span class="s1">'type'</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="s1">'message'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+            <span class="s1">'trace'</span><span class="p">:</span> <span class="n">trace</span><span class="p">,</span>
         <span class="p">}</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_next_baker_key</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">PyTezosClient</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">baking_rights</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">baking_rights</span><span class="p">()</span>
-    <span class="n">delegate</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">br</span><span class="p">[</span><span class="s1">&#39;delegate&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="n">baking_rights</span> <span class="k">if</span> <span class="n">br</span><span class="p">[</span><span class="s1">&#39;round&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">delegate</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">br</span><span class="p">[</span><span class="s1">'delegate'</span><span class="p">]</span> <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="n">baking_rights</span> <span class="k">if</span> <span class="n">br</span><span class="p">[</span><span class="s1">'round'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sandbox_addresses</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">delegate</span><span class="p">)</span>
 
 
-<span class="n">SANDBOX_PORT_ENV</span> <span class="o">=</span> <span class="s1">&#39;PYTEZOS_SANDBOX_PORT&#39;</span>
+<span class="n">SANDBOX_PORT_ENV</span> <span class="o">=</span> <span class="s1">'PYTEZOS_SANDBOX_PORT'</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">sandbox_port</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Host port for the sandboxed node: $PYTEZOS_SANDBOX_PORT, or 8732.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Host port for the sandboxed node: $PYTEZOS_SANDBOX_PORT, or 8732."""</span>
     <span class="n">value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">SANDBOX_PORT_ENV</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">TEZOS_NODE_PORT</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">SANDBOX_PORT_ENV</span><span class="si">}</span><span class="s1"> must be a port number, got </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">SANDBOX_PORT_ENV</span><span class="si">}</span><span class="s1"> must be a port number, got </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s1">'</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SandboxPortConflict</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Another container already publishes the host port the sandboxed node needs.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Another container already publishes the host port the sandboxed node needs."""</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">publishes_host_port</span><span class="p">(</span><span class="n">container</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether a running container maps any of its ports to host `port`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Whether a running container maps any of its ports to host `port`."""</span>
     <span class="k">for</span> <span class="n">bindings</span> <span class="ow">in</span> <span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">ports</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">binding</span> <span class="ow">in</span> <span class="n">bindings</span> <span class="ow">or</span> <span class="p">[]:</span>
-            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">binding</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;HostPort&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">binding</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'HostPort'</span><span class="p">))</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">ensure_port_free</span><span class="p">(</span><span class="n">docker</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise if another container publishes `port`; remove a stale node of our own that does.&quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">container</span> <span class="ow">in</span> <span class="n">docker</span><span class="o">.</span><span class="n">containers</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;running&#39;</span><span class="p">}):</span>
+<span class="w">    </span><span class="sd">"""Raise if another container publishes `port`; remove a stale node of our own that does."""</span>
+    <span class="k">for</span> <span class="n">container</span> <span class="ow">in</span> <span class="n">docker</span><span class="o">.</span><span class="n">containers</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="p">{</span><span class="s1">'status'</span><span class="p">:</span> <span class="s1">'running'</span><span class="p">}):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">publishes_host_port</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
             <span class="k">continue</span>
         <span class="k">if</span> <span class="n">container</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">LABEL_SESSION_ID</span><span class="p">)</span> <span class="o">==</span> <span class="n">SESSION_ID</span><span class="p">:</span>
             <span class="n">container</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">continue</span>
         <span class="k">raise</span> <span class="n">SandboxPortConflict</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;host port </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1"> is taken by container </span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s1">); &#39;</span>
-            <span class="sa">f</span><span class="s1">&#39;stop it or set </span><span class="si">{</span><span class="n">SANDBOX_PORT_ENV</span><span class="si">}</span><span class="s1"> to a free port&#39;</span>
+            <span class="sa">f</span><span class="s1">'host port </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1"> is taken by container </span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s1">); '</span>
+            <span class="sa">f</span><span class="s1">'stop it or set </span><span class="si">{</span><span class="n">SANDBOX_PORT_ENV</span><span class="si">}</span><span class="s1"> to a free port'</span>
         <span class="p">)</span>
 
 
@@ -227,14 +229,14 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">with_bind_ports</span><span class="p">(</span><span class="n">TEZOS_NODE_PORT</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;http://localhost:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'http://localhost:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1">'</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">PyTezosClient</span><span class="p">()</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">shell</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">ensure_port_free</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_docker_client</span><span class="p">()</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_wrapped_container</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Failed to create a container&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">'Failed to create a container'</span><span class="p">)</span>
         <span class="n">_started_here</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -246,7 +248,7 @@
         <span class="n">attempts</span> <span class="o">=</span> <span class="n">max_attempts</span>
         <span class="k">while</span> <span class="n">attempts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/version/&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/version/"</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">True</span>
             <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ConnectionError</span><span class="p">:</span>
                 <span class="n">sleep</span><span class="p">(</span><span class="n">attempt_delay</span><span class="p">)</span>
@@ -254,7 +256,13 @@
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">LATEST</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;dictator&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">activate_protocol</span><span class="p">(</span><span class="n">protocol</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">()</span><span class="o">.</span><span class="n">sign</span><span class="p">()</span><span class="o">.</span><span class="n">inject</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">'dictator'</span><span class="p">)</span><span class="o">.</span><span class="n">activate_protocol</span><span class="p">(</span><span class="n">protocol</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">()</span><span class="o">.</span><span class="n">sign</span><span class="p">()</span><span class="o">.</span><span class="n">inject</span><span class="p">()</span>
+        <span class="c1"># While the node switches protocols it has no prevalidator, and a mempool request in</span>
+        <span class="c1"># that window does not merely fail: it leaves the prevalidator wedged, answering 500</span>
+        <span class="c1"># for the life of the chain. Nothing may touch the mempool until the switch is done,</span>
+        <span class="c1"># and the node offers no readiness signal that isn't itself a mempool request.</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="n">ACTIVATION_SETTLE_DELAY</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">bake</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">min_fee</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">bake_block</span><span class="p">(</span><span class="n">min_fee</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">()</span><span class="o">.</span><span class="n">work</span><span class="p">()</span><span class="o">.</span><span class="n">sign</span><span class="p">()</span><span class="o">.</span><span class="n">inject</span><span class="p">()</span>
@@ -266,34 +274,34 @@
 <div class="viewcode-block" id="SandboxedNodeTestCase">
 <a class="viewcode-back" href="../../../integration_tests.html#pytezos.sandbox.node.SandboxedNodeTestCase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SandboxedNodeTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform tests with sanboxed node in Docker container.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Perform tests with sanboxed node in Docker container."""</span>
 
     <span class="n">IMAGE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DOCKER_IMAGE</span>
-    <span class="s2">&quot;Docker image to use&quot;</span>
+    <span class="s2">"Docker image to use"</span>
 
     <span class="n">PORT</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">sandbox_port</span><span class="p">()</span>
-    <span class="s2">&quot;Host port to expose the node on; defaults to $PYTEZOS_SANDBOX_PORT or 8732&quot;</span>
+    <span class="s2">"Host port to expose the node on; defaults to $PYTEZOS_SANDBOX_PORT or 8732"</span>
 
     <span class="n">PROTOCOL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">LATEST</span>
-    <span class="s2">&quot;Hash of protocol to activate&quot;</span>
+    <span class="s2">"Hash of protocol to activate"</span>
 
-    <span class="n">node_container</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;SandboxedNodeContainer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">node_container</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">'SandboxedNodeContainer'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">executor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ThreadPoolExecutor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="SandboxedNodeTestCase.setUpClass">
 <a class="viewcode-back" href="../../../integration_tests.html#pytezos.sandbox.node.SandboxedNodeTestCase.setUpClass">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Spin up sandboxed node container and activate protocol.</span>
+<span class="w">        </span><span class="sd">"""Spin up sandboxed node container and activate protocol.</span>
 
 <span class="sd">        Only nodes started by this process are stopped beforehand; other sandboxes on the machine are left alone.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">kill_own_containers</span><span class="p">()</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span> <span class="o">=</span> <span class="n">SandboxedNodeContainer</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">IMAGE</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">PORT</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span><span class="o">.</span><span class="n">wait_for_connection</span><span class="p">():</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;failed to connect to </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">'failed to connect to </span><span class="si">%s</span><span class="s1">'</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
             <span class="k">return</span>
 
         <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">PROTOCOL</span><span class="p">)</span></div>
@@ -309,37 +317,37 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_node_container</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SandboxedNodeContainer</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Sandboxed node container is not running&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">'Sandboxed node container is not running'</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span>
 
 <div class="viewcode-block" id="SandboxedNodeTestCase.activate">
 <a class="viewcode-back" href="../../../integration_tests.html#pytezos.sandbox.node.SandboxedNodeTestCase.activate">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">activate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">protocol_alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Activate protocol.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Activate protocol."""</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_node_container</span><span class="p">()</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="n">protocol</span><span class="o">=</span><span class="n">protocol_alias</span><span class="p">)</span></div>
 
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_client</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;bootstrap2&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyTezosClient</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_client</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'bootstrap2'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyTezosClient</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_node_container</span><span class="p">()</span><span class="o">.</span><span class="n">get_client</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SandboxedNodeTestCase.bake_block">
 <a class="viewcode-back" href="../../../integration_tests.html#pytezos.sandbox.node.SandboxedNodeTestCase.bake_block">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">bake_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">min_fee</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationGroup</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Bake new block.</span>
+<span class="w">        </span><span class="sd">"""Bake new block.</span>
 
 <span class="sd">        :param min_fee: minimum fee of operation to be included in block</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">key</span> <span class="o">=</span> <span class="n">get_next_baker_key</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">get_client</span><span class="p">())</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_node_container</span><span class="p">()</span><span class="o">.</span><span class="n">bake</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">min_fee</span><span class="o">=</span><span class="n">min_fee</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyTezosClient</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;PyTezos client to interact with sandboxed node.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_node_container</span><span class="p">()</span><span class="o">.</span><span class="n">get_client</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">&#39;bootstrap1&#39;</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">"""PyTezos client to interact with sandboxed node."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_node_container</span><span class="p">()</span><span class="o">.</span><span class="n">get_client</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s1">'bootstrap1'</span><span class="p">)</span></div>
 
 
 
@@ -349,11 +357,11 @@
     <span class="n">min_fee</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="n">TIME_BETWEEN_BLOCKS</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="s2">&quot;Time delay between bake attempts, in seconds&quot;</span>
+    <span class="s2">"Time delay between bake attempts, in seconds"</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">autobake</span><span class="p">(</span><span class="n">time_between_blocks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">node_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">exit_event</span><span class="p">:</span> <span class="n">Event</span><span class="p">,</span> <span class="n">min_fee</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Baker thread started&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Baker thread started"</span><span class="p">)</span>
         <span class="n">client</span> <span class="o">=</span> <span class="n">PyTezosClient</span><span class="p">()</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">shell</span><span class="o">=</span><span class="n">node_url</span><span class="p">)</span>
         <span class="c1"># Wait one block interval before the first bake. Baking the moment the</span>
         <span class="c1"># thread starts races with the protocol activation: the prevalidator can</span>
@@ -366,7 +374,7 @@
                 <span class="n">client</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">bake_block</span><span class="p">(</span><span class="n">min_fee</span><span class="o">=</span><span class="n">min_fee</span><span class="p">)</span><span class="o">.</span><span class="n">fill</span><span class="p">()</span><span class="o">.</span><span class="n">work</span><span class="p">()</span><span class="o">.</span><span class="n">sign</span><span class="p">()</span><span class="o">.</span><span class="n">inject</span><span class="p">()</span>
             <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">ptr</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Baker thread stopped&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Baker thread stopped"</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -374,7 +382,7 @@
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">executor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;sandboxed node container is not created&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">'sandboxed node container is not created'</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">exit_event</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">baker</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">autobake</span><span class="p">,</span>

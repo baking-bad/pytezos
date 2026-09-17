@@ -95,7 +95,7 @@
 <div class="viewcode-block" id="ContractCallResult">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.result.ContractCallResult">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ContractCallResult</span><span class="p">(</span><span class="n">OperationResult</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encapsulates the result of a contract invocation.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Encapsulates the result of a contract invocation."""</span>
 
 <div class="viewcode-block" id="ContractCallResult.from_run_operation">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.result.ContractCallResult.from_run_operation">[docs]</a>
@@ -104,37 +104,37 @@
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">operation_group</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ContractCallResult&#39;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of results from an operation group content with metadata.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">'ContractCallResult'</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get a list of results from an operation group content with metadata.</span>
 
-<span class="sd">        :param operation_group: {..., &quot;contents&quot;: [{..., kind: &quot;transaction&quot;, ...}]}</span>
+<span class="sd">        :param operation_group: {..., "contents": [{..., kind: "transaction", ...}]}</span>
 <span class="sd">        :param context: execution context</span>
 <span class="sd">        :rtype: ContractCallResult</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;OperationResult&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="sd">        """</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">'OperationResult'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">OperationResult</span><span class="o">.</span><span class="n">iter_contents</span><span class="p">(</span><span class="n">operation_group</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;transaction&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">content</span><span class="p">[</span><span class="s1">&#39;destination&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">context</span><span class="o">.</span><span class="n">address</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">content</span><span class="p">[</span><span class="s1">'kind'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'transaction'</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">content</span><span class="p">[</span><span class="s1">'destination'</span><span class="p">]</span> <span class="o">==</span> <span class="n">context</span><span class="o">.</span><span class="n">address</span><span class="p">:</span>
                     <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">from_transaction</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
-            <span class="k">elif</span> <span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;origination&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">content</span><span class="p">[</span><span class="s1">'kind'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'origination'</span><span class="p">:</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">address</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;originated_contracts&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">address</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'originated_contracts'</span><span class="p">,</span> <span class="p">[]):</span>
                     <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">from_origination</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
 
         <span class="n">program</span> <span class="o">=</span> <span class="n">MichelsonProgram</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">decode_result</span><span class="p">(</span><span class="n">res</span><span class="p">:</span> <span class="n">OperationResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractCallResult&#39;</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">decode_result</span><span class="p">(</span><span class="n">res</span><span class="p">:</span> <span class="n">OperationResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractCallResult'</span><span class="p">:</span>
             <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: ignore</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">&#39;storage&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">storage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">'storage'</span><span class="p">)</span> <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">storage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
                 <span class="n">storage</span> <span class="o">=</span> <span class="n">program</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">storage</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">&#39;lazy_diff&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">'lazy_diff'</span><span class="p">):</span>
                     <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">lazy_diff</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">lazy_diff</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
                     <span class="n">storage</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">merge_lazy_diff</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">lazy_diff</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
                 <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">())</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">&#39;parameters&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">'parameters'</span><span class="p">):</span>
                 <span class="n">parameters</span> <span class="o">=</span> <span class="n">program</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
                 <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">&#39;operations&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">'operations'</span><span class="p">):</span>
                 <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">operations</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">operations</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -144,23 +144,23 @@
 <div class="viewcode-block" id="ContractCallResult.from_run_code">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.result.ContractCallResult.from_run_code">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_run_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractCallResult&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse a result of :py:meth:`pytezos.contract.call.ContractCall.run_code` execution.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_run_code</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ContractCallResult'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Parse a result of :py:meth:`pytezos.contract.call.ContractCall.run_code` execution.</span>
 
 <span class="sd">        :param response: RPC response (JSON)</span>
-<span class="sd">        :param parameters: {&quot;entrypoint&quot;: str, &quot;value&quot;: $Micheline}</span>
+<span class="sd">        :param parameters: {"entrypoint": str, "value": $Micheline}</span>
 <span class="sd">        :param context: execution context</span>
 <span class="sd">        :rtype: ContractCallResult</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">program</span> <span class="o">=</span> <span class="n">MichelsonProgram</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="n">program</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">from_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
-        <span class="n">storage</span> <span class="o">=</span> <span class="n">program</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">&#39;storage&#39;</span><span class="p">])</span>
-        <span class="n">extended_storage</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">merge_lazy_diff</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;lazy_storage_diff&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="n">program</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s1">'storage'</span><span class="p">])</span>
+        <span class="n">extended_storage</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">merge_lazy_diff</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'lazy_storage_diff'</span><span class="p">,</span> <span class="p">[]))</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">(),</span>
             <span class="n">storage</span><span class="o">=</span><span class="n">extended_storage</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">(</span><span class="n">lazy_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-            <span class="n">lazy_diff</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;lazy_storage_diff&#39;</span><span class="p">,</span> <span class="p">[]),</span>
-            <span class="n">operations</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;operations&#39;</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="n">lazy_diff</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'lazy_storage_diff'</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="n">operations</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'operations'</span><span class="p">,</span> <span class="p">[]),</span>
         <span class="p">)</span></div>
 </div>
 

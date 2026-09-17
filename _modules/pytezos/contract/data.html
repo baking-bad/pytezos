@@ -100,7 +100,7 @@
 <div class="viewcode-block" id="ContractData">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.data.ContractData">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ContractData</span><span class="p">(</span><span class="n">ContextMixin</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">MichelsonType</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">MichelsonType</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
@@ -109,64 +109,64 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
-            <span class="sa">f</span><span class="s1">&#39;.path</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Builtin</span><span class="se">\n</span><span class="s1">()</span><span class="se">\t</span><span class="s1"># get as Python object&#39;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s1">&#39;[key]  # access child elements by name or index&#39;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Typedef</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Helpers&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'.path</span><span class="se">\t</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Builtin</span><span class="se">\n</span><span class="s1">()</span><span class="se">\t</span><span class="s1"># get as Python object'</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'[key]  # access child elements by name or index'</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">'</span><span class="se">\n</span><span class="s1">Typedef</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+            <span class="s1">'</span><span class="se">\n</span><span class="s1">Helpers'</span><span class="p">,</span>
             <span class="n">get_class_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">),</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;ContractData&#39;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Access child elements by name or index (depending on the type)</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">'ContractData'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Access child elements by name or index (depending on the type)</span>
 
 <span class="sd">        :param item: field name (str) or index (int)</span>
 <span class="sd">        :rtype: ContractData</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ContractData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ContractData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ContractData.__call__">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.data.ContractData.__call__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">try_unpack</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get Michelson value as a Python object</span>
+<span class="w">        </span><span class="sd">"""Get Michelson value as a Python object</span>
 
 <span class="sd">        :param try_unpack: try to unpack utf8-encoded strings or PACKed Michelson expressions</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">(</span><span class="n">try_unpack</span><span class="o">=</span><span class="n">try_unpack</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ContractData.to_micheline">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.data.ContractData.to_micheline">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_micheline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get as Micheline JSON expression</span>
+<span class="w">        </span><span class="sd">"""Get as Micheline JSON expression</span>
 
 <span class="sd">        :param optimized: use optimized data form for some domain types (timestamp, address, etc.)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;optimized&#39;</span> <span class="k">if</span> <span class="n">optimized</span> <span class="k">else</span> <span class="s1">&#39;readable&#39;</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">to_micheline_value</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">'optimized'</span> <span class="k">if</span> <span class="n">optimized</span> <span class="k">else</span> <span class="s1">'readable'</span><span class="p">,</span> <span class="n">lazy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ContractData.to_michelson">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.data.ContractData.to_michelson">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_michelson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get as Michelson value</span>
+<span class="w">        </span><span class="sd">"""Get as Michelson value</span>
 
 <span class="sd">        :param optimized: use optimized data form for some domain types (timestamp, address, etc.)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">micheline_to_michelson</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_micheline</span><span class="p">(</span><span class="n">optimized</span><span class="o">=</span><span class="n">optimized</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="ContractData.decode">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.data.ContractData.decode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert from Michelson or Micheline to Python type system</span>
+<span class="w">        </span><span class="sd">"""Convert from Michelson or Micheline to Python type system</span>
 
 <span class="sd">        :param value: Micheline JSON expression or Michelson value</span>
 <span class="sd">        :return: Python object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">michelson_to_micheline</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">from_micheline_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">(</span><span class="n">lazy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
@@ -175,12 +175,12 @@
 <div class="viewcode-block" id="ContractData.encode">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.data.ContractData.encode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">py_obj</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert from Python to Micheline type system</span>
+<span class="w">        </span><span class="sd">"""Convert from Python to Micheline type system</span>
 
 <span class="sd">        :param py_obj: Python object</span>
 <span class="sd">        :param mode: whether to use `readable` or `optimized` (or `legacy_optimized`) encoding</span>
 <span class="sd">        :return: Micheline JSON expression</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
             <span class="o">.</span><span class="n">from_python_object</span><span class="p">(</span><span class="n">py_obj</span><span class="p">)</span>
@@ -191,16 +191,16 @@
 <div class="viewcode-block" id="ContractData.dummy">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.data.ContractData.dummy">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">dummy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Try to generate a dummy (empty) value</span>
+<span class="w">        </span><span class="sd">"""Try to generate a dummy (empty) value</span>
 
 <span class="sd">        :return: Python object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">dummy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">to_python_object</span><span class="p">(</span><span class="n">lazy_diff</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ContractData.default">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.data.ContractData.default">[docs]</a>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">'3.0.0'</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">'4.0.0'</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dummy</span><span class="p">()</span></div>
 </div>

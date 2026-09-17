@@ -96,44 +96,44 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">new_hash</span> <span class="o">=</span> <span class="n">new_hash</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Reorg detected at level </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">old_hash</span><span class="si">}</span><span class="s1"> -&gt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">new_hash</span><span class="si">}</span><span class="s1">&#39;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">'Reorg detected at level </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">old_hash</span><span class="si">}</span><span class="s1"> -&gt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">new_hash</span><span class="si">}</span><span class="s1">'</span></div>
 
 
 
 <div class="viewcode-block" id="MichelsonBadContractParameter">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.errors.MichelsonBadContractParameter">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonBadContractParameter</span><span class="p">(</span><span class="n">RpcError</span><span class="p">,</span> <span class="n">error_id</span><span class="o">=</span><span class="s1">&#39;michelson_v1.bad_contract_parameter&#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Either no parameter was supplied to a contract with a non-unit parameter type, a non-unit parameter was passed</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonBadContractParameter</span><span class="p">(</span><span class="n">RpcError</span><span class="p">,</span> <span class="n">error_id</span><span class="o">=</span><span class="s1">'michelson_v1.bad_contract_parameter'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Either no parameter was supplied to a contract with a non-unit parameter type, a non-unit parameter was passed</span>
 <span class="sd">    to an account, or a parameter was supplied of the wrong type</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    """</span></div>
 
 
 
 <div class="viewcode-block" id="MichelsonBadReturn">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.errors.MichelsonBadReturn">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonBadReturn</span><span class="p">(</span><span class="n">RpcError</span><span class="p">,</span> <span class="n">error_id</span><span class="o">=</span><span class="s1">&#39;michelson_v1.bad_return&#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unexpected stack at the end of a lambda or script&quot;&quot;&quot;</span></div>
+<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonBadReturn</span><span class="p">(</span><span class="n">RpcError</span><span class="p">,</span> <span class="n">error_id</span><span class="o">=</span><span class="s1">'michelson_v1.bad_return'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Unexpected stack at the end of a lambda or script"""</span></div>
 
 
 
 <div class="viewcode-block" id="MichelsonError">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.errors.MichelsonError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonError</span><span class="p">(</span><span class="n">RpcError</span><span class="p">,</span> <span class="n">error_id</span><span class="o">=</span><span class="s1">&#39;michelson_v1&#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Catch all michelson_v1 errors&quot;&quot;&quot;</span></div>
+<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonError</span><span class="p">(</span><span class="n">RpcError</span><span class="p">,</span> <span class="n">error_id</span><span class="o">=</span><span class="s1">'michelson_v1'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Catch all michelson_v1 errors"""</span></div>
 
 
 
 <div class="viewcode-block" id="TezArithmeticError">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.errors.TezArithmeticError">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TezArithmeticError</span><span class="p">(</span><span class="n">RpcError</span><span class="p">,</span> <span class="n">error_id</span><span class="o">=</span><span class="s1">&#39;tez&#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Catch all tez errors&quot;&quot;&quot;</span></div>
+<span class="k">class</span><span class="w"> </span><span class="nc">TezArithmeticError</span><span class="p">(</span><span class="n">RpcError</span><span class="p">,</span> <span class="n">error_id</span><span class="o">=</span><span class="s1">'tez'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Catch all tez errors"""</span></div>
 
 
 
 <div class="viewcode-block" id="MichelsonScriptRejected">
 <a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.errors.MichelsonScriptRejected">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonScriptRejected</span><span class="p">(</span><span class="n">RpcError</span><span class="p">,</span> <span class="n">error_id</span><span class="o">=</span><span class="s1">&#39;script_rejected&#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A FAILWITH instruction was reached&quot;&quot;&quot;</span></div>
+<span class="k">class</span><span class="w"> </span><span class="nc">MichelsonScriptRejected</span><span class="p">(</span><span class="n">RpcError</span><span class="p">,</span> <span class="n">error_id</span><span class="o">=</span><span class="s1">'script_rejected'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A FAILWITH instruction was reached"""</span></div>
 
 </pre></div>
 
