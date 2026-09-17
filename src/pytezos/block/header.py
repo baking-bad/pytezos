@@ -7,6 +7,7 @@ from typing import Optional
 
 import simple_bson as bson  # type: ignore
 
+from pytezos.block.forge import PerBlockVote
 from pytezos.block.forge import bump_fitness
 from pytezos.block.forge import forge_block_header
 from pytezos.block.forge import forge_protocol_data
@@ -115,8 +116,8 @@ class BlockHeader(ContextMixin):
             "proof_of_work_nonce": "0000000000000000",
             "payload_hash": "vh1g87ZG6scSYxKhspAUzprQVuLAyoa5qMBKcUfjgnQGnFb3dJcG",  # dummy payload (zeroes)
             "payload_round": 0,
-            "liquidity_baking_toggle_vote": "off",
-            "adaptive_issuance_vote": "off",
+            "liquidity_baking_toggle_vote": PerBlockVote.OFF.value,
+            "adaptive_issuance_vote": PerBlockVote.OFF.value,
         }
 
         return BlockHeader(
