@@ -3,13 +3,13 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 on:
+  workflow_dispatch:
   push:
-    tags:
-      - "*.*.*"
     branches:
       - "**"
     paths:
       - "docs/**"
+      - "src/**"
       - "scripts/**"
       - ".github/workflows/docs.yml"
 
