@@ -104,11 +104,24 @@ sandbox_addresses = {
     'alice': 'tz1VSUr8wwNhLAzempoch5d6hLRiTh8Cjcjb',
 }
 
-# NOTE: Run `make sandbox-params` to update this file
-sandbox_params = json.loads(
-    Path(__file__).parent.joinpath('025-PsUshuai-parameters', 'test-parameters.json').read_text()
-)
+
+def parameters_path(protocol_hash: str) -> Path:
+    """Layout written by `make sandbox-params`, e.g. `025-PsUshuai-parameters/test-parameters.json`."""
+    directory = f'{protocol_version[protocol_hash]:03d}-{protocol_hash[:8]}-parameters'
+    return Path(__file__).parent / directory / 'test-parameters.json'
+
+
+# Protocols this package can actually activate in a sandbox, name -> hash
+sandbox_protocols = {name: value for name, value in protocol_hashes.items() if parameters_path(value).exists()}
+
+sandbox_params = json.loads(parameters_path(LATEST).read_text())
 
 
 def get_protocol_parameters(protocol_hash: str) -> Dict[str, Any]:
-    return {**sandbox_params}
+    path = parameters_path(protocol_hash)
+    if not path.exists():
+        raise ValueError(
+            f'No sandbox parameters bundled for {protocol_hash}. '
+            f'Available: {", ".join(sandbox_protocols)}. Run `make sandbox-params` to add more.'
+        )
+    return json.loads(path.read_text())

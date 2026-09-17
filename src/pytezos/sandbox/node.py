@@ -29,10 +29,12 @@ from pytezos.sandbox.parameters import sandbox_addresses
 DOCKER_IMAGE = 'bakingbad/sandboxed-node:v25.0'
 MAX_ATTEMPTS = 60
 ATTEMPT_DELAY = 0.5
+ACTIVATION_SETTLE_DELAY = 5
 TEZOS_NODE_PORT = 8732
 
 
 def kill_existing_containers():
+    """Stop every sandboxed node on this machine — ours or not. A clean slate before a test run."""
     try:
         docker = DockerClient()
     except DockerException:
@@ -169,7 +171,13 @@ class SandboxedNodeContainer(DockerContainer):
         return False
 
     def activate(self, protocol=LATEST):
-        return self.client.using(key='dictator').activate_protocol(protocol).fill().sign().inject()
+        result = self.client.using(key='dictator').activate_protocol(protocol).fill().sign().inject()
+        # While the node switches protocols it has no prevalidator, and a mempool request in
+        # that window does not merely fail: it leaves the prevalidator wedged, answering 500
+        # for the life of the chain. Nothing may touch the mempool until the switch is done,
+        # and the node offers no readiness signal that isn't itself a mempool request.
+        sleep(ACTIVATION_SETTLE_DELAY)
+        return result
 
     def bake(self, key: str, min_fee: int = 0):
         return self.client.using(key=key).bake_block(min_fee).fill().work().sign().inject()
