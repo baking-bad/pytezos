@@ -412,9 +412,10 @@ class ContentMixin:
         gas_limit=0,
         storage_limit=0,
     ):
-        """Delegate funds or register yourself as a delegate.
+        """Delegate funds, register yourself as a delegate, or remove the current delegate.
 
-        :param delegate: tz address of delegate, leave None to register yourself as a delegate
+        :param delegate: tz address of the delegate; leave empty to register yourself as a delegate,
+            pass None to remove the current delegate
         :param source: Address from which funds will be delegated, leave None to use signatory address
         :param counter: Current account counter, leave None for autocomplete
         :param fee: Leave None for autocomplete
@@ -422,17 +423,19 @@ class ContentMixin:
         :param storage_limit: Leave None for autocomplete
         :returns: dict or OperationGroup
         """
-        return self.operation(
-            {
-                'kind': 'delegation',
-                'source': source,
-                'fee': format_mutez(fee),
-                'counter': str(counter),
-                'gas_limit': str(gas_limit),
-                'storage_limit': str(storage_limit),
-                'delegate': delegate,
-            }
-        )
+        content = {
+            'kind': 'delegation',
+            'source': source,
+            'fee': format_mutez(fee),
+            'counter': str(counter),
+            'gas_limit': str(gas_limit),
+            'storage_limit': str(storage_limit),
+        }
+
+        if delegate is not None:
+            content['delegate'] = delegate
+
+        return self.operation(content)
 
     @inline_doc
     def failing_noop(self, arbitrary: str):
