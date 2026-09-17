@@ -131,7 +131,8 @@ def test_ensure_port_free_removes_own_stale_container():
 def test_container_binds_host_port(monkeypatch):
     monkeypatch.setattr('testcontainers.core.container.DockerClient', FakeDockerClient)
     container = SandboxedNodeContainer(port=18732)
-    assert container.ports == {TEZOS_NODE_PORT: 18732}
+    # testcontainers keys the binding by the container port as int (<4.15) or str (>=4.15)
+    assert {int(str(k).split('/')[0]): v for k, v in container.ports.items()} == {TEZOS_NODE_PORT: 18732}
     assert container.port == 18732
     assert container.url.endswith(':18732')
 
