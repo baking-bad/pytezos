@@ -224,9 +224,20 @@
 
             <span class="k">if</span> <span class="n">current_block_hash</span> <span class="o">!=</span> <span class="n">next_block_hash</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="n">next_block_hash</span>
+                <span class="n">next_header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">next_block_hash</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
+                <span class="c1"># On fast chains (1s blocks) the head may advance several levels between two polls:</span>
+                <span class="c1"># walk back over predecessors so no block goes unscanned.</span>
+                <span class="n">missed</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">header</span> <span class="o">=</span> <span class="n">next_header</span>
+                <span class="k">while</span> <span class="n">header</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">current_header</span><span class="p">[</span><span class="s1">&#39;level&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">header</span><span class="p">[</span><span class="s1">&#39;predecessor&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">current_block_hash</span><span class="p">:</span>
+                    <span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;predecessor&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
+                    <span class="n">missed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">block_hash</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">missed</span><span class="p">):</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Catching up on skipped block </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">block_hash</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="n">block_hash</span>
                 <span class="k">yield</span> <span class="n">next_block_hash</span>
                 <span class="n">current_block_hash</span> <span class="o">=</span> <span class="n">next_block_hash</span>
-                <span class="n">current_header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">current_block_hash</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
+                <span class="n">current_header</span> <span class="o">=</span> <span class="n">next_header</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="s1">&#39;Reached timeout (</span><span class="si">%d</span><span class="s1"> sec) while waiting for the next block&#39;</span><span class="p">,</span> <span class="n">block_timeout</span><span class="p">)</span></div>
 
@@ -269,7 +280,12 @@
             <span class="n">block_timeout</span><span class="o">=</span><span class="n">block_timeout</span><span class="p">,</span>
         <span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pending</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">mempool</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mempool</span><span class="o">.</span><span class="n">pending_operations</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">mempool</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">mempool</span><span class="o">.</span><span class="n">pending_operations</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span>
+                <span class="k">except</span> <span class="p">(</span><span class="n">RpcNotFoundError</span><span class="p">,</span> <span class="n">RpcForbiddenError</span><span class="p">):</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Node has no mempool or hides it, tracking inclusion by blocks only&#39;</span><span class="p">)</span>
+                    <span class="n">pending</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                    <span class="n">mempool</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">opg_hashes</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">pending</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">opg_hash</span> <span class="ow">in</span> <span class="n">mempool</span><span class="p">:</span>

@@ -88,6 +88,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.context.abstract</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractContext</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.context.abstract</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_originated_address</span>
@@ -100,6 +101,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.michelson.micheline</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_script_sections</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_OPERATIONS_TTL</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation</span><span class="w"> </span><span class="kn">import</span> <span class="n">MAX_OPERATIONS_TTL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation.fees</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeeThresholds</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">RpcError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.shell</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShellQuery</span>
 
@@ -133,8 +135,10 @@
         <span class="n">ipfs_gateway</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">global_constants</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">view_results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">fee_thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Key</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">FeeThresholds</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">fee_thresholds</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ShellQuery</span><span class="p">]</span> <span class="o">=</span> <span class="n">shell</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="ow">or</span> <span class="s1">&#39;readable&#39;</span>
@@ -721,6 +725,19 @@
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.set_voting_power">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_voting_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voting_power</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">voting_power</span><span class="p">[</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="n">voting_power</span></div>
+
+
+<div class="viewcode-block" id="ExecutionContext.get_fee_thresholds">
+<a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_fee_thresholds">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_fee_thresholds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FeeThresholds</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fee thresholds to quote operations with: explicit ones, the node&#39;s mempool filter (`&#39;node&#39;`), or None</span>
+<span class="sd">        for the built-in mainnet defaults. The node&#39;s filter is read once and cached on the context.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span> <span class="o">==</span> <span class="s1">&#39;node&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;`shell` is not set&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span> <span class="o">=</span> <span class="n">FeeThresholds</span><span class="o">.</span><span class="n">from_mempool_filter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">mempool</span><span class="o">.</span><span class="n">filter</span><span class="p">())</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span><span class="p">,</span> <span class="n">FeeThresholds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fee_thresholds</span></div>
 
 
 <div class="viewcode-block" id="ExecutionContext.get_operations_ttl">

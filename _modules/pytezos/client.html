@@ -98,6 +98,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.jupyter</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_interactive</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation.content</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContentMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation.fees</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeeThresholds</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationGroup</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShellQuery</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.sandbox.parameters</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_protocol_parameters</span>
@@ -233,6 +234,7 @@
         <span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Key</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ipfs_gateway</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fee_thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">FeeThresholds</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Change current RPC endpoint and account (private key).</span>
 
@@ -241,6 +243,8 @@
 <span class="sd">        :param mode: whether to use `readable` or `optimized` encoding for parameters/storage/other</span>
 <span class="sd">        :param ipfs_gateway: HTTP gateway used to resolve ``ipfs://`` metadata links,</span>
 <span class="sd">            e.g. ``https://gateway.pinata.cloud/ipfs`` (default ``https://ipfs.filebase.io/ipfs``)</span>
+<span class="sd">        :param fee_thresholds: minimal fee thresholds used to quote operations: a :class:`pytezos.operation.fees.FeeThresholds`,</span>
+<span class="sd">            or `&#39;node&#39;` to read them from the node&#39;s mempool filter (networks with non-mainnet fee policy, e.g. Tezos X)</span>
 <span class="sd">        :returns: A copy of current object with changes applied</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">PyTezosClient</span><span class="p">(</span>
@@ -249,6 +253,7 @@
                 <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
                 <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
                 <span class="n">ipfs_gateway</span><span class="o">=</span><span class="n">ipfs_gateway</span><span class="p">,</span>
+                <span class="n">fee_thresholds</span><span class="o">=</span><span class="n">fee_thresholds</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 

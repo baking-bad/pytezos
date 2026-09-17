@@ -83,7 +83,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pytezos.operation.fees</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
@@ -96,9 +98,44 @@
 <span class="c1"># NOTE: Last update in Rio: https://gitlab.com/tezos/tezos/-/merge_requests/15993/diffs</span>
 <span class="n">DEFAULT_TRANSACTION_GAS_LIMIT</span> <span class="o">=</span> <span class="mi">3_040</span>
 <span class="n">DEFAULT_TRANSACTION_STORAGE_LIMIT</span> <span class="o">=</span> <span class="mi">257</span>
+<span class="c1"># Mainnet defaults of the node&#39;s mempool filter (`/chains/main/mempool/filter`); other networks may differ</span>
 <span class="n">MINIMAL_FEES</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">MINIMAL_MUTEZ_PER_BYTE</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">MINIMAL_MUTEZ_PER_GAS_UNIT</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+
+<div class="viewcode-block" id="FeeThresholds">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.fees.FeeThresholds">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FeeThresholds</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimal fee thresholds a node accepts operations with (its mempool filter).</span>
+
+<span class="sd">    Defaults are the mainnet values; a node may run with different ones (Tezos X sequencers do),</span>
+<span class="sd">    in which case read them from the node via :meth:`from_mempool_filter`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">minimal_fees</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">MINIMAL_FEES</span>
+    <span class="n">minimal_mutez_per_byte</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">MINIMAL_MUTEZ_PER_BYTE</span>
+    <span class="n">minimal_nanotez_per_gas_unit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">MINIMAL_MUTEZ_PER_GAS_UNIT</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FeeThresholds.from_mempool_filter">
+<a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.fees.FeeThresholds.from_mempool_filter">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_mempool_filter</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mempool_filter</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;FeeThresholds&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build thresholds from a `/chains/main/mempool/filter` response.</span>
+
+<span class="sd">        Rates come as nanotez fractions `[numerator, denominator]`; the per-byte one is rounded up to whole mutez</span>
+<span class="sd">        so the quote never falls below the node&#39;s minimum.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gas_num</span><span class="p">,</span> <span class="n">gas_den</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">mempool_filter</span><span class="p">[</span><span class="s1">&#39;minimal_nanotez_per_gas_unit&#39;</span><span class="p">])</span>
+        <span class="n">byte_num</span><span class="p">,</span> <span class="n">byte_den</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">mempool_filter</span><span class="p">[</span><span class="s1">&#39;minimal_nanotez_per_byte&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">minimal_fees</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">mempool_filter</span><span class="p">[</span><span class="s1">&#39;minimal_fees&#39;</span><span class="p">]),</span>
+            <span class="n">minimal_mutez_per_byte</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">byte_num</span> <span class="o">/</span> <span class="n">byte_den</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">),</span>
+            <span class="n">minimal_nanotez_per_gas_unit</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">gas_num</span> <span class="o">/</span> <span class="n">gas_den</span><span class="p">),</span>
+        <span class="p">)</span></div>
+</div>
+
 
 
 <div class="viewcode-block" id="calculate_fee">
@@ -109,6 +146,7 @@
     <span class="n">extra_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">reserve</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
     <span class="n">minimal_nanotez_per_gas_unit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FeeThresholds</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate minimal required operation fee.</span>
 
@@ -116,11 +154,19 @@
 <span class="sd">    :param consumed_gas: amount of gas consumed during the simulation (dry-run)</span>
 <span class="sd">    :param extra_size: size of the additional operation data (branch, etc)</span>
 <span class="sd">    :param reserve: safe reserve, just in case</span>
+<span class="sd">    :param minimal_nanotez_per_gas_unit: override the per-gas rate only (kept for backward compatibility)</span>
+<span class="sd">    :param thresholds: node fee thresholds, default is mainnet values</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">thresholds</span> <span class="o">=</span> <span class="n">FeeThresholds</span><span class="p">()</span>
     <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">forge_operation</span><span class="p">(</span><span class="n">content</span><span class="p">))</span> <span class="o">+</span> <span class="n">extra_size</span>
     <span class="k">if</span> <span class="n">minimal_nanotez_per_gas_unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">minimal_nanotez_per_gas_unit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">MINIMAL_MUTEZ_PER_GAS_UNIT</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
-    <span class="n">fee</span> <span class="o">=</span> <span class="n">MINIMAL_FEES</span> <span class="o">+</span> <span class="n">MINIMAL_MUTEZ_PER_BYTE</span> <span class="o">*</span> <span class="n">size</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">minimal_nanotez_per_gas_unit</span> <span class="o">*</span> <span class="n">consumed_gas</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="n">minimal_nanotez_per_gas_unit</span> <span class="o">=</span> <span class="n">thresholds</span><span class="o">.</span><span class="n">minimal_nanotez_per_gas_unit</span>
+    <span class="n">fee</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">thresholds</span><span class="o">.</span><span class="n">minimal_fees</span>
+        <span class="o">+</span> <span class="n">thresholds</span><span class="o">.</span><span class="n">minimal_mutez_per_byte</span> <span class="o">*</span> <span class="n">size</span>
+        <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">minimal_nanotez_per_gas_unit</span> <span class="o">*</span> <span class="n">consumed_gas</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">fee</span> <span class="o">+</span> <span class="n">reserve</span></div>
 
 
@@ -131,6 +177,7 @@
     <span class="n">content</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="n">gas_limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">minimal_nanotez_per_gas_unit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FeeThresholds</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Take hard gas limit instead of precise amount (no simulation) and calculate fee.</span>
 
@@ -141,6 +188,7 @@
         <span class="n">consumed_gas</span><span class="o">=</span><span class="n">gas_limit</span> <span class="k">if</span> <span class="n">gas_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">default_gas_limit</span><span class="p">(</span><span class="n">content</span><span class="p">),</span>
         <span class="n">extra_size</span><span class="o">=</span><span class="mi">32</span> <span class="o">+</span> <span class="mi">64</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># branch, signature, fee:gas_limit:storage_limit mutez values (+3 bytes)</span>
         <span class="n">minimal_nanotez_per_gas_unit</span><span class="o">=</span><span class="n">minimal_nanotez_per_gas_unit</span><span class="p">,</span>
+        <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
