@@ -5,7 +5,7 @@
   "definitions": {
     "asset": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "description": {
           "type": "string",
@@ -82,7 +82,7 @@
           "type": "string",
           "description": "A statement about the asset rights."
         },
-        "rightUri": {
+        "rightsUri": {
           "type": "string",
           "format": "uri-reference",
           "description": "Links to a statement of rights."
