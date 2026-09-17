@@ -92,7 +92,7 @@ export LD_LIBRARY_PATH=/opt/homebrew/lib/
 The recommended way is to use WSL and then follow the instructions for Linux,
 but if you feel lucky you can try to install natively:
 
-1. Install MinGW from [https://osdn.net/projects/mingw/](https://osdn.net/projects/mingw/)
+1. Install MinGW from [https://sourceforge.net/projects/mingw/](https://sourceforge.net/projects/mingw/)
 2. Make sure `C:\MinGW\bin` is added to your `PATH`
 3. Download the latest libsodium-X.Y.Z-msvc.zip from [https://download.libsodium.org/libsodium/releases/](https://download.libsodium.org/libsodium/releases/).
 4. Extract the Win64/Release/v143/dynamic/libsodium.dll from the zip file
