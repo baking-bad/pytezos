@@ -15,8 +15,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 - Default IPFS gateway is now `https://ipfs.filebase.io/ipfs`: the `ipfs.io` path gateway retires on 2026-09-21. Metadata fetch failures raise `requests.RequestException` naming the gateway and the content hash and pointing at `pytezos.using(ipfs_gateway=...)`, instead of a bare `JSONDecodeError`.
 - `autofill` no longer bumps the counter by pending mempool operations: the mempool admits one manager operation per source per block, so a bumped counter was rejected at injection; use `bulk()` for several operations per block. `get_counter_offset` (informational) reads `validated` (with `applied` fallback), filters by source, and yields 0 on nodes that hide (401/403) or lack (404) the mempool via the new typed `RpcForbiddenError` / `RpcNotFoundError`; `RpcError.from_response` no longer asserts on a JSON-object error body.
 - `SandboxedNodeTestCase` and the at-exit cleanup no longer stop every sandboxed node on the machine; only containers started by the current process are stopped. Starting a node on a host port already published by a foreign container fails fast with `SandboxPortConflict` naming the port and the container.
-- Dependencies refreshed (`uv lock --upgrade`); `ruff` rules are now selected explicitly (`lint.select`) so the lint gate no longer moves with ruff's default rule set (ruff 0.16 would otherwise have enabled ~1.8k `UP`/`I`/`TRY` findings).
 - Dropped the unused `cryptography` dependency; `jupyterlab` 4.6.3, `tornado` 6.5.8, `mistune` 3.3.4 close 14 advisories; `.github/dependabot.yml` added (uv + github-actions, weekly).
+- Dependencies refreshed (`uv lock --upgrade`); `ruff` rules are now selected explicitly (`lint.select`) so the lint gate no longer moves with ruff's default rule set (ruff 0.16 would otherwise have enabled ~1.8k `UP`/`I`/`TRY` findings).
 
 ### Fixed
 
