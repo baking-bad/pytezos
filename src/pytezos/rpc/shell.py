@@ -187,8 +187,8 @@ class ShellQuery(RpcQuery, path=''):
             if len(pending) > 0:
                 try:
                     mempool = set(map(lambda x: x['hash'], self.mempool.pending_operations.flatten()))
-                except RpcNotFoundError:
-                    logger.info('Node has no mempool (sequencer), tracking inclusion by blocks only')
+                except (RpcNotFoundError, RpcForbiddenError):
+                    logger.info('Node has no mempool or hides it, tracking inclusion by blocks only')
                     pending.clear()
                     mempool = set()
                 for opg_hash in opg_hashes:

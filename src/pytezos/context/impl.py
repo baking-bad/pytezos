@@ -18,7 +18,6 @@ from pytezos.operation import DEFAULT_OPERATIONS_TTL
 from pytezos.operation import MAX_OPERATIONS_TTL
 from pytezos.operation.fees import FeeThresholds
 from pytezos.rpc.errors import RpcError
-from pytezos.rpc.node import RpcNotFoundError
 from pytezos.rpc.shell import ShellQuery
 
 DEFAULT_IPFS_GATEWAY = 'https://ipfs.filebase.io/ipfs'
