@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog], and this project adheres to [Semantic Versioning].
 
-## [Unreleased](https://github.com/baking-bad/pytezos/compare/3.19.0...master)
+## [3.20.0](https://github.com/baking-bad/pytezos/compare/3.19.0...3.20.0) - 2026-09-17
 
 ### Added
 
@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 - `autofill` no longer bumps the counter by pending mempool operations: the mempool admits one manager operation per source per block, so a bumped counter was rejected at injection; use `bulk()` for several operations per block. `get_counter_offset` (informational) reads `validated` (with `applied` fallback), filters by source, and yields 0 on nodes that hide (401/403) or lack (404) the mempool via the new typed `RpcForbiddenError` / `RpcNotFoundError`; `RpcError.from_response` no longer asserts on a JSON-object error body.
 - `SandboxedNodeTestCase` and the at-exit cleanup no longer stop every sandboxed node on the machine; only containers started by the current process are stopped. Starting a node on a host port already published by a foreign container fails fast with `SandboxPortConflict` naming the port and the container.
 - Dropped the unused `cryptography` dependency; `jupyterlab` 4.6.3, `tornado` 6.5.8, `mistune` 3.3.4 close 14 advisories; `.github/dependabot.yml` added (uv + github-actions, weekly).
+- Dependencies refreshed (`uv lock --upgrade`); `ruff` rules are now selected explicitly (`lint.select`) so the lint gate no longer moves with ruff's default rule set (ruff 0.16 would otherwise have enabled ~1.8k `UP`/`I`/`TRY` findings).
 
 ### Fixed
 
