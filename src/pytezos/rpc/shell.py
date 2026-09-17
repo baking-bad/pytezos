@@ -18,6 +18,8 @@ from pytezos.crypto.encoding import base58_decode
 from pytezos.jupyter import get_attr_docstring
 from pytezos.logging import logger
 from pytezos.rpc.kind import validation_passes
+from pytezos.rpc.node import RpcForbiddenError
+from pytezos.rpc.node import RpcNotFoundError
 from pytezos.rpc.protocol import BlockQuery
 from pytezos.rpc.protocol import BlocksQuery
 from pytezos.rpc.query import RpcQuery
@@ -353,10 +355,38 @@ class PendingOperationsQuery(RpcQuery, path='/chains/{}/mempool/pending_operatio
                     raise Exception('Unknown operation type', operation)
         return operations_list
 
+    def from_source(self, source: str) -> List[Dict[str, Any]]:
+        """Contents of operations from `source` that are still waiting for inclusion (validated or not yet processed).
+        Empty when the node has no mempool or does not expose it.
+
+        :param source: public key hash
+        """
+        try:
+            operations_dict = self(
+                source=source,
+                refused='false',
+                outdated='false',
+                branch_refused='false',
+                branch_delayed='false',
+            )
+        except (RpcForbiddenError, RpcNotFoundError) as e:
+            logger.debug('mempool is not available (%s), assuming no pending operations', e)
+            return []
+        validated = operations_dict.get('validated', operations_dict.get('applied', []))
+        contents = []
+        for operation in validated + operations_dict.get('unprocessed', []):
+            if isinstance(operation, list):
+                operation = operation[1]
+            for content in operation.get('contents', []):
+                if content.get('source') == source:
+                    contents.append(content)
+        return contents
+
     def __repr__(self):
         res = [
             super(PendingOperationsQuery, self).__repr__(),
             '[]' + get_attr_docstring(self.__class__, '__getitem__'),
+            '.from_source()' + get_attr_docstring(self.__class__, 'from_source'),
         ]
         return '\n'.join(res)
 

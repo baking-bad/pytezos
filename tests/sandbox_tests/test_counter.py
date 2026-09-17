@@ -23,4 +23,4 @@ class TransactionCounterTestCase(SandboxedNodeTestCase):
                 ).sign().inject(min_confirmations=0)
 
         pending_operations = client.shell.mempool.pending_operations()
-        self.assertEqual(1, len(pending_operations['applied']))
+        self.assertEqual(1, len(pending_operations['validated']))

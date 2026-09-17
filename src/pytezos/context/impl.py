@@ -1,5 +1,4 @@
 from datetime import datetime
-from itertools import chain
 from typing import Any
 from typing import List
 from typing import Optional
@@ -151,26 +150,22 @@ class ExecutionContext(AbstractContext):
         return self.counter
 
     def get_counter_offset(self) -> int:
-        """Return current count of pending transactions in mempool."""
+        """Return current count of pending operations from the current key in mempool.
+        Zero when the node has no mempool or does not expose it.
+        Informational only: `autofill` does not apply it to the counter, since the mempool admits
+        one manager operation per source per block (use `bulk()` to send several).
+        """
         if self.key is None:
             raise Exception('`key` is not set')
         if self.shell is None:
             raise Exception('`shell` is not set')
 
-        counter_offset = 0
-        key_hash = self.key.public_key_hash()
-        mempool = self.shell.mempool.pending_operations()
+        pending = self.shell.mempool.pending_operations.from_source(self.key.public_key_hash())
+        for content in pending:
+            logger.debug("pending operation in mempool: %s", content)
 
-        for operation in chain(mempool.get('applied', []), mempool.get('unprocessed', [])):
-            if isinstance(operation, list):
-                operation = operation[1]
-            for content in operation.get('contents', []):
-                if content.get('source') == key_hash:
-                    logger.debug("pending transaction in mempool: %s", content)
-                    counter_offset += 1
-
-        logger.debug("counter offset: %s", counter_offset)
-        return counter_offset
+        logger.debug("counter offset: %s", len(pending))
+        return len(pending)
 
     def register_big_map(self, ptr: int, copy=False) -> int:
         if copy:
