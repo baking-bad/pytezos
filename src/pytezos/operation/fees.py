@@ -1,3 +1,5 @@
+import math
+from dataclasses import dataclass
 from typing import Any
 from typing import Dict
 from typing import Optional
@@ -11,9 +13,38 @@ DEFAULT_CONSTANTS = {
 # NOTE: Last update in Rio: https://gitlab.com/tezos/tezos/-/merge_requests/15993/diffs
 DEFAULT_TRANSACTION_GAS_LIMIT = 3_040
 DEFAULT_TRANSACTION_STORAGE_LIMIT = 257
+# Mainnet defaults of the node's mempool filter (`/chains/main/mempool/filter`); other networks may differ
 MINIMAL_FEES = 100
 MINIMAL_MUTEZ_PER_BYTE = 1
 MINIMAL_MUTEZ_PER_GAS_UNIT = 0.1
+
+
+@dataclass(frozen=True)
+class FeeThresholds:
+    """Minimal fee thresholds a node accepts operations with (its mempool filter).
+
+    Defaults are the mainnet values; a node may run with different ones (Tezos X sequencers do),
+    in which case read them from the node via :meth:`from_mempool_filter`.
+    """
+
+    minimal_fees: int = MINIMAL_FEES
+    minimal_mutez_per_byte: int = MINIMAL_MUTEZ_PER_BYTE
+    minimal_nanotez_per_gas_unit: int = int(MINIMAL_MUTEZ_PER_GAS_UNIT * 1000)
+
+    @classmethod
+    def from_mempool_filter(cls, mempool_filter: Dict[str, Any]) -> 'FeeThresholds':
+        """Build thresholds from a `/chains/main/mempool/filter` response.
+
+        Rates come as nanotez fractions `[numerator, denominator]`; the per-byte one is rounded up to whole mutez
+        so the quote never falls below the node's minimum.
+        """
+        gas_num, gas_den = (int(x) for x in mempool_filter['minimal_nanotez_per_gas_unit'])
+        byte_num, byte_den = (int(x) for x in mempool_filter['minimal_nanotez_per_byte'])
+        return cls(
+            minimal_fees=int(mempool_filter['minimal_fees']),
+            minimal_mutez_per_byte=math.ceil(byte_num / byte_den / 1000),
+            minimal_nanotez_per_gas_unit=math.ceil(gas_num / gas_den),
+        )
 
 
 def calculate_fee(
@@ -22,6 +53,7 @@ def calculate_fee(
     extra_size: int,
     reserve=10,
     minimal_nanotez_per_gas_unit: Optional[int] = None,
+    thresholds: Optional[FeeThresholds] = None,
 ) -> int:
     """Calculate minimal required operation fee.
 
@@ -29,11 +61,19 @@ def calculate_fee(
     :param consumed_gas: amount of gas consumed during the simulation (dry-run)
     :param extra_size: size of the additional operation data (branch, etc)
     :param reserve: safe reserve, just in case
+    :param minimal_nanotez_per_gas_unit: override the per-gas rate only (kept for backward compatibility)
+    :param thresholds: node fee thresholds, default is mainnet values
     """
+    if thresholds is None:
+        thresholds = FeeThresholds()
     size = len(forge_operation(content)) + extra_size
     if minimal_nanotez_per_gas_unit is None:
-        minimal_nanotez_per_gas_unit = int(MINIMAL_MUTEZ_PER_GAS_UNIT * 1000)
-    fee = MINIMAL_FEES + MINIMAL_MUTEZ_PER_BYTE * size + int(minimal_nanotez_per_gas_unit * consumed_gas / 1000)
+        minimal_nanotez_per_gas_unit = thresholds.minimal_nanotez_per_gas_unit
+    fee = (
+        thresholds.minimal_fees
+        + thresholds.minimal_mutez_per_byte * size
+        + int(minimal_nanotez_per_gas_unit * consumed_gas / 1000)
+    )
     return fee + reserve
 
 
@@ -41,6 +81,7 @@ def default_fee(
     content: Dict[str, Any],
     gas_limit: Optional[int] = None,
     minimal_nanotez_per_gas_unit: Optional[int] = None,
+    thresholds: Optional[FeeThresholds] = None,
 ) -> int:
     """Take hard gas limit instead of precise amount (no simulation) and calculate fee.
 
@@ -51,6 +92,7 @@ def default_fee(
         consumed_gas=gas_limit if gas_limit is not None else default_gas_limit(content),
         extra_size=32 + 64 + 3 * 3,  # branch, signature, fee:gas_limit:storage_limit mutez values (+3 bytes)
         minimal_nanotez_per_gas_unit=minimal_nanotez_per_gas_unit,
+        thresholds=thresholds,
     )
 
 

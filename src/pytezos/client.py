@@ -13,6 +13,7 @@ from pytezos.jupyter import get_class_docstring
 from pytezos.jupyter import is_interactive
 from pytezos.logging import logger
 from pytezos.operation.content import ContentMixin
+from pytezos.operation.fees import FeeThresholds
 from pytezos.operation.group import OperationGroup
 from pytezos.rpc import ShellQuery
 from pytezos.sandbox.parameters import get_protocol_parameters
@@ -123,6 +124,7 @@ class PyTezosClient(ContextMixin, ContentMixin):
         key: Optional[Union[Key, str, dict]] = None,
         mode: Optional[str] = None,
         ipfs_gateway: Optional[str] = None,
+        fee_thresholds: Optional[Union[FeeThresholds, str]] = None,
     ):
         """Change current RPC endpoint and account (private key).
 
@@ -131,6 +133,8 @@ class PyTezosClient(ContextMixin, ContentMixin):
         :param mode: whether to use `readable` or `optimized` encoding for parameters/storage/other
         :param ipfs_gateway: HTTP gateway used to resolve ``ipfs://`` metadata links,
             e.g. ``https://gateway.pinata.cloud/ipfs`` (default ``https://ipfs.filebase.io/ipfs``)
+        :param fee_thresholds: minimal fee thresholds used to quote operations: a :class:`pytezos.operation.fees.FeeThresholds`,
+            or `'node'` to read them from the node's mempool filter (networks with non-mainnet fee policy, e.g. Tezos X)
         :returns: A copy of current object with changes applied
         """
         return PyTezosClient(
@@ -139,6 +143,7 @@ class PyTezosClient(ContextMixin, ContentMixin):
                 key=key,
                 mode=mode,
                 ipfs_gateway=ipfs_gateway,
+                fee_thresholds=fee_thresholds,
             )
         )
 

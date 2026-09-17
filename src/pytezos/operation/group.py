@@ -136,6 +136,7 @@ class OperationGroup(ContextMixin, ContentMixin):
         chain_id = self.chain_id or self.context.get_chain_id()
         protocol = self.protocol or self.context.get_protocol()
         branch = self.branch or self.shell.blocks[f'head~{MAX_OPERATIONS_TTL - ttl}'].hash()
+        thresholds = self.context.get_fee_thresholds()
         source = self.key.public_key_hash()
         constants = self.shell.head.context.constants()
 
@@ -172,7 +173,9 @@ class OperationGroup(ContextMixin, ContentMixin):
                     storage_limit if storage_limit is not None else default_storage_limit(x, constants),
                 )
             ),
-            'fee': lambda i, x: str(default_fee(x, gas_limit, minimal_nanotez_per_gas_unit) if i == 0 else 0),
+            'fee': lambda i, x: str(
+                default_fee(x, gas_limit, minimal_nanotez_per_gas_unit, thresholds) if i == 0 else 0
+            ),
         }
 
         def fill_content(idx, content):
@@ -273,6 +276,7 @@ class OperationGroup(ContextMixin, ContentMixin):
         fee_acc = 0
         extra_size = 32 + 64  # size of serialized branch and signature + safe reserve
         num_contents = len(opg_with_metadata['contents'])
+        thresholds = self.context.get_fee_thresholds()
         opg.contents.clear()
 
         for content in opg_with_metadata['contents']:
@@ -299,7 +303,9 @@ class OperationGroup(ContextMixin, ContentMixin):
                     storage_limit=str(storage_limit_new),
                     fee='0',
                 )
-                fee_acc += calculate_fee(content, gas_limit_new, extra_size=1 + extra_size // num_contents)
+                fee_acc += calculate_fee(
+                    content, gas_limit_new, extra_size=1 + extra_size // num_contents, thresholds=thresholds
+                )
 
             content.pop('metadata')
             logger.debug("autofilled transaction content: %s" % content)

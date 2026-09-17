@@ -3,6 +3,7 @@ from typing import Any
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import Union
 
 from pytezos.context.abstract import AbstractContext
 from pytezos.context.abstract import get_originated_address
@@ -15,6 +16,7 @@ from pytezos.michelson.micheline import get_script_section
 from pytezos.michelson.micheline import get_script_sections
 from pytezos.operation import DEFAULT_OPERATIONS_TTL
 from pytezos.operation import MAX_OPERATIONS_TTL
+from pytezos.operation.fees import FeeThresholds
 from pytezos.rpc.errors import RpcError
 from pytezos.rpc.shell import ShellQuery
 
@@ -46,8 +48,10 @@ class ExecutionContext(AbstractContext):
         ipfs_gateway=None,
         global_constants=None,
         view_results=None,
+        fee_thresholds=None,
     ):
         self.key: Optional[Key] = key
+        self.fee_thresholds: Optional[Union[FeeThresholds, str]] = fee_thresholds
         self.shell: Optional[ShellQuery] = shell
         self.counter = counter
         self.mode = mode or 'readable'
@@ -458,6 +462,16 @@ class ExecutionContext(AbstractContext):
 
     def set_voting_power(self, address: str, voting_power: int):
         self.voting_power[address] = voting_power
+
+    def get_fee_thresholds(self) -> Optional[FeeThresholds]:
+        """Fee thresholds to quote operations with: explicit ones, the node's mempool filter (`'node'`), or None
+        for the built-in mainnet defaults. The node's filter is read once and cached on the context."""
+        if self.fee_thresholds == 'node':
+            if self.shell is None:
+                raise Exception('`shell` is not set')
+            self.fee_thresholds = FeeThresholds.from_mempool_filter(self.shell.mempool.filter())
+        assert self.fee_thresholds is None or isinstance(self.fee_thresholds, FeeThresholds)
+        return self.fee_thresholds
 
     def get_operations_ttl(self) -> int:
         if self.sandboxed:

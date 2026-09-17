@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased](https://github.com/baking-bad/pytezos/compare/3.19.0...master)
 
+### Added
+
+- Tezos X (Michelson runtime on a sequencer) support: `send()` and `wait()` work on nodes without a mempool (`wait_operations` tracks inclusion by blocks alone when `pending_operations` answers 404/401/403); `pytezos.using(fee_thresholds='node')` quotes fees from the node's `/chains/main/mempool/filter` instead of the built-in mainnet thresholds (`FeeThresholds` in `pytezos.operation.fees`, also accepted explicitly); `scripts/tezosx_sandbox.py` boots a local Tezos X Michelson sequencer for integration tests.
+
 ### Changed
 
 - Default IPFS gateway is now `https://ipfs.filebase.io/ipfs`: the `ipfs.io` path gateway retires on 2026-09-21. Metadata fetch failures raise `requests.RequestException` naming the gateway and the content hash and pointing at `pytezos.using(ipfs_gateway=...)`, instead of a bare `JSONDecodeError`.
@@ -15,6 +19,7 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ### Fixed
 
+- `wait_blocks` no longer skips levels on chains whose head advances several blocks between two polls (1-second blocks on Tezos X): every block between two polled heads is yielded, so `wait_operations` cannot miss the block that included the operation.
 - `ipfs_gateway` passed to `using()` is now inherited by contracts and spawned objects; previously it was silently reset to the default.
 - Local forging of transactions whose entrypoint is `stake`, `unstake`, `finalize_unstake` or `set_delegate_parameters` (the staking pseudo-entrypoints introduced in Oxford, or a contract entrypoint of the same name) now emits the protocol's one-byte tags (`0x06`–`0x09`) instead of a named entrypoint, matching `helpers/forge/operations` and the bytes hardware wallets expect. Previously `OperationGroup.forge(validate=True)` failed with "Local forge result differs from remote one" for these operations, `sign()` produced non-canonical bytes, and `hash()` was wrong for such operations.
 - `delegation(delegate=None)` now removes the current delegate: the `delegate` key is omitted from the operation content instead of being sent as JSON `null`, which the node rejected with `Unexpected null instead of string`. The default `''` still registers the signer as a delegate. Code that built an undelegation by calling `delegation(delegate=None)` and then deleting the `delegate` key by hand should drop that step (the key is no longer there).

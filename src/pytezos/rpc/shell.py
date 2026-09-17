@@ -132,9 +132,20 @@ class ShellQuery(RpcQuery, path=''):
 
             if current_block_hash != next_block_hash:
                 assert next_block_hash
+                next_header = self.blocks[next_block_hash].header()
+                # On fast chains (1s blocks) the head may advance several levels between two polls:
+                # walk back over predecessors so no block goes unscanned.
+                missed = []
+                header = next_header
+                while header['level'] > current_header['level'] + 1 and header['predecessor'] != current_block_hash:
+                    header = self.blocks[header['predecessor']].header()
+                    missed.append(header['hash'])
+                for block_hash in reversed(missed):
+                    logger.info('Catching up on skipped block %s', block_hash)
+                    yield block_hash
                 yield next_block_hash
                 current_block_hash = next_block_hash
-                current_header = self.blocks[current_block_hash].header()
+                current_header = next_header
             else:
                 raise TimeoutError('Reached timeout (%d sec) while waiting for the next block', block_timeout)
 
@@ -174,7 +185,12 @@ class ShellQuery(RpcQuery, path=''):
             block_timeout=block_timeout,
         ):
             if len(pending) > 0:
-                mempool = set(map(lambda x: x['hash'], self.mempool.pending_operations.flatten()))
+                try:
+                    mempool = set(map(lambda x: x['hash'], self.mempool.pending_operations.flatten()))
+                except (RpcNotFoundError, RpcForbiddenError):
+                    logger.info('Node has no mempool or hides it, tracking inclusion by blocks only')
+                    pending.clear()
+                    mempool = set()
                 for opg_hash in opg_hashes:
                     if opg_hash in pending:
                         if opg_hash in mempool:
