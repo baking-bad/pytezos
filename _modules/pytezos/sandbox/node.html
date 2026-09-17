@@ -85,6 +85,7 @@
   <h1>Source code for pytezos.sandbox.node</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">atexit</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">FIRST_EXCEPTION</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Future</span>
@@ -94,6 +95,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">threading</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
@@ -101,6 +103,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">docker.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">DockerException</span>  <span class="c1"># type: ignore[import-untyped]</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">testcontainers.core.container</span><span class="w"> </span><span class="kn">import</span> <span class="n">DockerContainer</span>  <span class="c1"># type: ignore[import-untyped]</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">testcontainers.core.docker_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">DockerClient</span>  <span class="c1"># type: ignore[import-untyped]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">testcontainers.core.labels</span><span class="w"> </span><span class="kn">import</span> <span class="n">LABEL_SESSION_ID</span>  <span class="c1"># type: ignore[import-untyped]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">testcontainers.core.labels</span><span class="w"> </span><span class="kn">import</span> <span class="n">SESSION_ID</span>  <span class="c1"># type: ignore[import-untyped]</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyTezosClient</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.operation.group</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationGroup</span>
@@ -132,7 +136,17 @@
             <span class="n">container</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 
-<span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">kill_existing_containers</span><span class="p">)</span>
+<span class="n">_started_here</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;SandboxedNodeContainer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kill_own_containers</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Stop the nodes this process started, leaving any other sandbox node alone.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">container</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">_started_here</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+            <span class="n">container</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">delete_volume</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">kill_own_containers</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">worker_callback</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
@@ -167,17 +181,66 @@
     <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sandbox_addresses</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">delegate</span><span class="p">)</span>
 
 
+<span class="n">SANDBOX_PORT_ENV</span> <span class="o">=</span> <span class="s1">&#39;PYTEZOS_SANDBOX_PORT&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sandbox_port</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Host port for the sandboxed node: $PYTEZOS_SANDBOX_PORT, or 8732.&quot;&quot;&quot;</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">SANDBOX_PORT_ENV</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">TEZOS_NODE_PORT</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">SANDBOX_PORT_ENV</span><span class="si">}</span><span class="s1"> must be a port number, got </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SandboxPortConflict</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Another container already publishes the host port the sandboxed node needs.&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">publishes_host_port</span><span class="p">(</span><span class="n">container</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether a running container maps any of its ports to host `port`.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">bindings</span> <span class="ow">in</span> <span class="p">(</span><span class="n">container</span><span class="o">.</span><span class="n">ports</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">binding</span> <span class="ow">in</span> <span class="n">bindings</span> <span class="ow">or</span> <span class="p">[]:</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">binding</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;HostPort&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_port_free</span><span class="p">(</span><span class="n">docker</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise if another container publishes `port`; remove a stale node of our own that does.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">container</span> <span class="ow">in</span> <span class="n">docker</span><span class="o">.</span><span class="n">containers</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;running&#39;</span><span class="p">}):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">publishes_host_port</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">container</span><span class="o">.</span><span class="n">labels</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">LABEL_SESSION_ID</span><span class="p">)</span> <span class="o">==</span> <span class="n">SESSION_ID</span><span class="p">:</span>
+            <span class="n">container</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">raise</span> <span class="n">SandboxPortConflict</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;host port </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1"> is taken by container </span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">container</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s1">); &#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;stop it or set </span><span class="si">{</span><span class="n">SANDBOX_PORT_ENV</span><span class="si">}</span><span class="s1"> to a free port&#39;</span>
+        <span class="p">)</span>
+
+
 <span class="k">class</span><span class="w"> </span><span class="nc">SandboxedNodeContainer</span><span class="p">(</span><span class="n">DockerContainer</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">DOCKER_IMAGE</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">TEZOS_NODE_PORT</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">with_bind_ports</span><span class="p">(</span><span class="n">TEZOS_NODE_PORT</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;http://localhost:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">PyTezosClient</span><span class="p">()</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="n">shell</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ensure_port_free</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_docker_client</span><span class="p">()</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_wrapped_container</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Failed to create a container&#39;</span><span class="p">)</span>
+        <span class="n">_started_here</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">_started_here</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">wait_for_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_attempts</span><span class="o">=</span><span class="n">MAX_ATTEMPTS</span><span class="p">,</span> <span class="n">attempt_delay</span><span class="o">=</span><span class="n">ATTEMPT_DELAY</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="n">attempts</span> <span class="o">=</span> <span class="n">max_attempts</span>
@@ -208,8 +271,8 @@
     <span class="n">IMAGE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DOCKER_IMAGE</span>
     <span class="s2">&quot;Docker image to use&quot;</span>
 
-    <span class="n">PORT</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">TEZOS_NODE_PORT</span>
-    <span class="s2">&quot;Port to expose to host machine&quot;</span>
+    <span class="n">PORT</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">sandbox_port</span><span class="p">()</span>
+    <span class="s2">&quot;Host port to expose the node on; defaults to $PYTEZOS_SANDBOX_PORT or 8732&quot;</span>
 
     <span class="n">PROTOCOL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">LATEST</span>
     <span class="s2">&quot;Hash of protocol to activate&quot;</span>
@@ -221,8 +284,11 @@
 <a class="viewcode-back" href="../../../integration_tests.html#pytezos.sandbox.node.SandboxedNodeTestCase.setUpClass">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">setUpClass</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Spin up sandboxed node container and activate protocol.&quot;&quot;&quot;</span>
-        <span class="n">kill_existing_containers</span><span class="p">()</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Spin up sandboxed node container and activate protocol.</span>
+
+<span class="sd">        Only nodes started by this process are stopped beforehand; other sandboxes on the machine are left alone.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kill_own_containers</span><span class="p">()</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span> <span class="o">=</span> <span class="n">SandboxedNodeContainer</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">IMAGE</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">PORT</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">node_container</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 

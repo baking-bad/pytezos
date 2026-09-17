@@ -113,6 +113,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#pytezos.rpc.shell.PendingOperationsQuery"><code class="docutils literal notranslate"><span class="pre">PendingOperationsQuery</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.shell.PendingOperationsQuery.__call__"><code class="docutils literal notranslate"><span class="pre">PendingOperationsQuery.__call__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.shell.PendingOperationsQuery.flatten"><code class="docutils literal notranslate"><span class="pre">PendingOperationsQuery.flatten()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.shell.PendingOperationsQuery.from_source"><code class="docutils literal notranslate"><span class="pre">PendingOperationsQuery.from_source</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.shell.PendingOperationsQuery.path"><code class="docutils literal notranslate"><span class="pre">PendingOperationsQuery.path</span></code></a></li>
 </ul>
 </li>
@@ -374,6 +375,14 @@
 <li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcError.with_traceback"><code class="docutils literal notranslate"><span class="pre">RpcError.with_traceback()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#pytezos.rpc.node.RpcForbiddenError"><code class="docutils literal notranslate"><span class="pre">RpcForbiddenError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcForbiddenError.add_note"><code class="docutils literal notranslate"><span class="pre">RpcForbiddenError.add_note()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcForbiddenError.args"><code class="docutils literal notranslate"><span class="pre">RpcForbiddenError.args</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcForbiddenError.from_errors"><code class="docutils literal notranslate"><span class="pre">RpcForbiddenError.from_errors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcForbiddenError.from_response"><code class="docutils literal notranslate"><span class="pre">RpcForbiddenError.from_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcForbiddenError.with_traceback"><code class="docutils literal notranslate"><span class="pre">RpcForbiddenError.with_traceback()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#pytezos.rpc.node.RpcMultiNode"><code class="docutils literal notranslate"><span class="pre">RpcMultiNode</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcMultiNode.delete"><code class="docutils literal notranslate"><span class="pre">RpcMultiNode.delete()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcMultiNode.get"><code class="docutils literal notranslate"><span class="pre">RpcMultiNode.get()</span></code></a></li>
@@ -388,6 +397,14 @@
 <li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcNode.post"><code class="docutils literal notranslate"><span class="pre">RpcNode.post()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcNode.put"><code class="docutils literal notranslate"><span class="pre">RpcNode.put()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcNode.request"><code class="docutils literal notranslate"><span class="pre">RpcNode.request()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pytezos.rpc.node.RpcNotFoundError"><code class="docutils literal notranslate"><span class="pre">RpcNotFoundError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcNotFoundError.add_note"><code class="docutils literal notranslate"><span class="pre">RpcNotFoundError.add_note()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcNotFoundError.args"><code class="docutils literal notranslate"><span class="pre">RpcNotFoundError.args</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcNotFoundError.from_errors"><code class="docutils literal notranslate"><span class="pre">RpcNotFoundError.from_errors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcNotFoundError.from_response"><code class="docutils literal notranslate"><span class="pre">RpcNotFoundError.from_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pytezos.rpc.node.RpcNotFoundError.with_traceback"><code class="docutils literal notranslate"><span class="pre">RpcNotFoundError.with_traceback()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#pytezos.rpc.errors.MichelsonBadContractParameter"><code class="docutils literal notranslate"><span class="pre">MichelsonBadContractParameter</span></code></a></li>
@@ -644,6 +661,11 @@ In some cases doesn’t work without this flag.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytezos.rpc.shell.PendingOperationsQuery.flatten">
 <span class="sig-name descname"><span class="pre">flatten</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pytezos/rpc/shell.html#PendingOperationsQuery.flatten"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytezos.rpc.shell.PendingOperationsQuery.flatten" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytezos.rpc.shell.PendingOperationsQuery.from_source">
+<span class="sig-name descname"><span class="pre">from_source</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;function</span> <span class="pre">PendingOperationsQuery.from_source&gt;</span> <span class="pre">Contents</span> <span class="pre">of</span> <span class="pre">operations</span> <span class="pre">from</span> <span class="pre">`source`</span> <span class="pre">that</span> <span class="pre">are</span> <span class="pre">still</span> <span class="pre">waiting</span> <span class="pre">for</span> <span class="pre">inclusion</span> <span class="pre">(validated</span> <span class="pre">or</span> <span class="pre">not</span> <span class="pre">yet</span> <span class="pre">processed).</span> <span class="pre">Empty</span> <span class="pre">when</span> <span class="pre">the</span> <span class="pre">node</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">mempool</span> <span class="pre">or</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">expose</span> <span class="pre">it.</span>&#160; <span class="pre">:param</span> <span class="pre">source:</span> <span class="pre">public</span> <span class="pre">key</span> <span class="pre">hash</span> </span><a class="reference internal" href="_modules/pytezos/rpc/shell.html#PendingOperationsQuery.from_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytezos.rpc.shell.PendingOperationsQuery.from_source" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -1685,6 +1707,43 @@ set self.__traceback__ to tb and return self.</p>
 
 </dd></dl>
 
+<dl class="py exception">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcForbiddenError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pytezos.rpc.node.</span></span><span class="sig-name descname"><span class="pre">RpcForbiddenError</span></span><a class="reference internal" href="_modules/pytezos/rpc/node.html#RpcForbiddenError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytezos.rpc.node.RpcForbiddenError" title="Link to this definition"></a></dt>
+<dd><p>The node answered 401/403: the route exists but this provider does not expose it.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcForbiddenError.add_note">
+<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytezos.rpc.node.RpcForbiddenError.add_note" title="Link to this definition"></a></dt>
+<dd><p>Exception.add_note(note) –
+add a note to the exception</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcForbiddenError.args">
+<span class="sig-name descname"><span class="pre">args</span></span><a class="headerlink" href="#pytezos.rpc.node.RpcForbiddenError.args" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcForbiddenError.from_errors">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_errors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytezos.rpc.node.RpcError" title="pytezos.rpc.node.RpcError"><span class="pre">RpcError</span></a></span></span><a class="headerlink" href="#pytezos.rpc.node.RpcForbiddenError.from_errors" title="Link to this definition"></a></dt>
+<dd><p>Create RpcError from “errors” section of response JSON.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcForbiddenError.from_response">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Response</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytezos.rpc.node.RpcError" title="pytezos.rpc.node.RpcError"><span class="pre">RpcError</span></a></span></span><a class="headerlink" href="#pytezos.rpc.node.RpcForbiddenError.from_response" title="Link to this definition"></a></dt>
+<dd><p>Create RpcError from requests Response.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcForbiddenError.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytezos.rpc.node.RpcForbiddenError.with_traceback" title="Link to this definition"></a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="pytezos.rpc.node.RpcMultiNode">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pytezos.rpc.node.</span></span><span class="sig-name descname"><span class="pre">RpcMultiNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pytezos/rpc/node.html#RpcMultiNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytezos.rpc.node.RpcMultiNode" title="Link to this definition"></a></dt>
@@ -1775,6 +1834,43 @@ set self.__traceback__ to tb and return self.</p>
 <dd class="field-odd"><p>node response</p>
 </dd>
 </dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcNotFoundError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pytezos.rpc.node.</span></span><span class="sig-name descname"><span class="pre">RpcNotFoundError</span></span><a class="reference internal" href="_modules/pytezos/rpc/node.html#RpcNotFoundError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytezos.rpc.node.RpcNotFoundError" title="Link to this definition"></a></dt>
+<dd><p>The node answered 404: the route is not served by this node (e.g. no mempool on a Tezos X sequencer).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcNotFoundError.add_note">
+<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytezos.rpc.node.RpcNotFoundError.add_note" title="Link to this definition"></a></dt>
+<dd><p>Exception.add_note(note) –
+add a note to the exception</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcNotFoundError.args">
+<span class="sig-name descname"><span class="pre">args</span></span><a class="headerlink" href="#pytezos.rpc.node.RpcNotFoundError.args" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcNotFoundError.from_errors">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_errors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">errors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytezos.rpc.node.RpcError" title="pytezos.rpc.node.RpcError"><span class="pre">RpcError</span></a></span></span><a class="headerlink" href="#pytezos.rpc.node.RpcNotFoundError.from_errors" title="Link to this definition"></a></dt>
+<dd><p>Create RpcError from “errors” section of response JSON.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcNotFoundError.from_response">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Response</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytezos.rpc.node.RpcError" title="pytezos.rpc.node.RpcError"><span class="pre">RpcError</span></a></span></span><a class="headerlink" href="#pytezos.rpc.node.RpcNotFoundError.from_response" title="Link to this definition"></a></dt>
+<dd><p>Create RpcError from requests Response.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytezos.rpc.node.RpcNotFoundError.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytezos.rpc.node.RpcNotFoundError.with_traceback" title="Link to this definition"></a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
 </dd></dl>
 
 </dd></dl>

@@ -84,7 +84,6 @@
              
   <h1>Source code for pytezos.context.impl</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
@@ -249,26 +248,22 @@
 <div class="viewcode-block" id="ExecutionContext.get_counter_offset">
 <a class="viewcode-back" href="../../../repl.html#pytezos.context.impl.ExecutionContext.get_counter_offset">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_counter_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current count of pending transactions in mempool.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current count of pending operations from the current key in mempool.</span>
+<span class="sd">        Zero when the node has no mempool or does not expose it.</span>
+<span class="sd">        Informational only: `autofill` does not apply it to the counter, since the mempool admits</span>
+<span class="sd">        one manager operation per source per block (use `bulk()` to send several).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;`key` is not set&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;`shell` is not set&#39;</span><span class="p">)</span>
 
-        <span class="n">counter_offset</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">key_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">()</span>
-        <span class="n">mempool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">mempool</span><span class="o">.</span><span class="n">pending_operations</span><span class="p">()</span>
+        <span class="n">pending</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">mempool</span><span class="o">.</span><span class="n">pending_operations</span><span class="o">.</span><span class="n">from_source</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key_hash</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">pending</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;pending operation in mempool: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">operation</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="n">mempool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;applied&#39;</span><span class="p">,</span> <span class="p">[]),</span> <span class="n">mempool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;unprocessed&#39;</span><span class="p">,</span> <span class="p">[])):</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-                <span class="n">operation</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">operation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;contents&#39;</span><span class="p">,</span> <span class="p">[]):</span>
-                <span class="k">if</span> <span class="n">content</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;source&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">key_hash</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;pending transaction in mempool: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
-                    <span class="n">counter_offset</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;counter offset: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">counter_offset</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">counter_offset</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;counter offset: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pending</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">pending</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ExecutionContext.register_big_map">

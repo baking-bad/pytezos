@@ -103,6 +103,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.jupyter</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_attr_docstring</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.kind</span><span class="w"> </span><span class="kn">import</span> <span class="n">validation_passes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.node</span><span class="w"> </span><span class="kn">import</span> <span class="n">RpcForbiddenError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.node</span><span class="w"> </span><span class="kn">import</span> <span class="n">RpcNotFoundError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlockQuery</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlocksQuery</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pytezos.rpc.query</span><span class="w"> </span><span class="kn">import</span> <span class="n">RpcQuery</span>
@@ -479,10 +481,41 @@
         <span class="k">return</span> <span class="n">operations_list</span></div>
 
 
+<div class="viewcode-block" id="PendingOperationsQuery.from_source">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.shell.PendingOperationsQuery.from_source">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Contents of operations from `source` that are still waiting for inclusion (validated or not yet processed).</span>
+<span class="sd">        Empty when the node has no mempool or does not expose it.</span>
+
+<span class="sd">        :param source: public key hash</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">operations_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">,</span>
+                <span class="n">refused</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="p">,</span>
+                <span class="n">outdated</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="p">,</span>
+                <span class="n">branch_refused</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="p">,</span>
+                <span class="n">branch_delayed</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">RpcForbiddenError</span><span class="p">,</span> <span class="n">RpcNotFoundError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;mempool is not available (</span><span class="si">%s</span><span class="s1">), assuming no pending operations&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="n">validated</span> <span class="o">=</span> <span class="n">operations_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;validated&#39;</span><span class="p">,</span> <span class="n">operations_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;applied&#39;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">operation</span> <span class="ow">in</span> <span class="n">validated</span> <span class="o">+</span> <span class="n">operations_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;unprocessed&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">operation</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">operation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;contents&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="k">if</span> <span class="n">content</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;source&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">source</span><span class="p">:</span>
+                    <span class="n">contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">contents</span></div>
+
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">PendingOperationsQuery</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
             <span class="s1">&#39;[]&#39;</span> <span class="o">+</span> <span class="n">get_attr_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;__getitem__&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;.from_source()&#39;</span> <span class="o">+</span> <span class="n">get_attr_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s1">&#39;from_source&#39;</span><span class="p">),</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 

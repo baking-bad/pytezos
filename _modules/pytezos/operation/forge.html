@@ -106,6 +106,10 @@
     <span class="s1">&#39;set_delegate&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x03</span><span class="s1">&#39;</span><span class="p">,</span>
     <span class="s1">&#39;remove_delegate&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x04</span><span class="s1">&#39;</span><span class="p">,</span>
     <span class="s1">&#39;deposit&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x05</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;stake&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x06</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;unstake&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x07</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;finalize_unstake&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x08</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;set_delegate_parameters&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x09</span><span class="s1">&#39;</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -122,6 +126,8 @@
 <a class="viewcode-back" href="../../../operation_groups.html#pytezos.operation.forge.forge_entrypoint">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">forge_entrypoint</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Encode Michelson contract entrypoint into the byte form.</span>
+
+<span class="sd">    Reserved entrypoints are encoded as a single tag byte, any other name as `\\xff` + length-prefixed string.</span>
 
 <span class="sd">    :param entrypoint: string</span>
 <span class="sd">    &quot;&quot;&quot;</span>

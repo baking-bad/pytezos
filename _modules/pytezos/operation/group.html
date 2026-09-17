@@ -383,7 +383,6 @@
         <span class="n">fee_acc</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">extra_size</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">+</span> <span class="mi">64</span>  <span class="c1"># size of serialized branch and signature + safe reserve</span>
         <span class="n">num_contents</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">opg_with_metadata</span><span class="p">[</span><span class="s1">&#39;contents&#39;</span><span class="p">])</span>
-        <span class="n">counter_offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">get_counter_offset</span><span class="p">()</span>
         <span class="n">opg</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">opg_with_metadata</span><span class="p">[</span><span class="s1">&#39;contents&#39;</span><span class="p">]:</span>
@@ -404,9 +403,8 @@
                     <span class="k">if</span> <span class="n">content</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;origination&#39;</span><span class="p">,</span> <span class="s1">&#39;transaction&#39;</span><span class="p">]:</span>
                         <span class="n">storage_limit_new</span> <span class="o">+=</span> <span class="n">burn_reserve</span>
 
-                <span class="n">current_counter</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="s1">&#39;counter&#39;</span><span class="p">])</span>
+                <span class="c1"># Counter stays as filled: the mempool admits one manager op per source per block, use `bulk()` for several</span>
                 <span class="n">content</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                    <span class="n">counter</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">current_counter</span> <span class="o">+</span> <span class="n">counter_offset</span><span class="p">),</span>
                     <span class="n">gas_limit</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">gas_limit_new</span><span class="p">),</span>
                     <span class="n">storage_limit</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">storage_limit_new</span><span class="p">),</span>
                     <span class="n">fee</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span>

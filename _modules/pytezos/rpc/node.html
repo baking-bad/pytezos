@@ -84,6 +84,7 @@
              
   <h1>Source code for pytezos.rpc.node</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">http</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPStatus</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pformat</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
@@ -148,8 +149,10 @@
     <span class="n">__handlers__</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: ignore</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">error_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">error_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init_subclass__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">error_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error_id</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">eid</span> <span class="ow">in</span> <span class="n">error_id</span><span class="p">:</span>
                 <span class="bp">cls</span><span class="o">.</span><span class="n">__handlers__</span><span class="p">[</span><span class="n">eid</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span>
@@ -184,7 +187,9 @@
             <span class="k">except</span> <span class="n">JSONDecodeError</span><span class="p">:</span>
                 <span class="c1"># sometimes rpc returns invalid json</span>
                 <span class="k">return</span> <span class="n">RpcError</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="c1"># Proxies and rate limiters answer with a JSON object, not an Octez error trace</span>
+                <span class="k">return</span> <span class="n">RpcError</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_errors</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">RpcError</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">)</span></div>
@@ -192,6 +197,20 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="RpcNotFoundError">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.node.RpcNotFoundError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RpcNotFoundError</span><span class="p">(</span><span class="n">RpcError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The node answered 404: the route is not served by this node (e.g. no mempool on a Tezos X sequencer).&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="RpcForbiddenError">
+<a class="viewcode-back" href="../../../rpc_queries.html#pytezos.rpc.node.RpcForbiddenError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RpcForbiddenError</span><span class="p">(</span><span class="n">RpcError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The node answered 401/403: the route exists but this provider does not expose it.&quot;&quot;&quot;</span></div>
 
 
 
@@ -244,12 +263,12 @@
                 <span class="n">delay</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">delay</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">TRANSIENT_RETRY_MAX_DELAY</span><span class="p">)</span>
                 <span class="k">continue</span>
             <span class="k">break</span>
-        <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">401</span><span class="p">,</span> <span class="mi">403</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;&lt;&lt;&lt;&lt;&lt; </span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="n">RpcError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unauthorized: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">RpcForbiddenError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">HTTPStatus</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span><span class="o">.</span><span class="n">phrase</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;&lt;&lt;&lt;&lt;&lt; </span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="n">RpcError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Not found: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">RpcNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Not found: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;&lt;&lt;&lt;&lt;&lt; </span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">pformat</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">RpcError</span><span class="o">.</span><span class="n">from_response</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>

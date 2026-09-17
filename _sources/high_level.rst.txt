@@ -13,6 +13,11 @@ Contract interface
    :members:
    :inherited-members:
 
+Entrypoint / view namespace
++++++++++++++++++++++++++++
+.. autoclass:: pytezos.contract.interface.ContractProxyNamespace
+   :members:
+
 Contract entrypoint proxy
 +++++++++++++++++++++++++++
 .. autoclass:: pytezos.contract.entrypoint.ContractEntrypoint

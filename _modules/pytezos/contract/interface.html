@@ -85,6 +85,7 @@
   <h1>Source code for pytezos.contract.interface</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
@@ -93,9 +94,12 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
@@ -136,12 +140,69 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fn</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 
 
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">ContractEntrypoint</span><span class="p">,</span> <span class="n">ContractView</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ContractProxyNamespace">
+<a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractProxyNamespace">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContractProxyNamespace</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Entrypoint or view proxies by name: `contract.entrypoint.&lt;name&gt;` / `contract.view.&lt;name&gt;`</span>
+
+<span class="sd">    Holds every proxy of the contract, including those whose names collide with `ContractInterface` attributes</span>
+<span class="sd">    (e.g. `storage`, `metadata`, `token_metadata`) or with each other (an entrypoint and a view sharing a name).</span>
+<span class="sd">    Names that are not Python identifiers are reachable via item access: `contract.entrypoint[&#39;foo.bar&#39;]`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">proxies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">proxies</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">,</span>
+            <span class="o">*</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">()&#39;</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unknown </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_title</span><span class="si">}</span><span class="s1"> `</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">`, available: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__dir__</span><span class="p">(),</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_proxies</span><span class="p">]</span></div>
+
+
+
 <div class="viewcode-block" id="ContractInterface">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ContractInterface</span><span class="p">(</span><span class="n">ContextMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Proxy class for interacting with a contract.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Proxy class for interacting with a contract.</span>
+
+<span class="sd">    Entrypoints and views are exposed as `.&lt;name&gt;()` shortcuts when the name is free, and always as</span>
+<span class="sd">    `.entrypoint.&lt;name&gt;()` / `.view.&lt;name&gt;()`. An entrypoint wins over a view of the same name, and both lose</span>
+<span class="sd">    to an existing interface attribute such as `storage`, `metadata` or `token_metadata`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">program</span><span class="p">:</span> <span class="n">MichelsonProgram</span>
+    <span class="n">entrypoint</span><span class="p">:</span> <span class="n">ContractProxyNamespace</span><span class="p">[</span><span class="n">ContractEntrypoint</span><span class="p">]</span>  <span class="c1">#: every entrypoint proxy by name</span>
+    <span class="n">view</span><span class="p">:</span> <span class="n">ContractProxyNamespace</span><span class="p">[</span><span class="n">ContractView</span><span class="p">]</span>  <span class="c1">#: every on-chain view proxy by name</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">ExecutionContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
@@ -150,14 +211,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">entrypoints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">list_entrypoints</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">views</span> <span class="o">=</span> <span class="p">{</span><span class="n">view</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">view</span> <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">views</span><span class="p">}</span>  <span class="c1"># type: Dict[str, Type[ViewSection]]</span>
 
+        <span class="n">entrypoints</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ContractEntrypoint</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">entrypoint</span><span class="p">,</span> <span class="n">ty</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entrypoints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">entrypoint</span> <span class="o">==</span> <span class="s1">&#39;token_metadata&#39;</span><span class="p">:</span>
-                <span class="k">continue</span>
             <span class="n">attr</span> <span class="o">=</span> <span class="n">ContractEntrypoint</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">entrypoint</span><span class="o">=</span><span class="n">entrypoint</span><span class="p">)</span>
             <span class="n">attr</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">generate_pydoc</span><span class="p">(</span><span class="n">ty</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">)</span>
-            <span class="k">assert</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;Entrypoint name collision </span><span class="si">{</span><span class="n">entrypoint</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="n">entrypoints</span><span class="p">[</span><span class="n">entrypoint</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr</span>
 
+        <span class="n">views</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ContractView</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">view_name</span><span class="p">,</span> <span class="n">view_ty</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">views</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">view_attr</span> <span class="o">=</span> <span class="n">ContractView</span><span class="p">(</span>
                 <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
@@ -167,25 +227,48 @@
                 <span class="n">code</span><span class="o">=</span><span class="n">view_ty</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">as_micheline_expr</span><span class="p">(),</span>  <span class="c1"># type: ignore</span>
             <span class="p">)</span>
             <span class="n">view_attr</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">view_ty</span><span class="o">.</span><span class="n">generate_pydoc</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
-            <span class="k">assert</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">view_name</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;View name collision </span><span class="si">{</span><span class="n">view_name</span><span class="si">}</span><span class="s1">&#39;</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">view_name</span><span class="p">,</span> <span class="n">view_attr</span><span class="p">)</span>
+            <span class="n">views</span><span class="p">[</span><span class="n">view_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">view_attr</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span> <span class="o">=</span> <span class="n">ContractProxyNamespace</span><span class="p">(</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">,</span> <span class="n">entrypoints</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">ContractProxyNamespace</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="n">views</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">entrypoints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bind_shortcut</span><span class="p">(</span><span class="s1">&#39;entrypoint&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">view_attr</span> <span class="ow">in</span> <span class="n">views</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bind_shortcut</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">view_attr</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_bind_shortcut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ContractEntrypoint</span><span class="p">,</span> <span class="n">ContractView</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">name</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;token_metadata&#39;</span><span class="p">:</span>  <span class="c1"># legacy TZIP-12 entrypoint: `.token_metadata` is the TZIP-21 proxy by design</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;`.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">` is reserved, use `.</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">` instead&#39;</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">proxy</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_list_namespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="n">ContractProxyNamespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">namespace</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="n">namespace</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+                <span class="k">yield</span> <span class="sa">f</span><span class="s1">&#39;.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">()&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="sa">f</span><span class="s1">&#39;.</span><span class="si">{</span><span class="n">namespace</span><span class="o">.</span><span class="n">_title</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">()&#39;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span>
             <span class="s1">&#39;.storage</span><span class="se">\t</span><span class="s1"># access storage data at block `block_id`&#39;</span><span class="p">,</span>
             <span class="s1">&#39;.parameter</span><span class="se">\t</span><span class="s1"># root entrypoint&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.entrypoint</span><span class="se">\t</span><span class="s1"># entrypoints by name&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;.view</span><span class="se">\t\t</span><span class="s1"># views by name&#39;</span><span class="p">,</span>
             <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Entrypoints&#39;</span><span class="p">,</span>
-            <span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;.</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">()&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">entrypoints</span><span class="p">)),</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_namespace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span><span class="p">),</span>
             <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Views&#39;</span><span class="p">,</span>
-            <span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;.</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">()&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">views</span><span class="p">)),</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_namespace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">),</span>
             <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Helpers&#39;</span><span class="p">,</span>
             <span class="n">get_class_docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">attr_filter</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entrypoints</span><span class="p">),</span>
         <span class="p">]</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractEntrypoint</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unexpected entrypoint </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unexpected entrypoint </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s1">, use `.entrypoint.&lt;name&gt;` / `.view.&lt;name&gt;`&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ContractInterface.from_url">
 <a class="viewcode-back" href="../../../high_level.html#pytezos.contract.interface.ContractInterface.from_url">[docs]</a>
@@ -562,9 +645,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContractEntrypoint</span><span class="p">:</span>
-        <span class="n">root_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">root_name</span>
-        <span class="k">assert</span> <span class="n">root_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entrypoints</span><span class="p">,</span> <span class="s1">&#39;root entrypoint is undefined&#39;</span>
-        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entrypoint</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">root_name</span><span class="p">]</span>
 
     <span class="nd">@property</span>  <span class="c1"># type: ignore</span>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s1">&#39;3.0.0&#39;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s1">&#39;4.0.0&#39;</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="s1">&#39;access `ContractInterface` directly&#39;</span><span class="p">)</span>

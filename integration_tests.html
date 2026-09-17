@@ -192,7 +192,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pytezos.sandbox.node.SandboxedNodeTestCase.PORT">
 <span class="sig-name descname"><span class="pre">PORT</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8732</span></span><a class="headerlink" href="#pytezos.sandbox.node.SandboxedNodeTestCase.PORT" title="Link to this definition"></a></dt>
-<dd><p>Port to expose to host machine</p>
+<dd><p>Host port to expose the node on; defaults to $PYTEZOS_SANDBOX_PORT or 8732</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -228,6 +228,7 @@
 <dt class="sig sig-object py" id="pytezos.sandbox.node.SandboxedNodeTestCase.setUpClass">
 <span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">setUpClass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pytezos/sandbox/node.html#SandboxedNodeTestCase.setUpClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytezos.sandbox.node.SandboxedNodeTestCase.setUpClass" title="Link to this definition"></a></dt>
 <dd><p>Spin up sandboxed node container and activate protocol.</p>
+<p>Only nodes started by this process are stopped beforehand; other sandboxes on the machine are left alone.</p>
 </dd></dl>
 
 <dl class="py method">

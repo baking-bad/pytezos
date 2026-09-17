@@ -458,7 +458,10 @@ Based on the following reference: <a class="reference external" href="https://te
 <dl class="py method">
 <dt class="sig sig-object py" id="pytezos.context.impl.ExecutionContext.get_counter_offset">
 <span class="sig-name descname"><span class="pre">get_counter_offset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/pytezos/context/impl.html#ExecutionContext.get_counter_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytezos.context.impl.ExecutionContext.get_counter_offset" title="Link to this definition"></a></dt>
-<dd><p>Return current count of pending transactions in mempool.</p>
+<dd><p>Return current count of pending operations from the current key in mempool.
+Zero when the node has no mempool or does not expose it.
+Informational only: <cite>autofill</cite> does not apply it to the counter, since the mempool admits
+one manager operation per source per block (use <cite>bulk()</cite> to send several).</p>
 </dd></dl>
 
 <dl class="py method">

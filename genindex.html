@@ -563,7 +563,13 @@
       <li><a href="types.html#pytezos.michelson.types.set.SetType.add">add() (pytezos.michelson.types.set.SetType method)</a>
 </li>
       <li><a href="rpc_queries.html#pytezos.rpc.node.RpcError.add_note">add_note() (pytezos.rpc.node.RpcError method)</a>
+
+      <ul>
+        <li><a href="rpc_queries.html#pytezos.rpc.node.RpcForbiddenError.add_note">(pytezos.rpc.node.RpcForbiddenError method)</a>
 </li>
+        <li><a href="rpc_queries.html#pytezos.rpc.node.RpcNotFoundError.add_note">(pytezos.rpc.node.RpcNotFoundError method)</a>
+</li>
+      </ul></li>
       <li><a href="instructions.html#pytezos.michelson.instructions.arithmetic.AddInstruction">AddInstruction (class in pytezos.michelson.instructions.arithmetic)</a>
 </li>
       <li><a href="instructions.html#pytezos.michelson.instructions.tezos.AddressInstruction">AddressInstruction (class in pytezos.michelson.instructions.tezos)</a>
@@ -619,6 +625,10 @@
         <li><a href="types.html#pytezos.michelson.types.base.MichelsonType.args">(pytezos.michelson.types.base.MichelsonType attribute)</a>
 </li>
         <li><a href="rpc_queries.html#pytezos.rpc.node.RpcError.args">(pytezos.rpc.node.RpcError attribute)</a>
+</li>
+        <li><a href="rpc_queries.html#pytezos.rpc.node.RpcForbiddenError.args">(pytezos.rpc.node.RpcForbiddenError attribute)</a>
+</li>
+        <li><a href="rpc_queries.html#pytezos.rpc.node.RpcNotFoundError.args">(pytezos.rpc.node.RpcNotFoundError attribute)</a>
 </li>
       </ul></li>
       <li><a href="instructions.html#pytezos.michelson.instructions.base.MichelsonInstruction.as_micheline_expr">as_micheline_expr() (pytezos.michelson.instructions.base.MichelsonInstruction class method)</a>
@@ -842,6 +852,8 @@
       <li><a href="instructions.html#pytezos.michelson.instructions.tezos.ContractInstruction">ContractInstruction (class in pytezos.michelson.instructions.tezos)</a>
 </li>
       <li><a href="high_level.html#pytezos.contract.interface.ContractInterface">ContractInterface (class in pytezos.contract.interface)</a>
+</li>
+      <li><a href="high_level.html#pytezos.contract.interface.ContractProxyNamespace">ContractProxyNamespace (class in pytezos.contract.interface)</a>
 </li>
       <li><a href="rpc_queries.html#pytezos.rpc.protocol.ContractQuery">ContractQuery (class in pytezos.rpc.protocol)</a>
 </li>
@@ -1092,6 +1104,8 @@
       <li><a href="rpc_queries.html#pytezos.rpc.protocol.OperationListListQuery.endorsements">endorsements (pytezos.rpc.protocol.OperationListListQuery property)</a>
 </li>
       <li><a href="rpc_queries.html#pytezos.rpc.protocol.EndorsingPower">EndorsingPower (class in pytezos.rpc.protocol)</a>
+</li>
+      <li><a href="high_level.html#pytezos.contract.interface.ContractInterface.entrypoint">entrypoint (pytezos.contract.interface.ContractInterface attribute)</a>
 </li>
       <li><a href="instructions.html#pytezos.michelson.instructions.compare.EqInstruction">EqInstruction (class in pytezos.michelson.instructions.compare)</a>
 </li>
@@ -1576,7 +1590,13 @@
       <li><a href="crypto.html#pytezos.crypto.key.Key.from_encoded_key">from_encoded_key() (pytezos.crypto.key.Key class method)</a>
 </li>
       <li><a href="rpc_queries.html#pytezos.rpc.node.RpcError.from_errors">from_errors() (pytezos.rpc.node.RpcError class method)</a>
+
+      <ul>
+        <li><a href="rpc_queries.html#pytezos.rpc.node.RpcForbiddenError.from_errors">(pytezos.rpc.node.RpcForbiddenError class method)</a>
 </li>
+        <li><a href="rpc_queries.html#pytezos.rpc.node.RpcNotFoundError.from_errors">(pytezos.rpc.node.RpcNotFoundError class method)</a>
+</li>
+      </ul></li>
       <li><a href="crypto.html#pytezos.crypto.key.Key.from_faucet">from_faucet() (pytezos.crypto.key.Key class method)</a>
 </li>
       <li><a href="high_level.html#pytezos.contract.interface.ContractInterface.from_file">from_file (pytezos.contract.interface.ContractInterface attribute)</a>
@@ -1730,7 +1750,13 @@
 </li>
       </ul></li>
       <li><a href="rpc_queries.html#pytezos.rpc.node.RpcError.from_response">from_response() (pytezos.rpc.node.RpcError class method)</a>
+
+      <ul>
+        <li><a href="rpc_queries.html#pytezos.rpc.node.RpcForbiddenError.from_response">(pytezos.rpc.node.RpcForbiddenError class method)</a>
 </li>
+        <li><a href="rpc_queries.html#pytezos.rpc.node.RpcNotFoundError.from_response">(pytezos.rpc.node.RpcNotFoundError class method)</a>
+</li>
+      </ul></li>
       <li><a href="types.html#pytezos.michelson.types.sum.OrType.from_right">from_right() (pytezos.michelson.types.sum.OrType static method)</a>
 </li>
       <li><a href="high_level.html#pytezos.contract.result.ContractCallResult.from_run_code">from_run_code() (pytezos.contract.result.ContractCallResult class method)</a>
@@ -1740,6 +1766,8 @@
       <li><a href="crypto.html#pytezos.crypto.key.Key.from_secret_exponent">from_secret_exponent() (pytezos.crypto.key.Key class method)</a>
 </li>
       <li><a href="types.html#pytezos.michelson.types.option.OptionType.from_some">from_some() (pytezos.michelson.types.option.OptionType static method)</a>
+</li>
+      <li><a href="rpc_queries.html#pytezos.rpc.shell.PendingOperationsQuery.from_source">from_source (pytezos.rpc.shell.PendingOperationsQuery attribute)</a>
 </li>
       <li><a href="operation_groups.html#pytezos.operation.result.OperationResult.from_transaction">from_transaction() (pytezos.operation.result.OperationResult class method)</a>
 </li>
@@ -3728,14 +3756,14 @@
 </li>
       <li><a href="repl.html#pytezos.michelson.stack.MichelsonStack.restore">restore() (pytezos.michelson.stack.MichelsonStack method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="high_level.html#pytezos.contract.call.ContractCall.result">result (pytezos.contract.call.ContractCall attribute)</a>
 
       <ul>
         <li><a href="operation_groups.html#pytezos.operation.group.OperationGroup.result">(pytezos.operation.group.OperationGroup attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code.html#pytezos.michelson.program.MichelsonProgram.ret">ret() (pytezos.michelson.program.MichelsonProgram method)</a>
 </li>
       <li><a href="high_level.html#pytezos.client.PyTezosClient.reveal">reveal (pytezos.client.PyTezosClient attribute)</a>
@@ -3752,9 +3780,13 @@
 </li>
       <li><a href="rpc_queries.html#pytezos.rpc.node.RpcError">RpcError</a>
 </li>
+      <li><a href="rpc_queries.html#pytezos.rpc.node.RpcForbiddenError">RpcForbiddenError</a>
+</li>
       <li><a href="rpc_queries.html#pytezos.rpc.node.RpcMultiNode">RpcMultiNode (class in pytezos.rpc.node)</a>
 </li>
       <li><a href="rpc_queries.html#pytezos.rpc.node.RpcNode">RpcNode (class in pytezos.rpc.node)</a>
+</li>
+      <li><a href="rpc_queries.html#pytezos.rpc.node.RpcNotFoundError">RpcNotFoundError</a>
 </li>
       <li><a href="operation_groups.html#pytezos.operation.group.OperationGroup.run">run (pytezos.operation.group.OperationGroup attribute)</a>
 </li>
@@ -4289,7 +4321,11 @@
       <li><a href="crypto.html#pytezos.crypto.key.Key.verify">verify (pytezos.crypto.key.Key attribute)</a>
 </li>
       <li><a href="high_level.html#pytezos.contract.call.ContractCall.view">view (pytezos.contract.call.ContractCall attribute)</a>
+
+      <ul>
+        <li><a href="high_level.html#pytezos.contract.interface.ContractInterface.view">(pytezos.contract.interface.ContractInterface attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="instructions.html#pytezos.michelson.instructions.tezos.ViewInstruction">ViewInstruction (class in pytezos.michelson.instructions.tezos)</a>
@@ -4320,10 +4356,10 @@
 </li>
       <li><a href="rpc_queries.html#pytezos.rpc.shell.ShellQuery.wait_operations">wait_operations (pytezos.rpc.shell.ShellQuery attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rpc_queries.html#pytezos.rpc.search.walk_state_change_interval">walk_state_change_interval() (in module pytezos.rpc.search)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="rpc_queries.html#pytezos.rpc.shell.ChainQuery.watermark">watermark (pytezos.rpc.shell.ChainQuery attribute)</a>
 </li>
       <li><a href="instructions.html#pytezos.michelson.instructions.base.Wildcard">Wildcard (class in pytezos.michelson.instructions.base)</a>
@@ -4331,7 +4367,13 @@
       <li><a href="high_level.html#pytezos.contract.call.ContractCall.with_amount">with_amount (pytezos.contract.call.ContractCall attribute)</a>
 </li>
       <li><a href="rpc_queries.html#pytezos.rpc.node.RpcError.with_traceback">with_traceback() (pytezos.rpc.node.RpcError method)</a>
+
+      <ul>
+        <li><a href="rpc_queries.html#pytezos.rpc.node.RpcForbiddenError.with_traceback">(pytezos.rpc.node.RpcForbiddenError method)</a>
 </li>
+        <li><a href="rpc_queries.html#pytezos.rpc.node.RpcNotFoundError.with_traceback">(pytezos.rpc.node.RpcNotFoundError method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
